@@ -2,6 +2,10 @@ const cheerio = require('cheerio');
 const url = require('url');
 const DOMAIN = "https://www.yelp.com";
 const LOCATION_SEARCH_PREFIX = DOMAIN + "/search?find_desc=Restaurants&";
+const queryTypes = {
+	LOCATION: 'location',
+	COORDINATE: 'coordinate'
+};
 
 let request;
 
@@ -12,7 +16,7 @@ module.exports =  function yelpScraper(client) {
 	return {
 
 		find(queryText) {
-			const query = locationQuery(queryText, "location");
+			const query = createLocationQuery(queryText, queryTypes.LOCATION);
 			const response = makeSearchRequest(query)
 				.then(processSearchResponse)
 				.then(processRestaurantsJSON);
@@ -207,7 +211,7 @@ function getSearchURL(query) {
 	return locationSearchFormatters[query.getType()](query);
 }
 
-function locationQuery(text, type) {
+function createLocationQuery(text, type) {
 	return {
 		getType() {
 			return type;
