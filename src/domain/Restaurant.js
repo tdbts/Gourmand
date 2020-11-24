@@ -8,11 +8,15 @@ module.exports = class Restaurant {
 		this.categories = categories;
 		this.rating = rating;
 		this.mediaCount = mediaCount;
-		this.media = media;
+		this.media = media || [];
 	}
 
 	setMediaCount(count) {
 		this.mediaCount = count;
+	}
+
+	addMedia(media) {
+		this.media = this.media.concat(media);
 	}
 
 }
