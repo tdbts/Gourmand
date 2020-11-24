@@ -1,11 +1,12 @@
 const cheerio = require('cheerio');
 const YelpRestaurant = require('./YelpRestaurant');
 
+/*
+ * ListParser
+ *
+ * Parses search response HTML in order to identify and return restaurant data JSON, which is contained within a script tag.
+ */
 module.exports = class ListParser {
-
-	constructor() {
-
-	}
 
 	parse(text) {
 		console.log("Parsing search response for restaurant data.");
@@ -43,7 +44,7 @@ function restaurantsFromData(restaurantsData) {
 	return Object.keys(restaurantsData)
 		.map(id => {
 			const json = restaurantsData[id];
-			console.log("json:", json);
+			// console.log("json:", json);
 			
 			return new YelpRestaurant(
 				id, 

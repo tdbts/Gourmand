@@ -5,6 +5,11 @@ const MediaSliceRequest = require('./MediaSliceRequest');
 
 /*
  * MediaRequest
+ *
+ * If given restaurant does not have media metadata, makes request to URL of the following form:
+ *   'https://www.yelp.com/biz_photos/pho-60-brooklyn-8?tab=food'
+ *
+ * After metadata has been retrieved, makes requests for media slices.
  */
 module.exports = class MediaRequest {
 
@@ -14,10 +19,11 @@ module.exports = class MediaRequest {
 
 	send(restaurant) {
 		return retrieveMediaMetadata(this.client, restaurant)
+			// TODO: Scrape all slices
 			.then(() => new MediaSliceRequest(this.client).send(restaurant, 0));
 	}
 
-}
+};
 
 function retrieveMediaMetadata(client, restaurant) {
 	if (restaurant.getMediaURL()) {

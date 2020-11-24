@@ -3,6 +3,8 @@ const ListParser = require('./ListParser');
 
 /*
  * SearchRequest
+ *
+ * Makes search request for restaurant list for a particular location.
  */
 module.exports = class SearchRequest {
 
