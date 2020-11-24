@@ -1,10 +1,10 @@
 module.exports = class Media {
 
-	constructor(id, type, caption, sources) {
+	constructor(id, type, caption, source) {
 		this.id = id;
 		this.type = type;
 		this.caption = caption;
-		this.sources = sources;
+		this.source = source;
 	}
 
 }

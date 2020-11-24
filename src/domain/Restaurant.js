@@ -11,4 +11,8 @@ module.exports = class Restaurant {
 		this.media = media;
 	}
 
+	setMediaCount(count) {
+		this.mediaCount = count;
+	}
+
 }
