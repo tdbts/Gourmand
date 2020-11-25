@@ -22,6 +22,7 @@ module.exports = class SearchRequest {
 
 };
 
+// TODO: Don't need to parse HTML to get JSON, can use 'snippet' REST query
 function processSearchResponse(response) {
 	if (response.status < 300) {
 		const json = new ListParser().parse(response.text);
