@@ -1,5 +1,5 @@
 const constants = require('./constants');
-const ListParser = require('./ListParser');
+const YelpRestaurant = require('./YelpRestaurant');
 
 /*
  * SearchRequest
@@ -12,8 +12,8 @@ module.exports = class SearchRequest {
 		this.client = client;
 	}
 
-	send(query) {
-		const url = getSearchURL(query);
+	send(query, startIndex) {
+		const url = getSearchURL(query, startIndex);
 		console.log("Making search request:", url);
 		return this.client.get(url)
 			.then(processSearchResponse)
@@ -22,35 +22,58 @@ module.exports = class SearchRequest {
 
 };
 
-// TODO: Don't need to parse HTML to get JSON, can use 'snippet' REST query
 function processSearchResponse(response) {
 	if (response.status < 300) {
-		const json = new ListParser().parse(response.text);
-		// console.log("json:", json);
-		return json;
+		const restaurantsData = getRestaurantDataFromJSON(response.body);
+		// console.log("restaurantsData:", restaurantsData);
+		return restaurantsFromData(restaurantsData);
 	} else {
 		console.log("response:", response);
 		throw new Error("Location query returned status code:", response.status);
 	}
 }
 
-function getSearchURL(query) {
-	return searchURLFormatter[query.getType()](query);
+function getRestaurantDataFromJSON(json) {
+	return json.searchPageProps.searchMapProps.hovercardData;
+}
+
+function restaurantsFromData(restaurantsData) {
+	return Object.keys(restaurantsData)
+		.map(id => {
+			const json = restaurantsData[id];
+			// console.log("json:", json);
+			
+			return new YelpRestaurant(
+				id, 
+				json.name, 
+				json.addressLines, 
+				json.neighborhoods,
+				json.categories.map(categoryObj => categoryObj.title),
+				json.rating,
+				json.photoPageUrl)
+		});
+}
+
+function getSearchURL(query, startIndex) {
+	return searchURLFormatter[query.getType()](query, startIndex);
 }
 
 const searchURLFormatter = {
-	location(query) {
-		const ATTRIBUTE = "find_loc=";
+	location(query, startIndex) {
+		const LOCATION_ATTRIBUTE = "find_loc=";
 		// Example query: "Brooklyn, NY 11219" or "Brooklyn"
 		const location = query.getText()
 			.split(" ")
 			.map(piece => encodeURIComponent(piece))
 			.join("+");
 
-		return constants.url.LOCATION_SEARCH_PREFIX + ATTRIBUTE + location;
+		const START_ATTRIBUTE = "&start=";
+
+		return constants.url.LOCATION_SEARCH_PREFIX + LOCATION_ATTRIBUTE + location + START_ATTRIBUTE + (startIndex || 0);
 	},
 
-	coordinate(query) {
+	// TODO: Use snippet
+	coordinate(query, startIndex) {
 		// Example query: "40.625513999999995,-74.0008562,30"
 		const ATTRIBUTE = "l=";
 		const COUNTRY_CODE = "a:";
