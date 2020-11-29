@@ -22,6 +22,7 @@ module.exports = class SearchRequest {
 
 };
 
+// TODO: Iterate over restaurant pagination
 function processSearchResponse(response) {
 	if (response.status < 300) {
 		const restaurantsData = getRestaurantDataFromJSON(response.body);

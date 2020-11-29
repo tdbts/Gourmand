@@ -27,4 +27,8 @@ module.exports = class Cache {
 		restaurants[restaurant.id] = restaurant;
 	}
 
+	cacheRestaurants(restaurants) {
+		restaruants.forEach(restaurant => this.cacheRestaurant(restaurant));
+	}
+
 };

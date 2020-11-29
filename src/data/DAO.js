@@ -11,12 +11,20 @@ module.exports = class DAO {
 			.catch(e => throw e); 
 	}
 
+	findRestaurantByID(id) {
+		return collectionOperation(collection => collection.findOne({_id: id}));
+	}
+
 	findRestaurantsByIDs(ids) {
 		return collectionOperation(collection => collection.find({_id: {$in: ids}}));
 	}
 
+	saveRestaurant(restaurant) {
+		return collectionOperation(collection => collection.insertOne(restaurant.toPersistedObject()));
+	}
+
 	saveRestaurants(restaurants) {
-		return collectionOperation(collection => collection.insertMany(restaraunts));
+		return collectionOperation(collection => collection.insertMany(restaraunts.map(restaurant => restaurant.toPersistedObject())));
 	}
 
 };
