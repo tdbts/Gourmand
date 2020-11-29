@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 module.exports = class Restaurant {
 
 	constructor(id, name, address, neighborhoods, categories, rating, mediaCount, media) {
@@ -17,6 +19,15 @@ module.exports = class Restaurant {
 
 	addMedia(media) {
 		this.media = this.media.concat(media);
+	}
+
+	toPersistedObject() {
+		const obj = _.pick(this, 'id', 'name', 'address', 'neighborhoods', 'categories', 'rating', 'mediaCount', 'media');
+
+		if (obj.media)
+			obj.media = obj.media.map(media => media.toPersistedObject());
+
+		return obj;
 	}
 
 }

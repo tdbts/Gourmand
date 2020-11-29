@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 module.exports = class Media {
 
 	constructor(id, type, caption, source) {
@@ -5,6 +7,10 @@ module.exports = class Media {
 		this.type = type;
 		this.caption = caption;
 		this.source = source;
+	}
+
+	toPersistedObject() {
+		return _.pick(this, 'id', 'type', 'caption', 'source');
 	}
 
 }
