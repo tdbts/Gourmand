@@ -1,9 +1,9 @@
 const request = require('superagent');
 const YelpScraper = require('./YelpScraper');
-const queryText = "Brooklyn, NY 11219";
+const location = "Brooklyn, NY 11219";
 const scraper = new YelpScraper(request);
 
-scraper.findRestaurants(queryText)
+scraper.findRestaurants(location)
 	.then(restaurants => {
 		console.log("restaurants:", restaurants);
 		restaurants.forEach(restaurant => scraper.retrieveMedia(restaurant)

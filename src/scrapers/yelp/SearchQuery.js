@@ -2,16 +2,21 @@
  * SearchQuery
  */
 module.exports = class SearchQuery {
-	constructor(text, type) {
-		this.text = text;
+	constructor(location, type, description) {
+		this.location = location;
 		this.type = type;
+		this.description = description;
 	}
 
-	getText() {
-		return this.text;
+	getLocation() {
+		return this.location;
 	}
 
 	getType() {
 		return this.type;
+	}
+
+	getDescription() {
+		return this.description;
 	}
 };

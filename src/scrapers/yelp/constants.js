@@ -1,5 +1,5 @@
 const DOMAIN = "https://www.yelp.com";
-const LOCATION_SEARCH_PREFIX = DOMAIN + "/search/snippet?find_desc=Restaurants&";
+const LOCATION_SEARCH_PREFIX = DOMAIN + "/search/snippet";
 
 const queryTypes = {
 	LOCATION: 'location',

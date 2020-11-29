@@ -60,19 +60,20 @@ function getSearchURL(query, startIndex) {
 
 const searchURLFormatter = {
 	location(query, startIndex) {
-		const LOCATION_ATTRIBUTE = "find_loc=";
+		const description = query.getDescription()
+			? encodeURIComponent(query.getDescription())
+			: "Restaurants"; 
 		// Example query: "Brooklyn, NY 11219" or "Brooklyn"
-		const location = query.getText()
+		const location = query.getLocation()
 			.split(" ")
 			.map(piece => encodeURIComponent(piece))
 			.join("+");
 
-		const START_ATTRIBUTE = "&start=";
+		const start = startIndex || 0;
 
-		return constants.url.LOCATION_SEARCH_PREFIX + LOCATION_ATTRIBUTE + location + START_ATTRIBUTE + (startIndex || 0);
+		return constants.url.LOCATION_SEARCH_PREFIX  + `?find_desc=${description}`  + `&find_loc=${location}` + `&start=${start}`;
 	},
 
-	// TODO: Use snippet
 	coordinate(query, startIndex) {
 		// Example query: "40.625513999999995,-74.0008562,30"
 		const ATTRIBUTE = "l=";

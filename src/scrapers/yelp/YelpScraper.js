@@ -16,8 +16,8 @@ module.exports = class YelpScraper {
 	
 	}
 
-	findRestaurants(query) {
-		return new SearchRequest(request).send(queryFromText(query));
+	findRestaurants(location, description) {
+		return new SearchRequest(request).send(queryFromText(location, description));
 	}
 
 	retrieveMedia(restaurant) {
@@ -26,11 +26,11 @@ module.exports = class YelpScraper {
 
 }
 
-function queryFromText(query) {
-	return new SearchQuery(query, parseQueryType(query));
+function queryFromText(location, description) {
+	return new SearchQuery(location, parseLocationType(query), description);
 }
 
-function parseQueryType(query) {
+function parseLocationType(location) {
 	// TODO: Differentiate
 	return constants.queryTypes.LOCATION;
 }
