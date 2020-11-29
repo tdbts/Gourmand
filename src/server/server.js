@@ -1,15 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const path = require('path');
+const request = require('superagent');
 const SearchService = require('../search/SearchService');
 const app = express();
+const service = new SearchService(request);
 // app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/search', function (req, res) {
 	const { location, description } = req.query;
 	console.log("location:", location);
 	console.log("description:", description);
-	return res.send('Soich');
+	return service.find(location, description)
+		.then(restaurants => res.json(restaurants))
+		.catch(e => console.error(e));
 });
 
 // app.get('/', function (req, res) {

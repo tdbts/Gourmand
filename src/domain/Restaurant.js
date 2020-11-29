@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const Media = require('./Media');
 
 module.exports = class Restaurant {
 
@@ -23,11 +24,11 @@ module.exports = class Restaurant {
 		return this;
 	}
 
-	toPersistedObject() {
+	toJSON() {
 		const obj = _.pick(this, 'id', 'name', 'address', 'neighborhoods', 'categories', 'rating', 'mediaCount', 'media');
 
 		if (obj.media)
-			obj.media = obj.media.map(media => media.toPersistedObject());
+			obj.media = obj.media.map(media => media.toJSON());
 
 		return obj;
 	}
@@ -45,7 +46,7 @@ module.exports = class Restaurant {
 		this.categories = categories;
 		this.rating = rating;
 		this.mediaCount = mediaCount;
-		this.media = media;
+		this.media = media ? media.map(bson => new Media().populateFromBSON(bson)) : [];
 
 		return this;
 	}

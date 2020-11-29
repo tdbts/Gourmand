@@ -28,11 +28,11 @@ module.exports = class DAO {
 	}
 
 	saveRestaurant(restaurant) {
-		return collectionOperation(collection => collection.insertOne(restaurant.toPersistedObject()));
+		return collectionOperation(collection => collection.insertOne(restaurant.toJSON()));
 	}
 
 	saveRestaurants(restaurants) {
-		return collectionOperation(collection => collection.insertMany(restaurants.map(restaurant => restaurant.toPersistedObject())));
+		return collectionOperation(collection => collection.insertMany(restaurants.map(restaurant => restaurant.toJSON())));
 	}
 
 };

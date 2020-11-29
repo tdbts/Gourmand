@@ -34,7 +34,8 @@ module.exports = class SearchService {
 				console.log(`Caching ${restaurants.length} restaurants.`);
 				cache.cacheQuery(query, restaurants);
 				return restaurants;
-			});
+			})
+			.then(restaurants => restaurants.map(restaurant => restaurant.toJSON()));
 	}
 
 };
