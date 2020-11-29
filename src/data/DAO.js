@@ -32,7 +32,7 @@ module.exports = class DAO {
 	}
 
 	saveRestaurants(restaurants) {
-		return collectionOperation(collection => collection.insertMany(restaraunts.map(restaurant => restaurant.toPersistedObject())));
+		return collectionOperation(collection => collection.insertMany(restaurants.map(restaurant => restaurant.toPersistedObject())));
 	}
 
 };
