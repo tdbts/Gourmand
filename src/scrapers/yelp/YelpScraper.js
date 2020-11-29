@@ -27,7 +27,7 @@ module.exports = class YelpScraper {
 }
 
 function queryFromText(location, description) {
-	return new SearchQuery(location, parseLocationType(query), description);
+	return new SearchQuery(location, parseLocationType(location), description);
 }
 
 function parseLocationType(location) {

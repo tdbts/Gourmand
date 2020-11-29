@@ -12,10 +12,10 @@ module.exports = class Cache {
 		return queries[query];
 	}
 
-	cacheQuery(query, restaruants) {
+	cacheQuery(query, restaurants) {
 		queries[query] = {
 			cacheTime: new Date(),
-			restaraunts
+			restaurants
 		};
 	}
 
@@ -28,7 +28,7 @@ module.exports = class Cache {
 	}
 
 	cacheRestaurants(restaurants) {
-		restaruants.forEach(restaurant => this.cacheRestaurant(restaurant));
+		restaurants.forEach(restaurant => this.cacheRestaurant(restaurant));
 	}
 
 };
