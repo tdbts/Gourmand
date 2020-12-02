@@ -6,17 +6,17 @@ const RESTAURANTS_COLLECTION = "restaurants";
 module.exports = class DAO {
 
 	initialize() {
-		return Promise.resolve();
-		// let _client;
+		// return Promise.resolve();
+		let _client;
 
-		// return MongoClient.connect(URL)
-		// 	.then(client => {
-		// 		_client = client;
-		// 		return client.db(DB);
-		// 	})
-		// 	.then(db => db.createCollection(RESTAURANTS_COLLECTION))
-		// 	.then(() => _client.close())
-		// 	.catch(e => onError(e, _client)); 
+		return MongoClient.connect(URL)
+			.then(client => {
+				_client = client;
+				return client.db(DB);
+			})
+			.then(db => db.createCollection(RESTAURANTS_COLLECTION))
+			.then(() => _client.close())
+			.catch(e => onError(e, _client)); 
 	}
 
 	findRestaurantByID(id) {

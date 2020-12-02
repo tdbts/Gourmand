@@ -19,10 +19,24 @@ module.exports = class MediaSliceRequest {
 		const url = formatMediaSliceURL(restaurant.mediaURL, validateStartIndex(startIndex));
 		// console.log("url:", url);
 		return makeMediaSliceRequest(this.client, url)
-			.then(response => response.body)
-			.then(getMediaFromJSON);
+			.then(response => processMediaSliceResponse(restaurant, startIndex, response));
 	}
 
+}
+
+function processMediaSliceResponse(restaurant, startIndex, response) {
+	if (response.status < 300) {
+		return getMediaFromJSON(response.body);
+	}
+
+	console.error(`
+		Media slice response: Unable to handle response 
+		  Restaurant: ${restaurant.name}
+		  StartIndex: ${startIndex}
+		  Status: ${response.status}
+	`);
+
+	return [];
 }
 
 function getMediaFromJSON(json) {
