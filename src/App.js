@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import _  from 'underscore';
 import SearchForm from './components/SearchForm';
+import Gallery from './components/Gallery';
 import YelpMedia from './scrapers/yelp/YelpMedia';
 
 function updateSearchURL(description, location, setURL) {
@@ -27,11 +28,7 @@ function getShuffledMedia(restaurants) {
 	console.log("allMedia:", allMedia);
 	const shuffledMedia = _.shuffle(allMedia);
 	// console.log("shuffledMedia:", shuffledMedia);
-	return shuffledMedia;
-}
-
-function toThumbnail(media) {
-	return (new YelpMedia()).populateFromBSON(media).getThumbnailURLs()[0];
+	return shuffledMedia.map(media => (new YelpMedia().populateFromBSON(media)));
 }
 
 function App() {
@@ -56,7 +53,7 @@ function App() {
 		<div className="App">
 			<h1 className="title-header">Gourmand</h1>
 			<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} />
-			{ shuffledMedia.map((media, i) => <img src={toThumbnail(media)} key={i} className="food-photo" />) }
+			<Gallery media={shuffledMedia} />
 		</div>
 	);
 }
