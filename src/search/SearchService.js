@@ -26,7 +26,7 @@ module.exports = class SearchService {
 		const cachedResults = cache.getQuery(query);
 		// console.log("cachedResults:", cachedResults);
 		if (cachedResults)
-			return cachedResults;
+			return Promise.resolve(cachedResults);
 
 		return yelp.findRestaurants(location, description)
 			.then(getRestaurantsMedia)
