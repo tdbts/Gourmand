@@ -1,0 +1,352 @@
+{
+  "name": "Grilled Pork",
+  "price": "",
+  "mediaItems": [
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/VuMNepUxOkxFuT93t2UDQw/o.jpg",
+      "caption": "Banh mi thit nuong aka grilled pork baguette",
+      "type": "photo",
+      "id": "VuMNepUxOkxFuT93t2UDQw",
+      "timeUploaded": "July 1, 2017"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/17Fs-Da20YTjsEhnFDN2cQ/o.jpg",
+      "caption": "grilled pork",
+      "type": "photo",
+      "id": "17Fs-Da20YTjsEhnFDN2cQ",
+      "timeUploaded": "November 22, 2020"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/uSmLqb689-NAzoKR882B0w/o.jpg",
+      "caption": "grilled pork",
+      "type": "photo",
+      "id": "uSmLqb689-NAzoKR882B0w",
+      "timeUploaded": "November 22, 2020"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/RzS6rZSzOsKucqikvbpyOQ/o.jpg",
+      "caption": "#8 grilled pork banh mi",
+      "type": "photo",
+      "id": "RzS6rZSzOsKucqikvbpyOQ",
+      "timeUploaded": "July 30, 2018"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/oJRA6uLTIeChXB3cRyfnAQ/o.jpg",
+      "caption": "Ban mi and Grilled Pork Lunch Box",
+      "type": "photo",
+      "id": "oJRA6uLTIeChXB3cRyfnAQ",
+      "timeUploaded": "February 2, 2018"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/fUwUCFk9GmgchNZQM31xRg/o.jpg",
+      "caption": "Grilled Pork Lunch Box",
+      "type": "photo",
+      "id": "fUwUCFk9GmgchNZQM31xRg",
+      "timeUploaded": "February 2, 2018"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/hrOk1Ts4FbJaK9JXqpkIMw/o.jpg",
+      "caption": "#8 (grilled pork w/ pate & butter)",
+      "type": "photo",
+      "id": "hrOk1Ts4FbJaK9JXqpkIMw",
+      "timeUploaded": "March 2, 2017"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/zmcR8yiPXokV0UEYXyDCXw/o.jpg",
+      "caption": "Grilled Pork Banh Mi",
+      "type": "photo",
+      "id": "zmcR8yiPXokV0UEYXyDCXw",
+      "timeUploaded": "September 14, 2020"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/1J9_D7UfDPD6d6zQLw5YAQ/o.jpg",
+      "caption": "$5.50 - Bánh mì thit nuong - grilled pork bánh mì top view",
+      "type": "photo",
+      "id": "1J9_D7UfDPD6d6zQLw5YAQ",
+      "timeUploaded": "June 15, 2018"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/I5Yel6PVwBu5np3KEthqeA/o.jpg",
+      "caption": "#8 grill pork banh mi pate thit nguoi",
+      "type": "photo",
+      "id": "I5Yel6PVwBu5np3KEthqeA",
+      "timeUploaded": "August 25, 2020"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/Psezs9ZZzKAF94245PNbvg/o.jpg",
+      "caption": "$5.50 - Bánh mì thit nuong - grilled pork bánh mì inside view",
+      "type": "photo",
+      "id": "Psezs9ZZzKAF94245PNbvg",
+      "timeUploaded": "June 15, 2018"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/OYWi027Hva7WGayMRd78xA/o.jpg",
+      "caption": "#8 Grilled pork banh mi filling",
+      "type": "photo",
+      "id": "OYWi027Hva7WGayMRd78xA",
+      "timeUploaded": "March 30, 2017"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/xhe-KbzQ_atVdbuWBbThdQ/o.jpg",
+      "caption": "Grilled pork on rice. Sooooo good",
+      "type": "photo",
+      "id": "xhe-KbzQ_atVdbuWBbThdQ",
+      "timeUploaded": "March 13, 2017"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/_2c2mkUHeYU7o55v62wUZw/o.jpg",
+      "caption": "Number 8 grilled pork",
+      "type": "photo",
+      "id": "_2c2mkUHeYU7o55v62wUZw",
+      "timeUploaded": "May 24, 2017"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/SYiyL7d6vBA2OPz_VqkM-g/o.jpg",
+      "caption": "#8 Grilled pork banh mi",
+      "type": "photo",
+      "id": "SYiyL7d6vBA2OPz_VqkM-g",
+      "timeUploaded": "March 30, 2017"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/T5r4Du8KAZN6QW90Lmjowg/o.jpg",
+      "caption": "Banh Mi Thit Nuong (Grilled pork sandwich if I remember correctly)",
+      "type": "photo",
+      "id": "T5r4Du8KAZN6QW90Lmjowg",
+      "timeUploaded": "June 25, 2015"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/t4mO4Q_b0zc5eNlTxLjP8Q/o.jpg",
+      "caption": "#8 grilled pork",
+      "type": "photo",
+      "id": "t4mO4Q_b0zc5eNlTxLjP8Q",
+      "timeUploaded": "May 27, 2014"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/WzvXT_88so_KMYZCgZfESw/o.jpg",
+      "caption": "Inside the Grilled Pork Sandwich. $5 AMAZING",
+      "type": "photo",
+      "id": "WzvXT_88so_KMYZCgZfESw",
+      "timeUploaded": "August 11, 2015"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/y9FcqKlHaFD4pWk3AX5U6Q/o.jpg",
+      "caption": "#8 grilled pork",
+      "type": "photo",
+      "id": "y9FcqKlHaFD4pWk3AX5U6Q",
+      "timeUploaded": "July 6, 2012"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/UKS71pFICiuUedtIyBYUlQ/o.jpg",
+      "caption": "Grilled pork banh mi with a can of coconut water. Sandwich and drink under $6!",
+      "type": "photo",
+      "id": "UKS71pFICiuUedtIyBYUlQ",
+      "timeUploaded": "April 11, 2013"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/WCgoa_7dRJo4Xg9qOjAmvw/o.jpg",
+      "caption": "Banh mi thit nuong! Grilled pork sandwich is DELICIOUS",
+      "type": "photo",
+      "id": "WCgoa_7dRJo4Xg9qOjAmvw",
+      "timeUploaded": "July 28, 2015"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/JneykrVHRnzb_fCvP-MSaw/o.jpg",
+      "caption": "Grilled pork bahn mi",
+      "type": "photo",
+      "id": "JneykrVHRnzb_fCvP-MSaw",
+      "timeUploaded": "April 1, 2016"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/xImujsu0ZWzAlNOVynEkcg/o.jpg",
+      "caption": "Grilled Pork Sandwich",
+      "type": "photo",
+      "id": "xImujsu0ZWzAlNOVynEkcg",
+      "timeUploaded": "February 4, 2010"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/vW-YcLrz10fpVUVRfXYmfw/o.jpg",
+      "caption": "2 original and 2 grilled pork bhan mi",
+      "type": "photo",
+      "id": "vW-YcLrz10fpVUVRfXYmfw",
+      "timeUploaded": "June 30, 2016"
+    },
+    {
+      "url": "https://s3-media0.fl.yelpcdn.com/bphoto/Zs7dHNL10qZ1Or6OZMsrWA/o.jpg",
+      "caption": "# 8 grilled pork sandwich",
+      "type": "photo",
+      "id": "Zs7dHNL10qZ1Or6OZMsrWA",
+      "timeUploaded": "May 22, 2016"
+    }
+  ],
+  "reviewData": {
+    "reviews": [
+      {
+        "rating": 4,
+        "userDisplayName": "Nian Z.",
+        "text": "I haven&#39;t seen $6 banh mi in yearssss. Now I&#39;m accustomed to paying $8 for a classic, so this steal hit my wallet considerately (though I wouldn&#39;t say it was bursting with meat). Plus, this is some juicy banh mi!\n\nClassic #1: bread is super soft and the meat juices trickled down my chin after every bite. The meat slices are semi-thick cut (at least thicker than the ones I&#39;ve had in Chinatown), and pickled carrots aren&#39;t as tart (yay!).\n\n<b>Grilled Pork</b> Banh Mi #8: not your classic <b>grilled pork</b> because these are more chunky pieces than a slab of thinly <b>grilled pork</b> chop at other places.  Definitely tasted the lemongrass, wasn&#39;t too salty, but I can see where people would call this a little bland. Moist meat though!",
+        "textLanguage": "en",
+        "snippet": "<b>Grilled Pork</b> Banh Mi #8: not your classic grilled pork because these are more chunky pieces than a slab of thinly grilled pork chop at other places. Definitely tasted the lemongrass, wasn&#39;t too salty, but I can see where people would...",
+        "userReviewCount": 209,
+        "userFriendCount": 12,
+        "date": "11/22/2020",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/PVP5e-WpRz7LsvOtyWwq8g/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Sherry W.",
+        "text": "Came here on 7/25 after haircut with hubby for lunch. \n\nWe were very happy that the shop reopen as we&#39;ve been wanting some banh mi sandwich for the longest time! \n\nWe ordered:\n2 number 1- Banh Mi Pate Thit Nguoi (ham, head cheese, pork roll, pork teriyaki &amp; bbq with pate &amp; butter)\nand #8- Banh Mi Thit Nuong (<b>Grilled pork</b> with pate &amp; butter- made it spicy)\n\nVery delish and satisfying. We took it to a friend&#39;s house who is nearby so we can eat safely.",
+        "textLanguage": "en",
+        "snippet": "...Thit Nguoi (ham, head cheese, pork roll, pork teriyaki &amp; bbq with pate &amp; butter)\nand #8- Banh Mi Thit Nuong ( <b>Grilled pork</b> with pate &amp; butter- made it spicy)\n\nVery delish and satisfying. We took it to a friend&#39;s house who is nearby so...",
+        "userReviewCount": 330,
+        "userFriendCount": 200,
+        "date": "8/25/2020",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/TsMWbb-g7FWCSXjEbG_T4w/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Adam T.",
+        "text": "Authentic Vietnamese food and sandwiches. Get the number 8 <b>grilled pork</b> sandwich it&#39;s only $5.50. The coffee is really good too. This is the kind of joke in the wall place you are lucky to discover.",
+        "textLanguage": "en",
+        "snippet": "Get the number 8 <b>grilled pork</b> sandwich it&#39;s only $5.50. The coffee is really good too. This is the kind of joke in the wall place you are lucky to discover.",
+        "userReviewCount": 39,
+        "userFriendCount": 39,
+        "date": "11/3/2019",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/G8qZexHXazndMVsKBvNKwg/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Aron W.",
+        "text": "Don&#39;t be afraid of how this place looks on the outside. It&#39;s whats on the inside that counts! Their Banh Mi&#39;s are to die for! It&#39;s run by a mom and pop shop and they&#39;re so cute if you ever see them argue. My go to sandwich is the <b>grilled pork</b> banh mi and a taro slush. Definitely my favorite place to get a Banh Mi in all of NYC. It&#39;s definitely worth the trip!!!!",
+        "textLanguage": "en",
+        "snippet": "My go to sandwich is the <b>grilled pork</b> banh mi and a taro slush. Definitely my favorite place to get a Banh Mi in all of NYC. It&#39;s definitely worth the trip!!!!",
+        "userReviewCount": 36,
+        "userFriendCount": 2,
+        "date": "10/9/2019",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/vLI738Omup5xZoSACmsDOw/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Ann S.",
+        "text": "This is my top spot for vietnamese bahn mi in the entire NYC area. Even though it is a bit inconvenient to travel to this place, I still do it because it is that damn good and affordable! I always buy 2-3 bahn mi&#39;s everytime I visit. I also highly recommend their iced viet coffee.\n\nI usually ordered #8 (<b>Grilled Pork</b>) which is extremely delicious and full of flavors (<b>grilled pork</b>, cilantro, shredded pickled carrots &amp; radish, mayo &amp; peanut pieces in it). The baguette was so soft and crunchy. \n\nHighly recommended!",
+        "textLanguage": "en",
+        "snippet": "I usually ordered #8 (<b>Grilled Pork</b>) which is extremely delicious and full of flavors (grilled pork, cilantro, shredded pickled carrots &amp; radish, mayo &amp; peanut pieces in it). The baguette was so soft and crunchy. \n\nHighly recommended!",
+        "userReviewCount": 261,
+        "userFriendCount": 69,
+        "date": "9/19/2019",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/9X4GxewP3E_69FXDEDGkfw/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Ken W.",
+        "text": "Had the number 1 banh mi and the <b>grilled pork</b> and shredded pork rice dish to go.  The pate for the former shined through and the entire dish, from the crunch of the bread to assortment of meats made for a tasty sandwich.  The latter was an enormous amount of food for $6.50; the double pork offerings were excellent with some spiciness in the fish sauce.",
+        "textLanguage": "en",
+        "snippet": "Had the number 1 banh mi and the <b>grilled pork</b> and shredded pork rice dish to go. The pate for the former shined through and the entire dish, from the crunch of the bread to assortment of meats made for a tasty sandwich. The latter was...",
+        "userReviewCount": 334,
+        "userFriendCount": 38,
+        "date": "8/31/2018",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/7esAPvlAzFCPlEOtrFquUQ/60s.jpg"
+      },
+      {
+        "rating": 4,
+        "userDisplayName": "Mina Z.",
+        "text": "Best spot for Banh Mis and a good shake! Been here a couple times, always ordered the <b>grilled pork</b> Banh Mi...the meat is flavorful (has a little bit of lemongrass) and tender and the bread is always nicely toasted. The ladies behind the counter always stuffs up the bread with meat and daikon/cucumber. Avocado shakes are delicious. Will definitely come back.",
+        "textLanguage": "en",
+        "snippet": "Been here a couple times, always ordered the <b>grilled pork</b> Banh Mi...the meat is flavorful (has a little bit of lemongrass) and tender and the bread is always nicely toasted. The ladies behind the counter always stuffs up the bread...",
+        "userReviewCount": 12,
+        "userFriendCount": 97,
+        "date": "7/22/2018",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/dQ7f17Rf33_EcwDT-8vm1Q/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Ashlyn K.",
+        "text": "I&#39;m so glad I decided to try a bánh mì from Ba Xuyen!  After seeing the positive reviews on Yelp, I wanted to give this place a try.  I ordered the bánh mì thit nuong which is a <b>grilled pork</b> sandwich.  I think they recently increased their prices as the sandwich was $5.50 instead of the $5 on some of the menu photos but still worth it for $5.50.  The baguette was perfectly toasted: crispy enough to know it was toasted but easy on your teeth when you bite in.  The vegetables looked and tasted fresh and the pork was seasoned and cooked well.  The only reservation I had was that they put peanuts in my sandwich (is that a thing with bánh mì?).  The peanuts took away the juiciness of the rest of the sandwich.  Despite this, the sandwich was still one of the best bánh mìs I&#39;ve had and I know I&#39;ll be coming back to Ba Xuyen soon!",
+        "textLanguage": "en",
+        "snippet": "I ordered the bánh mì thit nuong which is a <b>grilled pork</b> sandwich. I think they recently increased their prices as the sandwich was $5.50 instead of the $5 on some of the menu photos but still worth it for $5.50. The baguette was...",
+        "userReviewCount": 163,
+        "userFriendCount": 81,
+        "date": "6/15/2018",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/vxMGLqiwiH9DqzhiGfcU1w/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "H L.",
+        "text": "My sister recommended this restaurant to me for a long time.   I finally have time to come for lunch today.   The coffee was wonderful.  The Banh Mi is the best in Brooklyn.  I also order the <b>grilled pork</b> lunch box.   The <b>grilled pork</b> was very juicy.   I would come back to try other items in the menu.",
+        "textLanguage": "en",
+        "snippet": "I also order the <b>grilled pork</b> lunch box.   The grilled pork was very juicy.   I would come back to try other items in the menu.",
+        "userReviewCount": 20,
+        "userFriendCount": 25,
+        "date": "5/26/2018",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/JcjlWhWs8HZ8lxKE_1Q02w/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Sena H.",
+        "text": "The staple sandwich here is the #1, but I highly recommend trying the #8 (<b>Grilled Pork</b>) as well. Instead of the hams and pork rolls you get pieces of pork meat. \nHaving tried Thanh Da and Joju, the sandwiches here are better without a doubt. This place is a little far off and not easily accessible unless you live near by or drive, but it&#39;s a good trade-off because they never have long lines.",
+        "textLanguage": "en",
+        "snippet": "The staple sandwich here is the #1, but I highly recommend trying the #8 ( <b>Grilled Pork</b> ) as well. Instead of the hams and pork rolls you get pieces of pork meat. \nHaving tried Thanh Da and Joju, the sandwiches here are better without...",
+        "userReviewCount": 74,
+        "userFriendCount": 15,
+        "date": "5/9/2018",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/xVJgAhxylEX_4ZvOv16y-w/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Celline T.",
+        "text": "No frills cafe with a great assortment of probably the best bahn mi&#39;s I&#39;ve ever had from coast to coast, which includes some from the city, Queens, and Westminister, OC, in LA. \n\nLet me preface this by stating that I&#39;m by no means a bahn mi expert, but I just like eating them whenever and wherever I can ;). I ordered 2 sammiches to go, one #1 combo spicy for the bro, and one #8 <b>grilled pork</b> for me to scarf down in my bfs car. It took like less than ten mins to prepare my order and it came out to 11 bucks. \n\nMy #8 was absolutely scrumptious. The baguette was perfectly toasted and crunchy on the outside yet soft in the inside, not stale at all. The ratio of fillings to bread was good, not too bready. The bbq pork was seasoned well (not too sweet like other places I&#39;ve had) and cooked tender. The pickled veggies were crispy and quite refreshing for a 90 degree day. What set Ba Xuyen&#39;s bahn mi different from other ones I&#39;ve had was that there was little bits of peanuts or peanut sauce in it which complemented the sandwich perfectly. Later that night I snuck a piece of my bros #1, which held up great and wasn&#39;t soggy at all. Delicious. The pork roll, the head cheese (usually I&#39;m not a fan), roast pork and whatever other goodness was perfect although the bread was obviously not crispy anymore. \n\nI can&#39;t believe after being relatively close to this area for almost 7 yrs I&#39;m just finding out about this! Will be back to try more",
+        "textLanguage": "en",
+        "snippet": "I ordered 2 sammiches to go, one #1 combo spicy for the bro, and one #8 <b>grilled pork</b> for me to scarf down in my bfs car. It took like less than ten mins to prepare my order and it came out to 11 bucks. \n\nMy #8 was absolutely...",
+        "userReviewCount": 40,
+        "userFriendCount": 0,
+        "date": "5/3/2018",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/2SDTqAoMCCqqyuUYcoc_Jw/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Charles B.",
+        "text": "My buddy and I ordered the most traditional (Menu #1) sandwich with the ham, head cheese, Pork roll, Pork teriyaki, and BBQ with pâté and butter, as well as the (Menu #8) <b>Grilled Pork</b> with pâté and butter sandwich. Both were quite tasty. Each was $5. The Vietnamese coffee was also quite tasty. \n\nA word to the wise: if you ask for it to be moderately spiced, they will accommodate, but when you get a mouthful of that hot pepper which is more intermittently spaced when you ask for it to be less spicy, you will want to have a drink handy. Those were HOT peppers.",
+        "textLanguage": "en",
+        "snippet": "...the ham, head cheese, Pork roll, Pork teriyaki, and BBQ with pâté and butter, as well as the (Menu #8) <b>Grilled Pork</b> with pâté and butter sandwich. Both were quite tasty. Each was $5. The Vietnamese coffee was also quite tasty. \n\nA...",
+        "userReviewCount": 277,
+        "userFriendCount": 263,
+        "date": "9/11/2017",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/oSZBoEskOdy2k4F3TKlKvQ/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Jon D.",
+        "text": "Head cheese / pate usually scares me. After some prolonged exposure therapy here, I am happy to say it does not any longer. A Vietnamese friend recommended to pop in here; the sandwiches did not disappoint. Even better, they are cheap! You can walk out with like 10 different things without a huge dent in your wallet. Service is pleasant and fast. Bread is crunchy and fresh.\n\nGo for the #1 for sure &#34;Pate Thit Nuong&#34; above all others. It has a perfect balance of flavor- sweet, salty, zesty, tangy...pretty much everything. It is loaded with ham and they don&#39;t skimp on the cilanto and pickled veg. There&#39;s a perfect amount of each. Second favorite was the BBQ pork then the <b>grilled pork</b>. While I enjoyed them all, I split the sandwiches with friends and we were all fighting over the remaining pieces of the #1. Vietnamese iced coffee was refreshing and hit the spot. \n\nPass on:\nThai ice tea was eh, though I&#39;m a little biased. It wasn&#39;t Thai-sweet like the real deal in Thailand. So maybe still check it out if you aren&#39;t looking for a nice 100g sugar treat.\nNoodle was just decent too...stick with the delicious sandwiches!",
+        "textLanguage": "en",
+        "snippet": "Second favorite was the BBQ pork then the <b>grilled pork</b> . While I enjoyed them all, I split the sandwiches with friends and we were all fighting over the remaining pieces of the #1. Vietnamese iced coffee was refreshing and hit the...",
+        "userReviewCount": 112,
+        "userFriendCount": 64,
+        "date": "7/15/2017",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/3t3WnqhzQyDDxjwEzUwgxQ/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Fiona D.",
+        "text": "This place has been around for a REALLY REALLY LONG TIME! Literally when I first immigrated to America from Vietnam, I really miss eating Vietnamese street food like banh mi, so my aunt would literally drive over the bridge from Staten Island to buy me and my siblings banh mi from ba Xuyen. It really made us miss home a little less. I was 10 years old back then, I am now 24, and my family has been loyal to this place for forever! It&#39;s the only place we would ever get our banh mi from now. I have just moved to Brooklyn a day ago, living around 30 minutes away from Ba Xuyen by bus; I was still determined to make this place my first Brooklyn meal. \n\nAll the sandwiches are priced at $5 for one, CASH ONLY Y&#39;all! This is a really reasonable price for a good hearty sandwich. Trust me, it&#39;s a bang for your buck. Today I got a &#34;banh mi thit nuong&#34; which is a <b>grilled pork</b> banh mi. The pork is nicely marinated and goes so well with that flaky toasted baguette! They also throw in roasted peanuts as well as some fried shallots on the pork for extra flavors. Of course there&#39;s your traditional veggies toppings as well: pickled carrots and daikon, cucumbers, peppers, and cilantro. It was seriously love at first bite! I&#39;m already dreaming about my next banh mi LOL",
+        "textLanguage": "en",
+        "snippet": "Today I got a &#34;banh mi thit nuong&#34; which is a <b>grilled pork</b> banh mi. The pork is nicely marinated and goes so well with that flaky toasted baguette! They also throw in roasted peanuts as well as some fried shallots on the pork for...",
+        "userReviewCount": 132,
+        "userFriendCount": 175,
+        "date": "7/1/2017",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/qFo8vRRhUcHYRSRg3sDGDA/60s.jpg"
+      },
+      {
+        "rating": 5,
+        "userDisplayName": "Wendy C.",
+        "text": "I ordered the 8 <b>Grilled Pork</b> banh mi and it was so good! I&#39;ve eaten 2 bad banh mis in a row and I had to go back to Ba Xuyen to be finally satisfied.",
+        "textLanguage": "en",
+        "snippet": "I ordered the 8 <b>Grilled Pork</b> banh mi and it was so good! I&#39;ve eaten 2 bad banh mis in a row and I had to go back to Ba Xuyen to be finally satisfied.",
+        "userReviewCount": 403,
+        "userFriendCount": 356,
+        "date": "3/30/2017",
+        "userPhotoUrl": "https://s3-media0.fl.yelpcdn.com/photo/3TnY-RaQUUiJI9erQiYFjQ/60s.jpg"
+      }
+    ],
+    "reviewTotal": 69
+  },
+  "description": ""
+}
