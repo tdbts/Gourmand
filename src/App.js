@@ -3,6 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 import SearchForm from './components/SearchForm';
 import Gallery from './components/Gallery';
+import MediaModal from './components/MediaModal';
+
+const lookup = { restaurantsByID: {}, mediaByID: {}, restaurantIDsByMediaID: {} };
 
 function updateSearchURL(description, location, setURL) {
 	console.log("updateSearchURL()");
@@ -20,16 +23,61 @@ function createSearchURL(description, location) {
 	return `/search?description=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
 }
 
+function updateLookup(lookup, restaurants) {
+	lookup.restaurantsByID = updateRestaurantsByID(restaurants);
+	lookup.mediaByID = updateMediaByID(restaurants);
+	lookup.restaurantIDsByMediaID = updateRestaurantIDsByMediaID(restaurants);
+}
+
+function updateRestaurantsByID(restaurants) {
+	return restaurants.reduce((map, restaurant) => {
+		map[restaurant.id] = restaurant;
+		return map;
+	}, {});
+}
+
+function updateMediaByID(restaurants) {
+	return restaurants
+		.flatMap(restaurant => restaurant.media)
+		.reduce((map, media) => {
+			map[media.id] = media;
+			return map;
+		});
+}
+
+function updateRestaurantIDsByMediaID(restaurants) {
+	return restaurants.reduce((map, restaurant) => ({...map, ...mapMediaIDtoRestaurantID(restaurant)}), {});
+}
+
+function mapMediaIDtoRestaurantID(restaurant) {
+	return restaurant.media
+		.reduce((map, media) => {
+			map[media.id] = restaurant.id;
+			return map;
+		}, {});
+}
+
+function getSelectedMediaInfo(selectedID, lookup) {
+	const media = lookup.mediaByID[selectedID];
+	const restaurant = lookup.restaurantsByID[lookup.restaurantIDsByMediaID[selectedID]];
+	return { media, restaurant };
+}
+
 function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
-
+	const [selectedMediaID, setSelectedMediaID] = useState('');
+	console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
 		if (url) {
 			console.log("Making request:", url);
 			fetch(url)
 				.then(response => response.json())
-				.then(json => setRestaurants(json));
+				.then(json => {
+					updateLookup(lookup, json);
+					console.log("lookup:", lookup);
+					setRestaurants(json);
+				});
 		}
 	}, [url])
 
@@ -37,7 +85,8 @@ function App() {
 		<div className="App">
 			<h1 className="title-header">Gourmand</h1>
 			<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} />
-			<Gallery restaurants={restaurants} />
+			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} />}
+			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} />
 		</div>
 	);
 }

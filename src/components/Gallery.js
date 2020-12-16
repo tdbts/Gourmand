@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import _ from 'underscore';
 import YelpMedia from '../scrapers/yelp/YelpMedia';
 
-const Gallery = ({restaurants}) => {
+const Gallery = ({restaurants, onMediaSelection}) => {
 	// console.log("media:", media);
 	const [shuffledMedia, setShuffledMedia] = useState([]);
 
@@ -12,7 +12,7 @@ const Gallery = ({restaurants}) => {
 
 	return (
 		<>
-			{shuffledMedia.map((m, i) => <img className="food-media" src={m.getThumbnailURLs()[0]} key={i} />)}
+			{shuffledMedia.map((m, i) => <img className="food-media thumbnail" src={m.getThumbnailURLs()[0]} key={i} onClick={() => onMediaSelection(m.id)} />)}
 		</>
 	);
 };
