@@ -7,3 +7,21 @@
   display: inline-block;
   cursor: pointer;
 }
+
+.caption {
+	font-style: italic;
+}
+
+.restaurant-name {
+	font-weight: bold;
+}
+
+/* Temp */
+.restaurant-categories,
+.restaurant-rating {
+	display: none;
+}
+
+.modal-image {
+	width: 100%;
+}
