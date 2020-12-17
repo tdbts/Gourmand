@@ -22,7 +22,7 @@ function SearchForm({onSearchRequest}) {
 				Location:
 				<input className="search-input" type="text" value={location} onChange={onLocationChange} />
 			</label>
-			<input className="search-input" type="submit" value="Submit" />
+			<input className="search-input btn btn-primary btn-sm" type="submit" value="Submit" />
 		</form>
 	);
 }
