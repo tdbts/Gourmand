@@ -13,16 +13,16 @@ function SearchForm({onSearchRequest}) {
 	};
 
 	return (
-		<form onSubmit={(e) => onSubmit(e, onSearchRequest)}>
-			<label>
+		<form className="search-form" onSubmit={(e) => onSubmit(e, onSearchRequest)}>
+			<label className="search-label">
 				Description:
-				<input type="text" value={description} onChange={onDescriptionChange} />
+				<input className="search-input" type="text" value={description} onChange={onDescriptionChange} />
 			</label>
-			<label>
+			<label className="search-label">
 				Location:
-				<input type="text" value={location} onChange={onLocationChange} />
+				<input className="search-input" type="text" value={location} onChange={onLocationChange} />
 			</label>
-			<input type="submit" value="Submit" />
+			<input className="search-input" type="submit" value="Submit" />
 		</form>
 	);
 }

@@ -83,8 +83,10 @@ function App() {
 
 	return (
 		<div className="App">
-			<h1 className="title-header">Gourmand</h1>
-			<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} />
+			<div className="header-container">
+				<h1 className="title-header">Gourmand</h1>
+				<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} />
+			</div>
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onClose={() => setSelectedMediaID('')} />}
 			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} />
 		</div>

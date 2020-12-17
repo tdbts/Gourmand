@@ -3,6 +3,25 @@
   height: 100%;
 }
 
+.title-header {
+	padding: 5px;
+}
+
+.header-container {
+	position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 5px;
+}
+
+.search-label {
+	margin-left: 5px;
+}
+
+.search-input {
+	margin-left: 15px;
+}
+
 .food-media {
   display: inline-block;
   cursor: pointer;
