@@ -22,6 +22,11 @@
 	display: none;
 }
 
+.thumbnail {
+	max-width: 258px;
+	width: 33%;
+}
+
 .modal-image {
 	width: 100%;
 }
