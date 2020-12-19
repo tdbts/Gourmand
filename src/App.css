@@ -8,18 +8,27 @@
 }
 
 .header-container {
+	display: block;
+	overflow: auto;
 	position: sticky;
     top: 0;
     background-color: white;
     padding: 5px;
 }
 
-.search-label {
-	margin-left: 5px;
+.input-container {
+	float: left;
+	max-width: 420px;
+	background-color: white;
 }
 
-.search-input {
-	margin-left: 15px;
+.suggestions-list-group {
+	position: absolute;
+}
+
+.current-location-icon {
+	margin-right: 9px;
+	margin-bottom: 5px;
 }
 
 .food-media {

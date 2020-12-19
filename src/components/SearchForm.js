@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { Container, Row, Col } from 'reactstrap';
+import Suggestions from './Suggestions';
 
 function SearchForm({onSearchRequest}) {
 	const [description, setDescription] = useState('');
 	const [location, setLocation] = useState('');
+	const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
 	const onDescriptionChange = (event) => {
 		setDescription(event.target.value);
@@ -11,18 +14,41 @@ function SearchForm({onSearchRequest}) {
 	const onLocationChange = (event) => {
 		setLocation(event.target.value);
 	};
+  	
+  	const toggleSuggestions = () => setSuggestionsOpen(prevState => !prevState);
+  	const hideSuggestions = () => setSuggestionsOpen(false);
+  	
+  	const requestLocation = () => {
+		navigator.geolocation.getCurrentPosition(
+			e => {
+				const { latitude, longitude } = e.coords;
+				setLocation(`${latitude.toPrecision(7)}, ${longitude.toPrecision(7)}`);
+				hideSuggestions();
+			}, 
+			e => console.error(e));
+	};
 
 	return (
 		<form className="search-form" onSubmit={(e) => onSubmit(e, onSearchRequest)}>
-			<label className="search-label">
-				Description:
-				<input className="search-input" type="text" value={description} onChange={onDescriptionChange} placeholder="e.g. Pizza" />
-			</label>
-			<label className="search-label">
-				Location:
-				<input className="search-input" type="text" value={location} onChange={onLocationChange} placeholder="e.g. Brooklyn, NY 11237" />
-			</label>
-			<input className="search-input btn btn-primary btn-sm" type="submit" value="Submit" />
+			<Container className="input-container px-0">
+				<Row>
+					<Col xs="3">
+						<p>Description:</p>
+					</Col>
+					<Col>
+						<input className="search-input" type="text" value={description} onChange={onDescriptionChange} placeholder="e.g. Pizza" />
+					</Col>
+				</Row>	
+				<Row>
+					<Col xs="3">
+						<p>Location:</p>
+					</Col>
+					<Col>
+						<input className="search-input" type="text" value={location} onChange={onLocationChange} onClick={toggleSuggestions} placeholder="e.g. Brooklyn, NY 11237" />
+						{suggestionsOpen && <Suggestions requestLocation={requestLocation} />}
+					</Col>
+				</Row>	
+			</Container>
 		</form>
 	);
 }
