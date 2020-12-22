@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button, Spinner } from 'reactstrap';
 import Suggestions from './Suggestions';
 
-function SearchForm({onSearchRequest}) {
+function SearchForm({onSearchRequest, searching}) {
 	const [description, setDescription] = useState('');
 	const [location, setLocation] = useState('');
 	const [suggestionsOpen, setSuggestionsOpen] = useState(false);
@@ -50,7 +50,9 @@ function SearchForm({onSearchRequest}) {
 						{suggestionsOpen && <Suggestions requestLocation={requestLocation} />}
 					</Col>
 					<Col className="search-button-container">
-						<input className="search-input btn btn-primary btn-sm" type="submit" value="Search" />
+						<Button className="search-button" color="primary">
+							{searching ? <Spinner color="light" size="sm" /> : "Search"}
+						</Button>
 					</Col>
 				</Row>	
 			</Container>

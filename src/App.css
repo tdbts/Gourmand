@@ -34,7 +34,13 @@
 }
 
 .search-button-container {
-	padding-left: 0px;
+	padding-left: 0;
+}
+
+.search-button {
+	width: 70px;
+	height: 30px;
+	padding: 0;
 }
 
 .food-media {

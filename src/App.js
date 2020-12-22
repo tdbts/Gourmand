@@ -67,16 +67,21 @@ function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
 	const [selectedMediaID, setSelectedMediaID] = useState('');
+	const [searching, setSearching] = useState(false);
+
 	console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
 		if (url) {
 			console.log("Making request:", url);
+			setSearching(true);
+
 			fetch(url)
 				.then(response => response.json())
 				.then(json => {
 					updateLookup(lookup, json);
 					console.log("lookup:", lookup);
 					setRestaurants(json);
+					setSearching(false);
 				});
 		}
 	}, [url])
@@ -85,7 +90,7 @@ function App() {
 		<div className="App">
 			<div className="header-container">
 				<h1 className="title-header">Gourmand</h1>
-				<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} />
+				<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} searching={searching} />
 			</div>
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onClose={() => setSelectedMediaID('')} />}
 			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} />
