@@ -39,11 +39,14 @@
 
 .food-media {
   display: inline-block;
+}
+
+.food-media.thumbnail {
   cursor: pointer;
   background-color: white;
 }
 
-.food-media:hover {
+.food-media.thumbnail:hover {
 	opacity: 0.7;
 }
 
