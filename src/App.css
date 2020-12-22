@@ -32,6 +32,10 @@
 	margin-bottom: 5px;
 }
 
+.search-button-container {
+	padding-left: 0px;
+}
+
 .food-media {
   display: inline-block;
   cursor: pointer;

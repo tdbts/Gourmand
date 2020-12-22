@@ -48,7 +48,7 @@ function SearchForm({onSearchRequest}) {
 						<input className="search-input" type="text" value={location} onChange={onLocationChange} onClick={toggleSuggestions} placeholder="e.g. Brooklyn, NY 11237" />
 						{suggestionsOpen && <Suggestions requestLocation={requestLocation} />}
 					</Col>
-					<Col>
+					<Col className="search-button-container">
 						<input className="search-input btn btn-primary btn-sm" type="submit" value="Search" />
 					</Col>
 				</Row>	
