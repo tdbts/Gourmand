@@ -32,11 +32,13 @@ function MediaModal({selected, onClose}) {
 			<ModalBody>
 				<div className="modal-info-container">
 					<img className="food-media modal-image" src={source} />
-					{name && <div className="restaurant-name">{name}</div>}
-					{address && <a onClick={e => onAddressClick(e, address)} className="restaurant-address">{address.join(" ")}</a>}
-					{neighborhoods && <div className="restaurant-neighborhoods">{neighborhoods.join(", ")}</div>}
-					{categories && <div className="restaurant-categories">{categories.join(", ")}</div>}
-					{rating && <div className="restaurant-rating">{rating}</div>}
+					<div className="restaurant-details-container">
+						{name && <div className="restaurant-name">{name}</div>}
+						{address && <a onClick={e => onAddressClick(e, address)} className="restaurant-address">{address.join(" ")}</a>}
+						{neighborhoods && <div className="restaurant-neighborhoods">{neighborhoods.join(", ")}</div>}
+						{categories && <div className="restaurant-categories">{categories.join(", ")}</div>}
+						{rating && <div className="restaurant-rating">{rating}</div>}
+					</div>
 				</div>
 	        </ModalBody>
 	        <ModalFooter>
