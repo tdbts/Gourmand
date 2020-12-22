@@ -13,7 +13,7 @@
 	position: sticky;
     top: 0;
     background-color: white;
-    padding: 5px;
+    padding: 5px 5px 50px 5px;
 }
 
 .input-container {
@@ -24,6 +24,7 @@
 
 .suggestions-list-group {
 	position: absolute;
+	font-size: 0.9em;
 }
 
 .current-location-icon {

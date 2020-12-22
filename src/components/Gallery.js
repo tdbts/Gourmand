@@ -11,9 +11,9 @@ const Gallery = ({restaurants, onMediaSelection}) => {
 	}, [restaurants]);
 
 	return (
-		<>
+		<div className="gallery-container">
 			{shuffledMedia.map((m, i) => <img className="food-media thumbnail" src={m.getThumbnailURLs()[0]} key={i} onClick={() => onMediaSelection(m.id)} />)}
-		</>
+		</div>
 	);
 };
 

@@ -19,6 +19,7 @@ function SearchForm({onSearchRequest}) {
   	const hideSuggestions = () => setSuggestionsOpen(false);
   	
   	const requestLocation = () => {
+  		console.log("Requesting location.");
 		navigator.geolocation.getCurrentPosition(
 			e => {
 				const { latitude, longitude } = e.coords;
@@ -46,6 +47,9 @@ function SearchForm({onSearchRequest}) {
 					<Col>
 						<input className="search-input" type="text" value={location} onChange={onLocationChange} onClick={toggleSuggestions} placeholder="e.g. Brooklyn, NY 11237" />
 						{suggestionsOpen && <Suggestions requestLocation={requestLocation} />}
+					</Col>
+					<Col>
+						<input className="search-input btn btn-primary btn-sm" type="submit" value="Search" />
 					</Col>
 				</Row>	
 			</Container>
