@@ -1,5 +1,5 @@
-const constants = require('./constants');
-const YelpMedia = require('./YelpMedia');
+import constants from './constants.js';
+import YelpMedia from './YelpMedia.js';
 
 /*
  * MediaSliceRequest
@@ -9,7 +9,7 @@ const YelpMedia = require('./YelpMedia');
  *
  * These URLs return JSON metadata for a portion of all media files for a particular restaurant.  This class converts this media metadata into 'YelpMedia' instances which are then returned by the caller.
  */
-module.exports = class MediaSliceRequest {
+export default class MediaSliceRequest {
 
 	constructor(client) {
 		this.client = client;

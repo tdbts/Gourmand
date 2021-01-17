@@ -1,7 +1,7 @@
 /*
  * SearchQuery
  */
-module.exports = class SearchQuery {
+export default class SearchQuery {
 	constructor(location, type, description) {
 		this.location = location;
 		this.type = type;

@@ -1,6 +1,6 @@
-const _ = require('underscore');
+import _ from'underscore';
 
-module.exports = class Media {
+export default class Media {
 
 	constructor(id, type, caption, source) {
 		this.id = id;

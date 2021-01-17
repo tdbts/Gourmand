@@ -1,7 +1,7 @@
-const cheerio = require('cheerio');
-const url = require('url');
-const constants = require('./constants');
-const MediaSliceRequest = require('./MediaSliceRequest');
+import cheerio from 'cheerio';
+import url from 'url';
+import constants from './constants.js';
+import MediaSliceRequest from './MediaSliceRequest.js';
 
 /*
  * MediaRequest
@@ -13,7 +13,7 @@ const MediaSliceRequest = require('./MediaSliceRequest');
  *
  * After metadata has been retrieved, makes requests for media slices.
  */
-module.exports = class MediaRequest {
+export default class MediaRequest {
 
 	constructor(client) {
 		this.client = client;

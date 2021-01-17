@@ -11,7 +11,7 @@ const url = {
 	LOCATION_SEARCH_PREFIX
 }
 
-module.exports = {
+export default {
 	queryTypes,
 	url
 };

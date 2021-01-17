@@ -1,4 +1,4 @@
-const DAO = require('./DAO');
+import DAO from './DAO';
 const dao = new DAO();
 
 dao.initialize()

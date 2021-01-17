@@ -1,9 +1,9 @@
-const MongoClient = require('mongodb').MongoClient;
+import MongoClient from 'mongodb';
 const URL = process.env.MONGODB_URI;
 const DB = "gourmand";
 const RESTAURANTS_COLLECTION = "restaurants";
 
-module.exports = class DAO {
+export default class DAO {
 
 	initialize() {
 		// return Promise.resolve();

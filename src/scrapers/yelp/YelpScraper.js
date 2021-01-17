@@ -1,14 +1,14 @@
-const constants = require('./constants');
-const SearchQuery = require('./SearchQuery');
-const SearchRequest = require('./SearchRequest');
-const MediaRequest = require('./MediaRequest');
+import constants from './constants.js';
+import SearchQuery from './SearchQuery.js';
+import SearchRequest from './SearchRequest.js';
+import MediaRequest from './MediaRequest.js';
 
 let request;
 
 /*
  * YelpScraper
  */
-module.exports = class YelpScraper {
+export default class YelpScraper {
 
 	constructor(client) {
 

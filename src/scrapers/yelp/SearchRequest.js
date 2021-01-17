@@ -1,12 +1,12 @@
-const constants = require('./constants');
-const YelpRestaurant = require('./YelpRestaurant');
+import constants from './constants.js';
+import YelpRestaurant from './YelpRestaurant.js';
 
 /*
  * SearchRequest
  *
  * Makes search request for restaurant list for a particular location.
  */
-module.exports = class SearchRequest {
+export default class SearchRequest {
 
 	constructor(client) {
 		this.client = client;

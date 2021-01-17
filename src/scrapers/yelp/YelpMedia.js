@@ -1,6 +1,6 @@
-const Media = require('../../domain/Media');
+import Media from '../../domain/Media.js';
 
-module.exports.default = class YelpMedia extends Media {
+export default class YelpMedia extends Media {
 
 	constructor(id, type, caption, source) {
 		super(id, type, caption, source);
