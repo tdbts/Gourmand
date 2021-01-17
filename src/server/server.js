@@ -8,6 +8,10 @@ const service = new SearchService(request);
 
 app.use(express.static(path.join(__dirname, 'build')));
 
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 app.get('/search', function (req, res) {
 	const { location, description } = req.query;
 	console.log("location:", location);
@@ -16,9 +20,5 @@ app.get('/search', function (req, res) {
 		.then(restaurants => res.json(restaurants))
 		.catch(e => console.error(e));
 });
-
-// app.get('/', function (req, res) {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
 
 app.listen(process.env.PORT || 8080, () => console.log("Gourmand server up and running."));
