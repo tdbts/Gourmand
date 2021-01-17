@@ -1,14 +1,14 @@
-const Cache = require('../cache/Cache');
-const DAO = require('../data/DAO');
-const YelpScraper = require('../scrapers/yelp/YelpScraper');
-const Restaurant = require('../domain/Restaurant');
+import Cache from '../cache/Cache.js';
+import DAO from '../data/DAO.js';
+import YelpScraper from '../scrapers/yelp/YelpScraper.js';
+import Restaurant from '../domain/Restaurant.js';
 
 let client;
 let yelp;
 let cache;
 let dao;
 
-module.exports = class SearchService {
+export default class SearchService {
 
 	constructor(client) {
 		client = client;

@@ -1,7 +1,7 @@
-const _ = require('underscore');
-const Media = require('./Media');
+import _ from 'underscore';
+import Media from './Media.js';
 
-module.exports = class Restaurant {
+export default class Restaurant {
 
 	constructor(id, name, address, neighborhoods, categories, rating, mediaCount, media) {
 		this.id = id;

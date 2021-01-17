@@ -1,8 +1,8 @@
-const express = require('express');
-const bodyParser = require('body-parser')
-const path = require('path');
-const request = require('superagent');
-const SearchService = require('../search/SearchService');
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import request from 'superagent';
+import SearchService from '../search/SearchService.js';
 const app = express();
 const service = new SearchService(request);
 // app.use(express.static(path.join(__dirname, 'build')));

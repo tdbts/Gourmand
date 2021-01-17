@@ -1,5 +1,5 @@
-const request = require('superagent');
-const SearchService = require('./SearchService');
+import request from 'superagent';
+import SearchService from './SearchService';
 const location = "Brooklyn, NY 11219";
 const service = new SearchService(request);
 

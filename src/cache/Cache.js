@@ -6,7 +6,7 @@ const restaurants = {};
 /*
  * Cache
  */
-module.exports = class Cache {
+export default class Cache {
 
 	getQuery(query) {
 		return queries[query];

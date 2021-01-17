@@ -1,8 +1,8 @@
-const url = require('url');
-const constants = require('./constants');
-const Restaurant = require('../../domain/Restaurant');
+import url from 'url';
+import constants from './constants.js';
+import Restaurant from '../../domain/Restaurant.js';
 
-module.exports = class YelpRestaurant extends Restaurant {
+export default class YelpRestaurant extends Restaurant {
 
 	constructor(id, name, addressLines, neighborhoods, categories, rating, photoPagePath) {
 		super(id, name, addressLines, neighborhoods, categories, rating, null, null);
