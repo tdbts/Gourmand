@@ -6,6 +6,8 @@ import SearchService from '../search/SearchService.js';
 const app = express();
 const service = new SearchService(request);
 
+const __dirname = path.resolve(path.dirname(''));
+
 app.use(express.static(path.join(__dirname, '/../../build')));
 
 app.get('/', function (req, res) {
