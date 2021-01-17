@@ -7,7 +7,7 @@
  	restaurantIDsByMediaID: {} 
  };
 
-module.exports = class Lookup {
+export default class Lookup {
 	update(restaurants) {
 		updateLookup(lookup, restaurants);
 	}
