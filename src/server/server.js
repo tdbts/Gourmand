@@ -7,6 +7,7 @@ const app = express();
 const service = new SearchService(request);
 
 const __dirname = path.resolve(path.dirname(''));
+console.log("__dirname:", __dirname);
 
 app.use(express.static(path.join(__dirname, '/../../build')));
 
