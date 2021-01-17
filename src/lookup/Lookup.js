@@ -7,6 +7,24 @@
  	restaurantIDsByMediaID: {} 
  };
 
+module.exports = class Lookup {
+	update(restaurants) {
+		updateLookup(lookup, restaurants);
+	}
+
+	getMediaByID(id) {
+		return lookup.mediaByID[id];
+	}
+
+	getRestaurantByID(id) {
+		return lookup.restaurantsByID[id];
+	}
+
+	getRestaurantIDByMediaID(id) {
+		return lookup.restaurantIDsByMediaID[id];
+	}
+};
+
 function updateLookup(lookup, restaurants) {
 	lookup.restaurantsByID = combineMaps(lookup.restaurantsByID, updateRestaurantsByID(restaurants));
 	lookup.mediaByID = combineMaps(lookup.mediaByID, updateMediaByID(restaurants));
@@ -43,22 +61,4 @@ function mapMediaIDtoRestaurantID(restaurant) {
 
 function combineMaps(existing, update) {
 	return { ...existing, ...update };
-}
-
-module.exports = class Lookup {
-	update(restaurants) {
-		updateLookup(lookup, restaurants);
-	}
-
-	getMediaByID(id) {
-		return lookup.mediaByID[id];
-	}
-
-	getRestaurantByID(id) {
-		return lookup.restaurantsByID[id];
-	}
-
-	getRestaurantIDByMediaID(id) {
-		return lookup.restaurantIDsByMediaID[id];
-	}
 }
