@@ -4,8 +4,9 @@ import './App.css';
 import SearchForm from './components/SearchForm';
 import Gallery from './components/Gallery';
 import MediaModal from './components/MediaModal';
+import Lookup from './lookup/Lookup';
 
-const lookup = { restaurantsByID: {}, mediaByID: {}, restaurantIDsByMediaID: {} };
+const lookup = new Lookup();
 
 function updateSearchURL(description, location, setURL) {
 	console.log("updateSearchURL()");
@@ -23,43 +24,9 @@ function createSearchURL(description, location) {
 	return `/search?description=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
 }
 
-function updateLookup(lookup, restaurants) {
-	lookup.restaurantsByID = updateRestaurantsByID(restaurants);
-	lookup.mediaByID = updateMediaByID(restaurants);
-	lookup.restaurantIDsByMediaID = updateRestaurantIDsByMediaID(restaurants);
-}
-
-function updateRestaurantsByID(restaurants) {
-	return restaurants.reduce((map, restaurant) => {
-		map[restaurant.id] = restaurant;
-		return map;
-	}, {});
-}
-
-function updateMediaByID(restaurants) {
-	return restaurants
-		.flatMap(restaurant => restaurant.media)
-		.reduce((map, media) => {
-			map[media.id] = media;
-			return map;
-		}, {});
-}
-
-function updateRestaurantIDsByMediaID(restaurants) {
-	return restaurants.reduce((map, restaurant) => ({...map, ...mapMediaIDtoRestaurantID(restaurant)}), {});
-}
-
-function mapMediaIDtoRestaurantID(restaurant) {
-	return restaurant.media
-		.reduce((map, media) => {
-			map[media.id] = restaurant.id;
-			return map;
-		}, {});
-}
-
 function getSelectedMediaInfo(selectedID, lookup) {
-	const media = lookup.mediaByID[selectedID];
-	const restaurant = lookup.restaurantsByID[lookup.restaurantIDsByMediaID[selectedID]];
+	const media = lookup.getMediaByID(selectedID);
+	const restaurant = lookup.getRestaurantByID(lookup.getRestaurantIDByMediaID(selectedID));
 	return { media, restaurant };
 }
 
@@ -78,7 +45,7 @@ function App() {
 			fetch(url)
 				.then(response => response.json())
 				.then(json => {
-					updateLookup(lookup, json);
+					lookup.update(json);
 					console.log("lookup:", lookup);
 					setRestaurants(json);
 					setSearching(false);
