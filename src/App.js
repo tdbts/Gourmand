@@ -42,7 +42,7 @@ function updateMediaByID(restaurants) {
 		.reduce((map, media) => {
 			map[media.id] = media;
 			return map;
-		});
+		}, {});
 }
 
 function updateRestaurantIDsByMediaID(restaurants) {
