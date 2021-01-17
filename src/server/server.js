@@ -6,10 +6,10 @@ const SearchService = require('../search/SearchService');
 const app = express();
 const service = new SearchService(request);
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '/../../build')));
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, '/../../build', 'index.html'));
 });
 
 app.get('/search', function (req, res) {
