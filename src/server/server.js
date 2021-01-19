@@ -2,8 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import request from 'superagent';
+import Client from '../client/Client.js';
 import SearchService from '../search/SearchService.js';
 const app = express();
+const client = new Client(request);
+const service = new SearchService(client);
 const service = new SearchService(request);
 
 const __dirname = path.resolve(path.dirname(''));

@@ -18,7 +18,7 @@ export default class MediaSliceRequest {
 	send(restaurant, startIndex) {
 		const url = formatMediaSliceURL(restaurant.mediaURL, validateStartIndex(startIndex));
 		// console.log("url:", url);
-		return makeMediaSliceRequest(this.client, url)
+		return this.client.get(url)
 			.then(response => processMediaSliceResponse(restaurant, startIndex, response));
 	}
 
@@ -46,12 +46,6 @@ function getMediaFromJSON(json) {
 		json.media_data.caption,
 		json.src
 	));
-}
-
-function makeMediaSliceRequest(client, url) {
-	return client
-		.get(url)
-		.set("x-requested-with", "XMLHttpRequest");
 }
 
 function formatMediaSliceURL(mediaURL, startIndex) {
