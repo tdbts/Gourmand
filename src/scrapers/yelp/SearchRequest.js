@@ -27,6 +27,7 @@ export default class SearchRequest {
 
 // TODO: Iterate over restaurant pagination
 function processSearchResponse(response) {
+	console.log("Search: response.status:", response.status);
 	if (response.status < 300) {
 		const restaurantsData = getRestaurantDataFromJSON(response.body);
 		// console.log("restaurantsData:", restaurantsData);

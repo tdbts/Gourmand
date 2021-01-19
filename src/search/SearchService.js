@@ -52,8 +52,8 @@ function getRestaurantMedia(restaurant) {
 		return cachedRestaurant;
 	}
 
-	// console.log("restaurant.name:", restaurant.name);
-	// console.log("restaurant.id:", restaurant.id);
+	console.log("restaurant.name:", restaurant.name);
+	console.log("restaurant.id:", restaurant.id);
 	return dao.findRestaurantByID(restaurant.id)
 		.then(bson => {
 			if (!bson)
