@@ -15,7 +15,10 @@ export default class SearchRequest {
 	send(query, startIndex) {
 		const url = getSearchURL(query, startIndex);
 		console.log("Making search request:", url);
-		return this.client.get(url)
+		return this.client
+			.get(url)
+			.set('Referer', "http://localhost:3000")
+			.set('User-Agent', "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
 			.then(processSearchResponse)
 		// .then(response => console.log("response:"
 	}
