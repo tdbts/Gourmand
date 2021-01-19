@@ -2,9 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import request from 'superagent';
+import Client from '../client/Client.js';
 import SearchService from '../search/SearchService.js';
 const app = express();
-const service = new SearchService(request);
+const client = new Client(request);
+const service = new SearchService(client);
 // app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/search', function (req, res) {
