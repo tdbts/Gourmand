@@ -7,7 +7,6 @@ import SearchService from '../search/SearchService.js';
 const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
-const service = new SearchService(request);
 
 const __dirname = path.resolve(path.dirname(''));
 console.log("__dirname:", __dirname);
