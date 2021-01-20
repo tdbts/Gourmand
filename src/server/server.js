@@ -8,15 +8,13 @@ const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
 
-const __dirname = path.resolve(path.dirname(''));
-console.log("__dirname:", __dirname);
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(process.cwd(), 'build')));
 
-app.use(express.static(path.join(__dirname, './build')));
-
-app.get('/', function (req, res) {
-  console.log("req:", req);
-  res.sendFile(path.join(__dirname, './build', 'index.html'));
-});
+	app.get('/', function (req, res) {
+		res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
+	});
+}
 
 app.get('/search', function (req, res) {
 	const { location, description } = req.query;
