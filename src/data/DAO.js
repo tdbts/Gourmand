@@ -9,10 +9,8 @@ export default class DAO {
 		// return Promise.resolve();
 		let _client;
 
-		console.log("URL:", URL);
 		return MongoClient.connect(URL)
 			.then(client => {
-				console.log("client:", client);
 				_client = client;
 				return client.db(DB);
 			})
@@ -57,7 +55,6 @@ function collectionOperation(operation) {
 }
 
 function onError(e, client) {
-	console.log("e:", e);
 	return client.close()
 		.then(() => {
 			throw e;
