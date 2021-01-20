@@ -15,7 +15,8 @@ export default class SearchRequest {
 	send(query, startIndex) {
 		const url = getSearchURL(query, startIndex);
 		console.log("Making search request:", url);
-		return this.client.get(url)
+		return this.client
+			.get(url)
 			.then(processSearchResponse)
 		// .then(response => console.log("response:"
 	}
