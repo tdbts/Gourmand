@@ -49,12 +49,14 @@ function SearchForm({onSearchRequest, searching}) {
 							onBlur={hideSuggestions} placeholder="e.g. Brooklyn, NY 11237" />
 						{suggestionsOpen && <Suggestions requestLocation={requestLocation} />}
 					</Col>
+				</Row>	
+				<Row>
 					<Col className="search-button-container">
 						<Button className="search-button" color="primary">
 							{searching ? <Spinner color="light" size="sm" /> : "Search"}
 						</Button>
 					</Col>
-				</Row>	
+				</Row>
 			</Container>
 		</form>
 	);
