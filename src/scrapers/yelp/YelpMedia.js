@@ -1,6 +1,6 @@
 import Media from '../../domain/Media.js';
 
-export default class YelpMedia extends Media {
+class YelpMedia extends Media {
 
 	constructor(id, type, caption, source) {
 		super(id, type, caption, source);
@@ -17,3 +17,5 @@ export default class YelpMedia extends Media {
 	}
 
 }
+
+export default YelpMedia
