@@ -7,7 +7,14 @@ import SearchService from '../search/SearchService.js';
 const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
-// app.use(express.static(path.join(__dirname, 'build')));
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(process.cwd(), 'build')));
+
+	app.get('/', function (req, res) {
+		res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
+	});
+}
 
 app.get('/search', function (req, res) {
 	const { location, description } = req.query;
@@ -17,9 +24,5 @@ app.get('/search', function (req, res) {
 		.then(restaurants => res.json(restaurants))
 		.catch(e => console.error(e));
 });
-
-// app.get('/', function (req, res) {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
 
 app.listen(process.env.PORT || 8080, () => console.log("Gourmand server up and running."));
