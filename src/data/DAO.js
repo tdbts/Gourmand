@@ -1,5 +1,5 @@
 import MongoClient from 'mongodb';
-const URL = "mongodb://localhost:27017";
+const URL = process.env.MONGODB_URI;
 const DB = "gourmand";
 const RESTAURANTS_COLLECTION = "restaurants";
 
