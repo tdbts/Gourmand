@@ -33,28 +33,32 @@ function SearchForm({onSearchRequest, searching}) {
 		<form className="search-form" onSubmit={(e) => onSubmit(e, onSearchRequest)}>
 			<Container className="input-container px-0">
 				<Row>
-					<Col xs="3">
-						<p>Description:</p>
+					<Col className="description-input-column" xs="12" md="5">
+						<Row className="description-input-row">
+							<Col xs="3" md="4">
+								<div className="input-label">Description:</div>
+							</Col>
+							<Col xs="6" md="8">
+								<input className="search-input" type="text" value={description} onChange={onDescriptionChange} placeholder="e.g. Pizza" />
+							</Col>
+						</Row>
 					</Col>
-					<Col>
-						<input className="search-input" type="text" value={description} onChange={onDescriptionChange} placeholder="e.g. Pizza" />
-					</Col>
-				</Row>	
-				<Row>
-					<Col xs="3">
-						<p>Location:</p>
-					</Col>
-					<Col>
-						<input className="search-input" type="text" value={location} onChange={onLocationChange} onClick={toggleSuggestions}
+					<Col className="location-input-column" xs="12" md="6">
+						<Row className="location-input-row">
+							<Col xs="3" md="3">
+								<div className="input-label">Location:</div>
+							</Col>
+							<Col xs="6" md="7">
+								<input className="search-input" type="text" value={location} onChange={onLocationChange} onClick={toggleSuggestions}
 							onBlur={hideSuggestions} placeholder="e.g. Brooklyn, NY 11237" />
 						{suggestionsOpen && <Suggestions requestLocation={requestLocation} />}
-					</Col>
-				</Row>	
-				<Row>
-					<Col className="search-button-container">
-						<Button className="search-button" color="primary">
+							</Col>
+							<Col xs="3" md="2">
+								<Button className="search-button" color="primary">
 							{searching ? <Spinner color="light" size="sm" /> : "Search"}
-						</Button>
+								</Button>
+							</Col>
+						</Row>
 					</Col>
 				</Row>
 			</Container>
