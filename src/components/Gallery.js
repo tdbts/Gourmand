@@ -3,7 +3,7 @@ import _ from 'underscore';
 import YelpMedia from '../scrapers/yelp/YelpMedia';
 import GalleryMedia from './GalleryMedia';
 
-const Gallery = ({restaurants, onMediaSelection}) => {
+const Gallery = ({restaurants, onMediaSelection, onMediaLikeToggle}) => {
 	// console.log("media:", media);
 	const [shuffledMedia, setShuffledMedia] = useState([]);
 
@@ -13,7 +13,7 @@ const Gallery = ({restaurants, onMediaSelection}) => {
 
 	return (
 		<div className="gallery-container">
-			{shuffledMedia.map((m, i) => <GalleryMedia media={m} onMediaSelection={onMediaSelection} key={i} />)}
+			{shuffledMedia.map((m, i) => <GalleryMedia media={m} onMediaSelection={onMediaSelection} onMediaLikeToggle={onMediaLikeToggle} key={i} />)}
 		</div>
 	);
 };

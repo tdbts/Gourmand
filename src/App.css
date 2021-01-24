@@ -56,17 +56,30 @@
 	padding: 0;
 }
 
-.food-media-container {
-  display: inline;
-}
-
-.food-media.thumbnail {
+.food-thumbnail-container {
+  position: relative;
+  display: inline-block;
+  max-width: 258px;
+  width: 33%;
   cursor: pointer;
   background-color: white;
 }
 
-.food-media.thumbnail:hover {
+.food-thumbnail-container:hover {
 	opacity: 0.7;
+}
+
+.food-thumbnail {
+	width: 100%;
+	height: auto;
+}
+
+.liked-media-icon {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 5px;
+	pointer-events: none;
 }
 
 .caption {
