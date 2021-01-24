@@ -50,7 +50,7 @@ export default class LikedMedia {
  */
 function isLiked(liked, restaurantID, id) {
 	return (restaurantID in liked)
-		&& (id in (liked[restaurantID]));
+		&& liked[restaurantID].has(id);
 }
 
 function likeMedia(liked, restaurantID, id) {

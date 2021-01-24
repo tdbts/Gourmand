@@ -10,7 +10,7 @@ import LikedMedia from './user/LikedMedia';
 
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
-const likedMedia = new LikedMedia(getLikedMedia());
+const likedMedia = new LikedMedia(getLikedMedia(), storage);
 
 function getLikedMedia(storage) {
 	try {
@@ -21,7 +21,7 @@ function getLikedMedia(storage) {
 }
 
 function isLikedMedia(id) {
-	return likedMedia.isLiked(lookup.getRestaurantIDByMediaID(id), id);
+	return id && likedMedia.isLiked(lookup.getRestaurantIDByMediaID(id), id);
 }
 
 function toggleLikedMedia(id, setLikedMedia) {
@@ -81,8 +81,8 @@ function App() {
 				<h1 className="title-header">Gourmand</h1>
 				<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} searching={searching} />
 			</div>
-			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onClose={() => setSelectedMediaID('')} />}
-			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} isLikedMedia={isLikedMedia} />
+			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
+			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} />
 		</div>
 	);
 }
