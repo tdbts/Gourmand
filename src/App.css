@@ -56,8 +56,8 @@
 	padding: 0;
 }
 
-.food-media {
-  display: inline-block;
+.food-media-container {
+  display: inline;
 }
 
 .food-media.thumbnail {

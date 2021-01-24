@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import _ from 'underscore';
 import YelpMedia from '../scrapers/yelp/YelpMedia';
+import GalleryMedia from './GalleryMedia';
 
 const Gallery = ({restaurants, onMediaSelection}) => {
 	// console.log("media:", media);
@@ -12,7 +13,7 @@ const Gallery = ({restaurants, onMediaSelection}) => {
 
 	return (
 		<div className="gallery-container">
-			{shuffledMedia.map((m, i) => <img className="food-media thumbnail" src={m.getThumbnailURLs()[0]} key={i} onClick={() => onMediaSelection(m.id)} />)}
+			{shuffledMedia.map((m, i) => <GalleryMedia media={m} onMediaSelection={onMediaSelection} key={i} />)}
 		</div>
 	);
 };
