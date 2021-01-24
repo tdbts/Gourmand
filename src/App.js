@@ -5,8 +5,20 @@ import SearchForm from './components/SearchForm';
 import Gallery from './components/Gallery';
 import MediaModal from './components/MediaModal';
 import Lookup from './lookup/Lookup';
+import StorageFactory from './storage/StorageFactory';
+import LikedMedia from './user/LikedMedia';
 
 const lookup = new Lookup();
+const storage = new StorageFactory().get(window.localStorage);
+const likedMedia = new LikedMedia(getLikedMedia());
+
+function getLikedMedia(storage) {
+	try {
+		return new LikedMedia(storage.get('likedMedia'), storage);
+	} catch (e) {
+		window.console.debug(e);
+	}
+}
 
 function updateSearchURL(description, location, setURL) {
 	console.log("updateSearchURL()");
