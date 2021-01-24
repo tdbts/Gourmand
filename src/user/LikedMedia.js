@@ -20,10 +20,18 @@ export default class LikedMedia {
 
 		this.liked = isLiked(liked, restaurantID, id)
 			? unlikeMedia(liked, restaurantID, id)
-			: likeMedia(liked, restaurantID, id
+			: likeMedia(liked, restaurantID, id);
 
 		// TODO: Set up event mechanism for updating storage
 		updateStorage(this.storage, this.serialize());
+	}
+
+	getAll() {
+		return this.liked;
+	}
+
+	isLiked(restaurantID, id) {
+		return isLiked(this.liked, restaurantID, id);
 	}
 
 	serialize() {
@@ -62,7 +70,7 @@ function unlikeMedia(liked, restaurantID, id) {
 }
 
 function updateStorage(storage, data) {
-	storage.set('liked', data);
+	storage.set('likedMedia', data);
 }
 
 function hydrate(data) {

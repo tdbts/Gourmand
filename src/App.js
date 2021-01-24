@@ -20,6 +20,15 @@ function getLikedMedia(storage) {
 	}
 }
 
+function isLikedMedia(id) {
+	return likedMedia.isLiked(lookup.getRestaurantIDByMediaID(id), id);
+}
+
+function toggleLikedMedia(id, setLikedMedia) {
+	likedMedia.toggle(lookup.getRestaurantIDByMediaID(id), id);
+	setLikedMedia(likedMedia.getAll());
+}
+
 function updateSearchURL(description, location, setURL) {
 	console.log("updateSearchURL()");
 	console.log("description:", description);
@@ -46,6 +55,7 @@ function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
 	const [selectedMediaID, setSelectedMediaID] = useState('');
+	const [likedMedia, setLikedMedia] = useState({});
 	const [searching, setSearching] = useState(false);
 
 	console.log("selectedMediaID:", selectedMediaID);
@@ -72,7 +82,7 @@ function App() {
 				<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} searching={searching} />
 			</div>
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onClose={() => setSelectedMediaID('')} />}
-			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} />
+			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} isLikedMedia={isLikedMedia} />
 		</div>
 	);
 }
