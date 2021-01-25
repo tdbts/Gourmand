@@ -12,11 +12,15 @@
 	display: block;
 	overflow: auto;
 	position: sticky;
-    max-width: 650px;
     top: 0;
     background-color: white;
     padding: 5px 5px 50px 5px;
     z-index: 5;
+}
+
+.header-content-wrapper {
+	display: inline-block;
+    max-width: 650px;
 }
 
 .input-container {
