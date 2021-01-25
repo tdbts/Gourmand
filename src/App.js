@@ -10,11 +10,11 @@ import LikedMedia from './user/LikedMedia';
 
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
-const likedMedia = new LikedMedia(getLikedMedia(), storage);
+const likedMedia = new LikedMedia(getLikedMedia(storage), storage);
 
 function getLikedMedia(storage) {
 	try {
-		return new LikedMedia(storage.get('likedMedia'), storage);
+		return storage.get('likedMedia');
 	} catch (e) {
 		window.console.debug(e);
 	}

@@ -10,8 +10,8 @@
 */
 export default class LikedMedia {
 
-	constructor(data = {}, storage) {
-		this.liked = (typeof data === 'string') ? hydrate(data) : data;
+	constructor(data, storage) {
+		this.liked = setLiked(data);
 		this.storage = storage;
 	}
 
@@ -38,7 +38,7 @@ export default class LikedMedia {
 		const json = {};
 
 		for (const restaurantID in this.liked) {
-			json.restaurantID = [...this.liked[restaurantID]];
+			json[restaurantID] = [...this.liked[restaurantID]];
 		}
 
 		return JSON.stringify(json);
@@ -48,6 +48,14 @@ export default class LikedMedia {
 /*
  * Utility Functions
  */
+function setLiked(data) {
+	if (!(data))
+		return {};
+
+	// Assume data is pre-hydrated object if not string
+	return (typeof data === 'string') ? hydrate(data) : data;
+}
+
 function isLiked(liked, restaurantID, id) {
 	return (restaurantID in liked)
 		&& liked[restaurantID].has(id);
@@ -65,6 +73,10 @@ function likeMedia(liked, restaurantID, id) {
 
 function unlikeMedia(liked, restaurantID, id) {
 	liked[restaurantID].delete(id);
+
+	if (liked[restaurantID].size === 0) {
+		delete liked[restaurantID];
+	}
 
 	return liked;
 }
