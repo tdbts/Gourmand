@@ -5,8 +5,29 @@ import SearchForm from './components/SearchForm';
 import Gallery from './components/Gallery';
 import MediaModal from './components/MediaModal';
 import Lookup from './lookup/Lookup';
+import StorageFactory from './storage/StorageFactory';
+import LikedMedia from './user/LikedMedia';
 
 const lookup = new Lookup();
+const storage = new StorageFactory().get(window.localStorage);
+const likedMedia = new LikedMedia(getLikedMedia(storage), storage);
+
+function getLikedMedia(storage) {
+	try {
+		return storage.get('likedMedia');
+	} catch (e) {
+		window.console.debug(e);
+	}
+}
+
+function isLikedMedia(id) {
+	return id && likedMedia.isLiked(lookup.getRestaurantIDByMediaID(id), id);
+}
+
+function toggleLikedMedia(id, setLikedMedia) {
+	likedMedia.toggle(lookup.getRestaurantIDByMediaID(id), id);
+	setLikedMedia(likedMedia.getAll());
+}
 
 function updateSearchURL(description, location, setURL) {
 	console.log("updateSearchURL()");
@@ -34,6 +55,7 @@ function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
 	const [selectedMediaID, setSelectedMediaID] = useState('');
+	const [likedMedia, setLikedMedia] = useState({});
 	const [searching, setSearching] = useState(false);
 
 	console.log("selectedMediaID:", selectedMediaID);
@@ -56,11 +78,13 @@ function App() {
 	return (
 		<div className="App">
 			<div className="header-container">
-				<h1 className="title-header">Gourmand</h1>
-				<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} searching={searching} />
+				<div className="header-content-wrapper">
+					<h1 className="title-header">Gourmand</h1>
+					<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} searching={searching} />
+				</div>
 			</div>
-			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onClose={() => setSelectedMediaID('')} />}
-			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} />
+			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
+			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} />
 		</div>
 	);
 }
