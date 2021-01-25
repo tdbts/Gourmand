@@ -26,12 +26,12 @@
 .input-container {
 	float: left;
 	background-color: white;
-	width: 368px;
+	width: 388px;
 }
 
 @media (min-width: 768px) {
 	.input-container {
-		width: 675px;
+		width: 695px;
 	}
 }
 
