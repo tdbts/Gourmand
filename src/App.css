@@ -26,6 +26,13 @@
 .input-container {
 	float: left;
 	background-color: white;
+	width: 348px;
+}
+
+@media (min-width: 768px) {
+	.input-container {
+		width: 650px;
+	}
 }
 
 .description-input-column,
