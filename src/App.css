@@ -77,8 +77,10 @@
   background-color: white;
 }
 
-.food-thumbnail-container:hover {
-	opacity: 0.7;
+@media (hover: hover) and (pointer: fine) {
+  .food-thumbnail-container:hover {
+    opacity: 0.7;
+  }
 }
 
 .food-thumbnail {

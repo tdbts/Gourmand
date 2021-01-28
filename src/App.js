@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import SearchForm from './components/SearchForm';
+import Header from './components/Header';
 import Gallery from './components/Gallery';
 import MediaModal from './components/MediaModal';
 import Lookup from './lookup/Lookup';
@@ -77,12 +77,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<div className="header-container">
-				<div className="header-content-wrapper">
-					<h1 className="title-header">Gourmand</h1>
-					<SearchForm onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} searching={searching} />
-				</div>
-			</div>
+			<Header onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} searching={searching} />
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
 			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} />
 		</div>
