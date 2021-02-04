@@ -22,7 +22,11 @@ app.get('/search', function (req, res) {
 	console.log("description:", description);
 	return service.find(location, description)
 		.then(restaurants => res.json(restaurants))
-		.catch(e => console.error(e));
+		.catch(e => {
+			console.error("Something went wrong during search request.");
+			console.error(e);
+			res.send(500);
+		});
 });
 
 app.listen(process.env.PORT || 8080, () => console.log("Gourmand server up and running."));

@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header';
 import Gallery from './components/Gallery';
+import ErrorMessage from './components/ErrorMessage';
 import MediaModal from './components/MediaModal';
 import Lookup from './lookup/Lookup';
 import StorageFactory from './storage/StorageFactory';
@@ -51,27 +52,39 @@ function getSelectedMediaInfo(selectedID, lookup) {
 	return { media, restaurant };
 }
 
+function checkResponseForErrors(response) {
+	if (response.ok) {
+		return response;
+	}
+
+	throw Error(response.statusText);
+}
+
 function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
 	const [selectedMediaID, setSelectedMediaID] = useState('');
 	const [likedMedia, setLikedMedia] = useState({});
 	const [searching, setSearching] = useState(false);
+	const [error, setError] = useState(null);
 
 	console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
 		if (url) {
 			console.log("Making request:", url);
+			setError(null);
 			setSearching(true);
 
 			fetch(url)
+				.then(checkResponseForErrors)
 				.then(response => response.json())
 				.then(json => {
 					lookup.update(json);
 					console.log("lookup:", lookup);
 					setRestaurants(json);
 					setSearching(false);
-				});
+				})
+				.catch(e => setError(e));
 		}
 	}, [url])
 
@@ -79,7 +92,7 @@ function App() {
 		<div className="App">
 			<Header onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} searching={searching} />
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
-			<Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} />
+			{error ? <ErrorMessage error={error} /> : <Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} />}
 		</div>
 	);
 }
