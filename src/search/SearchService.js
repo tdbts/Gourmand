@@ -17,10 +17,6 @@ export default class SearchService {
 		dao = new DAO();
 	}
 
-	start() {
-		return dao.initialize();
-	}
-
 	find(location, description) {
 		const query = location + description;
 		const cachedResults = cache.getQuery(query);
