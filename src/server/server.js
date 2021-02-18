@@ -1,12 +1,22 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
+import mongoose from 'mongoose';
 import request from 'superagent';
 import Client from '../client/Client.js';
 import SearchService from '../search/SearchService.js';
 const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
+
+// Connect to MongoDB
+mongoose
+	.connect(
+		process.env.MONGODB_URI,
+		{ useNewUrlParser: true, useUnifiedTopology: true}
+ 	)
+	.then(() => console.log('MongoDB Connected'))
+	.catch(err => console.log(err));
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(process.cwd(), 'build')));
