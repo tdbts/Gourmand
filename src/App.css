@@ -10,7 +10,7 @@
 
 .header-container {
 	display: block;
-	overflow: auto;
+	overflow: hidden;
 	position: sticky;
     top: 0;
     background-color: white;
