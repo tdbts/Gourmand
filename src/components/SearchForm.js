@@ -54,7 +54,7 @@ function SearchForm({onSearchRequest, searching}) {
 						{suggestionsOpen && <Suggestions requestLocation={requestLocation} />}
 							</Col>
 							<Col xs="3" md="2">
-								<Button className="search-button" color="primary">
+								<Button className="search-button" color="primary" type="submit">
 							{searching ? <Spinner color="light" size="sm" /> : "Search"}
 								</Button>
 							</Col>
