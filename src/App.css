@@ -51,7 +51,7 @@
 }
 
 .suggestions-list-group {
-	position: absolute;
+	position: fixed;
 	width: 222px;
 	font-size: 0.9em;
 }
