@@ -19,7 +19,7 @@ function Header({onSearchRequest, searching}) {
 	const toggle = () => setIsOpen(!isOpen);
 
 	return (
-		<Navbar color="light" light expand="md">
+		<Navbar className="header-navbar" color="light" light expand="md">
 			<NavbarBrand href="/">Gourmand</NavbarBrand>
         	<NavbarToggler onClick={toggle} />
         	<Collapse isOpen={isOpen} navbar>

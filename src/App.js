@@ -89,7 +89,7 @@ function App() {
 	}, [url])
 
 	return (
-		<div className="App">
+		<div className="app">
 			<Header onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} searching={searching} />
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
 			{error ? <ErrorMessage error={error} /> : <Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} />}
