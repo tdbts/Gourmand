@@ -25,6 +25,9 @@ function Header({onSearchRequest, searching}) {
         	<Collapse isOpen={isOpen} navbar>
         		<Nav className="header-nav" navbar>
 					<NavItem>
+						<NavLink href="#">About</NavLink>
+					</NavItem>
+					<NavItem>
 						<NavLink href="#">Contact</NavLink>
 					</NavItem>
 					<NavItem>
