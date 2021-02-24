@@ -23,6 +23,11 @@
     max-width: 650px;
 }
 
+.header-nav > .nav-item {
+	padding: 0 10px;
+	white-space: nowrap;
+}
+
 .input-container {
 	float: left;
 	background-color: white;
@@ -62,22 +67,26 @@
 }
 
 .input-group-container {
-	display: block;
+	margin-right: 10px;
+}
+
+.search-form {
+	min-width: 276px;
+	max-width: 576px;
+}
+
+@media only screen and (min-width: 768px) {
+	.search-form {
+		display: flex;
+	}
 }
 
 .search-input {
 	padding: 5px;
 }
 
-.search-button-container {
-	max-width: 30px;
-}
-
-.search-button {
-	width: 75px;
-	height: 37px;
-	padding: 0;
-	margin-left: 10px;
+.search-submit-button {
+	display: none;
 }
 
 .food-thumbnail-container {
