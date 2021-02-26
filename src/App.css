@@ -87,10 +87,15 @@
 .food-thumbnail-container {
   position: relative;
   display: inline-block;
-  max-width: 258px;
   width: 33%;
   cursor: pointer;
   background-color: white;
+}
+
+@media only screen and (min-width: 768px) {
+	.food-thumbnail-container {
+		width: 25%;
+	}
 }
 
 @media (hover: hover) and (pointer: fine) {
