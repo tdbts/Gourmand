@@ -22,7 +22,7 @@ function Header({onSearchRequest, searching}) {
 		<Navbar className="header-navbar" color="light" light expand="md">
 			<NavbarBrand href="/">Gourmand</NavbarBrand>
         	<NavbarToggler onClick={toggle} />
-        	<Collapse isOpen={isOpen} navbar>
+        	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
         		<Nav className="header-nav" navbar>
 					<NavItem>
 						<NavLink href="#">About</NavLink>

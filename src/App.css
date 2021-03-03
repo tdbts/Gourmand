@@ -13,6 +13,10 @@
     z-index: 5;
 }
 
+.header-collapse.collapsing {
+	transition: height 200ms ease-in-out;
+}
+
 .header-content-wrapper {
 	display: inline-block;
     max-width: 650px;
