@@ -88,6 +88,10 @@
 	display: none;
 }
 
+.gallery-container {
+	position: relative;
+}
+
 .food-thumbnail-container {
   position: relative;
   display: inline-block;
@@ -143,6 +147,30 @@
 .thumbnail {
 	max-width: 258px;
 	width: 33%;
+}
+
+.search-curtain {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.search-curtain-backdrop {
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	opacity: 0.5;
+}
+
+.search-curtain-spinner {
+	position: fixed;
+	top: 50vh;
+	width: 8rem;
+	height: 8rem;
 }
 
 .modal-image-container {

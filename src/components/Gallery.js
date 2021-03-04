@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import _ from 'underscore';
 import YelpMedia from '../scrapers/yelp/YelpMedia';
 import GalleryMedia from './GalleryMedia';
+import SearchCurtain from './SearchCurtain';
 
-const Gallery = ({restaurants, onMediaSelection, onMediaLikeToggle, isLikedMedia}) => {
+const Gallery = ({restaurants, onMediaSelection, isLikedMedia, searching}) => {
 	// console.log("media:", media);
 	const [shuffledMedia, setShuffledMedia] = useState([]);
+	const color = restaurants.length ? "light" : "dark";
 
 	useEffect(() => {
 		setShuffledMedia(getShuffledMedia(restaurants));
@@ -13,7 +15,8 @@ const Gallery = ({restaurants, onMediaSelection, onMediaLikeToggle, isLikedMedia
 
 	return (
 		<div className="gallery-container">
-			{shuffledMedia.map((m, i) => <GalleryMedia media={m} onMediaSelection={onMediaSelection} onMediaLikeToggle={onMediaLikeToggle} key={i} isLiked={isLikedMedia(m.id)} />)}
+			{shuffledMedia.map((m, i) => <GalleryMedia media={m} onMediaSelection={onMediaSelection} key={i} isLiked={isLikedMedia(m.id)} />)}
+			{ searching && <SearchCurtain color={color} />}
 		</div>
 	);
 };
