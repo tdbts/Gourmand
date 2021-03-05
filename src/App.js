@@ -83,6 +83,11 @@ function App() {
 					console.log("lookup:", lookup);
 					setRestaurants(json);
 					setSearching(false);
+					window.scroll({
+						top: 0,
+						left: 0,
+						behavior: 'smooth'
+					});
 				})
 				.catch(e => setError(e));
 		}
