@@ -60,6 +60,14 @@ function checkResponseForErrors(response) {
 	throw Error(response.statusText);
 }
 
+function scrollToTop() {
+	window.scroll({
+		top: 0,
+		left: 0,
+		behavior: 'smooth'
+	});
+}
+
 function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
@@ -83,11 +91,7 @@ function App() {
 					console.log("lookup:", lookup);
 					setRestaurants(json);
 					setSearching(false);
-					window.scroll({
-						top: 0,
-						left: 0,
-						behavior: 'smooth'
-					});
+					scrollToTop();
 				})
 				.catch(e => setError(e));
 		}
