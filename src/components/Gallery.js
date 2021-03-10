@@ -3,21 +3,39 @@ import _ from 'underscore';
 import YelpMedia from '../scrapers/yelp/YelpMedia';
 import GalleryMedia from './GalleryMedia';
 import SearchCurtain from './SearchCurtain';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const Gallery = ({restaurants, onMediaSelection, isLikedMedia, searching}) => {
 	// console.log("media:", media);
+	const [canShuffleMedia, setCanShuffleMedia] = useState(true);
 	const [shuffledMedia, setShuffledMedia] = useState([]);
+	const [canEnter, setCanEnter] = useState(true);
 	const color = restaurants.length ? "light" : "dark";
+	const canRender = !searching && canEnter;
+	const onExited = () => {
+		setCanShuffleMedia(true);
+		setCanEnter(true);
+	};
 
 	useEffect(() => {
-		setShuffledMedia(getShuffledMedia(restaurants));
-	}, [restaurants]);
+		setCanShuffleMedia(canRender);
+	}, [searching, canEnter])
+
+	useEffect(() => {
+		if (canShuffleMedia) {
+			setShuffledMedia(getShuffledMedia(restaurants));
+		}
+	}, [canShuffleMedia]);
 
 	return (
-		<div className="gallery-container">
-			{shuffledMedia.map((m, i) => <GalleryMedia media={m} onMediaSelection={onMediaSelection} key={i} isLiked={isLikedMedia(m.id)} />)}
-			{ searching && <SearchCurtain color={color} />}
-		</div>
+		<CSSTransition classNames={"thumbnail-swap"} in={canRender} timeout={2000} onExit={() => setCanEnter(false)} onExited={onExited}>
+			<div className="gallery-container">
+				{shuffledMedia.map((media, i) => (
+					<GalleryMedia searching={searching} media={media} onMediaSelection={onMediaSelection} isLiked={isLikedMedia(media.id)} />
+				))}
+				{ searching && <SearchCurtain color={color} />}
+			</div>
+		</CSSTransition>
 	);
 };
 
