@@ -176,6 +176,13 @@
 	pointer-events: none;
 }
 
+@media only screen and (min-width: 768px) {
+	.food-thumbnail-container .liked-media-icon {
+		width: 32px;
+		height: 32px;
+	}
+}
+
 .caption {
 	font-style: italic;
 }
