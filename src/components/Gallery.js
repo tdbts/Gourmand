@@ -28,7 +28,7 @@ const Gallery = ({restaurants, onMediaSelection, isLikedMedia, searching}) => {
 	}, [canShuffleMedia]);
 
 	return (
-		<CSSTransition classNames={"thumbnail-swap"} in={canRender} timeout={2000} onExit={() => setCanEnter(false)} onExited={onExited}>
+		<CSSTransition classNames={"thumbnail-swap"} in={canRender} appear={true} timeout={2000} onExit={() => setCanEnter(false)} onExited={onExited}>
 			<div className="gallery-container">
 				{shuffledMedia.map((media, i) => (
 					<GalleryMedia searching={searching} media={media} onMediaSelection={onMediaSelection} isLiked={isLikedMedia(media.id)} />
