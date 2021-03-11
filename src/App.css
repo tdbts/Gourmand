@@ -103,18 +103,17 @@
 	padding: 5px;
 }
 
-.search-submit-button {
-	display: none;
+.hidden-submit {
+	border: 0 none;
+	height: 0;
+	width: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
 }
 
 .gallery-container {
 	position: relative;
-}
-
-.gallery-container {
-	/*position: relative;*/
-	/*display: inline;*/
-	/*perspective: 1000px;*/
 }
 
 .thumbnail-swap-appear .food-thumbnail-container,

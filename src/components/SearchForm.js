@@ -58,7 +58,7 @@ function SearchForm({onSearchRequest}) {
 				</InputGroup>
 				{suggestionsOpen && <Suggestions requestLocation={requestLocation} />}
 			</div>
-			<Button className="search-submit-button" type="submit"></Button>
+			<Button className="search-submit-button hidden-submit" type="submit"></Button>
 		</form>
 	);
 }
