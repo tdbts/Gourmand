@@ -1,62 +1,31 @@
 import MongoClient from 'mongodb';
-const URL = process.env.MONGODB_URI;
-const DB = "gourmand";
-const RESTAURANTS_COLLECTION = "restaurants";
+import Restaurant from '../models/Restaurant.js';
 
 export default class DAO {
 
-	initialize() {
-		// return Promise.resolve();
-		let _client;
-
-		return MongoClient.connect(URL)
-			.then(client => {
-				_client = client;
-				return client.db(DB);
-			})
-			.then(db => db.createCollection(RESTAURANTS_COLLECTION))
-			.then(() => _client.close())
-			.catch(e => onError(e, _client)); 
-	}
-
 	findRestaurantByID(id) {
-		return collectionOperation(collection => collection.findOne({id}));
+		return Restaurant.findOne({id})
+			.catch(onError);
 	}
 
 	findRestaurantsByIDs(ids) {
-		return collectionOperation(collection => collection.find({id: {$in: ids}}));
+		return Restaurant.find({id: {$in: ids}})
+			.catch(onError);
 	}
 
 	saveRestaurant(restaurant) {
-		return collectionOperation(collection => collection.insertOne(restaurant.toJSON()));
+		return Restaurant.create(restaurant.toJSON())
+			.catch(onError);
 	}
 
 	saveRestaurants(restaurants) {
-		return collectionOperation(collection => collection.insertMany(restaurants.map(restaurant => restaurant.toJSON())));
+		return Restaurant.insertMany(restaurants.map(restaurant => restaurant.toJSON()))
+			.catch(onError);
 	}
 
 };
 
-function collectionOperation(operation) {
-	let _client;
-
-	return MongoClient.connect(URL)
-		.then(client => {
-			_client = client;
-			return client.db(DB);
-		})
-		.then(db => db.collection(RESTAURANTS_COLLECTION))
-		.then(operation)
-		.then(result => {
-			_client.close();
-			return result;
-		})
-		.catch(e => onError(e, _client));
-}
-
-function onError(e, client) {
-	return client.close()
-		.then(() => {
-			throw e;
-		});
+function onError(err) {
+	console.log("DB error:", err);
+	throw err;
 }

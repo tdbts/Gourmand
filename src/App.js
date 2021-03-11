@@ -60,6 +60,14 @@ function checkResponseForErrors(response) {
 	throw Error(response.statusText);
 }
 
+function scrollToTop() {
+	window.scroll({
+		top: 0,
+		left: 0,
+		behavior: 'smooth'
+	});
+}
+
 function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
@@ -83,16 +91,17 @@ function App() {
 					console.log("lookup:", lookup);
 					setRestaurants(json);
 					setSearching(false);
+					scrollToTop();
 				})
 				.catch(e => setError(e));
 		}
 	}, [url])
 
 	return (
-		<div className="App">
-			<Header onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} searching={searching} />
+		<div className="app">
+			<Header onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} />
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
-			{error ? <ErrorMessage error={error} /> : <Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} />}
+			{error ? <ErrorMessage error={error} /> : <Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} searching={searching} />}
 		</div>
 	);
 }

@@ -1,14 +1,45 @@
+import { useState } from 'react';
+import {
+  Container,
+  Col,
+  Row,
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  NavbarText  // Slogan?
+} from 'reactstrap';
 import SearchForm from './SearchForm';
 
-function Header({onSearchRequest, searching}) {
+function Header({onSearchRequest}) {
+	const [isOpen, setIsOpen] = useState(false);
+	const toggle = () => setIsOpen(!isOpen);
+
 	return (
-		<div className="header-container">
-			<div className="header-content-wrapper">
-				<h1 className="title-header">Gourmand</h1>
-				<SearchForm onSearchRequest={onSearchRequest} searching={searching} />
-			</div>
-		</div>
-	);	
+		<Navbar className="header-navbar" color="light" light expand="md">
+			<NavbarBrand href="/">Gourmand</NavbarBrand>
+        	<NavbarToggler onClick={toggle} />
+        	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
+        		<Nav className="header-nav" navbar>
+					<NavItem>
+						<NavLink href="#">About</NavLink>
+					</NavItem>
+					<NavItem>
+						<NavLink href="#">Contact</NavLink>
+					</NavItem>
+					<NavItem>
+						<NavLink href="#">Log In</NavLink>
+					</NavItem>										        			
+					<NavItem>
+						<SearchForm onSearchRequest={onSearchRequest} />
+					</NavItem>
+        		</Nav>
+        	</Collapse>
+		</Navbar>
+	);
 }
 
 export default Header;
