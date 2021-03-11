@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Container, Row, Col, Nav, NavItem, Form, InputGroup, InputGroupAddon, Input, Button, Spinner } from 'reactstrap';
 import Suggestions from './Suggestions';
 
-function SearchForm({onSearchRequest, searching}) {
+function SearchForm({onSearchRequest}) {
 	const [description, setDescription] = useState('');
+	const [requestingLocation, setRequestingLocation] = useState(false);
 	const [location, setLocation] = useState('');
 	const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
@@ -17,18 +18,24 @@ function SearchForm({onSearchRequest, searching}) {
   	
   	const toggleSuggestions = () => setSuggestionsOpen(prevState => !prevState);
   	const hideSuggestions = () => setSuggestionsOpen(false);
+  	const getLocationIconSource = (requestingLocation) => requestingLocation ? "spinner.png" : "target.svg";
   	
   	const requestLocation = (e) => {
   		// Prevent page refresh
   		e.preventDefault();
   		console.log("Requesting location.");
-		navigator.geolocation.getCurrentPosition(
+  		setRequestingLocation(true);
+		hideSuggestions();
+  		navigator.geolocation.getCurrentPosition(
 			e => {
 				const { latitude, longitude } = e.coords;
+				setRequestingLocation(false);
 				setLocation(`${latitude.toPrecision(7)}, ${longitude.toPrecision(7)}`);
-				hideSuggestions();
-			}, 
-			e => console.error(e));
+			},
+			e => {
+				setRequestingLocation(false);
+				console.error(e);
+			});
 	};
 
 	return (
@@ -36,7 +43,7 @@ function SearchForm({onSearchRequest, searching}) {
 			<div className="input-group-container">
 				<InputGroup>
 					<InputGroupAddon addonType="prepend">
-						<img className="input-icon search-icon" src="magnifying-glass.svg" />
+						<img className="input-icon query-icon" src="magnifying-glass.svg" />
 					</InputGroupAddon>
 					<Input className="search-input" type="text" value={description} onChange={onDescriptionChange} placeholder="e.g. Pizza" />
 				</InputGroup>
@@ -44,7 +51,7 @@ function SearchForm({onSearchRequest, searching}) {
 			<div className="input-group-container">
 				<InputGroup>
 					<InputGroupAddon addonType="prepend">
-						<img className="input-icon location-icon" src="target.svg" />
+						<img className={`input-icon location-icon ${requestingLocation ? "rotate" : ""}`} src={getLocationIconSource(requestingLocation)} />
 					</InputGroupAddon>
 					<Input className="search-input" type="text" value={location} onChange={onLocationChange} onClick={toggleSuggestions}
 						onBlur={hideSuggestions} placeholder="e.g. Brooklyn, NY 11237" />

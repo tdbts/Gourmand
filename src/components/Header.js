@@ -14,7 +14,7 @@ import {
 } from 'reactstrap';
 import SearchForm from './SearchForm';
 
-function Header({onSearchRequest, searching}) {
+function Header({onSearchRequest}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggle = () => setIsOpen(!isOpen);
 
@@ -34,7 +34,7 @@ function Header({onSearchRequest, searching}) {
 						<NavLink href="#">Log In</NavLink>
 					</NavItem>										        			
 					<NavItem>
-						<SearchForm onSearchRequest={onSearchRequest} searching={searching} />
+						<SearchForm onSearchRequest={onSearchRequest} />
 					</NavItem>
         		</Nav>
         	</Collapse>
