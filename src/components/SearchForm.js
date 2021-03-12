@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Row, Col, Nav, NavItem, Form, InputGroup, InputGroupAddon, Input, Button, Spinner } from 'reactstrap';
+import { InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
 import Suggestions from './Suggestions';
 
 function SearchForm({onSearchRequest}) {

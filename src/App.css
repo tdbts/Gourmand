@@ -71,6 +71,7 @@
 .suggestions-list-group {
 	position: fixed;
 	width: 222px;
+	z-index: 5;
 	font-size: 0.9em;
 }
 
@@ -101,6 +102,19 @@
 
 .search-input {
 	padding: 5px;
+}
+
+.header-check {
+	color: rgba(0, 0, 0, 0.5);
+	padding: .5rem 1rem;
+}
+
+.header-check .form-check-input {
+	margin-left: -1rem;
+}
+
+.header-check-text {
+	padding-left: 0.5em;
 }
 
 .hidden-submit {

@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import {
-  Container,
-  Col,
-  Row,
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  NavbarText  // Slogan?
+	Container,
+	Col,
+	Row,
+	Collapse,
+	Navbar,
+	NavbarToggler,
+	NavbarBrand,
+	Nav,
+	NavItem,
+	NavLink,
+	NavbarText,
+	Label,
+	Input,
+	FormGroup  // Slogan?
 } from 'reactstrap';
 import SearchForm from './SearchForm';
 
@@ -35,6 +38,14 @@ function Header({onSearchRequest}) {
 					</NavItem>										        			
 					<NavItem>
 						<SearchForm onSearchRequest={onSearchRequest} />
+					</NavItem>
+					<NavItem>
+						<FormGroup className={"header-check filter-liked-check"} check>
+							<Label check>
+								<Input type="checkbox" />
+								<span className={"header-check-text"}>Show Liked</span>
+							</Label>
+						</FormGroup>
 					</NavItem>
         		</Nav>
         	</Collapse>
