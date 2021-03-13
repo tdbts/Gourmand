@@ -27,6 +27,10 @@
 	white-space: nowrap;
 }
 
+.nav-separator {
+    height: 16px;
+}
+
 .input-container {
 	float: left;
 	background-color: white;
@@ -124,6 +128,22 @@
 	padding: 0;
 	margin: 0;
 	overflow: hidden;
+}
+
+.dropdown-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.distance-dropdown {
+    margin-right: 20px;
+}
+
+.distance-dropdown > .dropdown-toggle {
+    background-color: #e9ecef ! important;
+    border-color: #e9ecef ! important;
+    color: rgba(0, 0, 0, 0.5) ! important;
 }
 
 .gallery-container {

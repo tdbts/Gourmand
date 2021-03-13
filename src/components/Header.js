@@ -17,6 +17,7 @@ import {
 } from 'reactstrap';
 import SearchForm from './SearchForm';
 import ShowLikedCheckbox from './ShowLikedCheckbox';
+import DistanceDropdown from './DistanceDropdown';
 
 function Header({onSearchRequest, setShowLiked}) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -36,11 +37,13 @@ function Header({onSearchRequest, setShowLiked}) {
 					</NavItem>
 					<NavItem>
 						<NavLink href="#">Log In</NavLink>
-					</NavItem>										        			
+					</NavItem>
+					<NavItem className="nav-separator" />
 					<NavItem>
 						<SearchForm onSearchRequest={onSearchRequest} />
 					</NavItem>
-					<NavItem>
+					<NavItem className="dropdown-nav-item">
+						<DistanceDropdown />
 						<ShowLikedCheckbox onChange={setShowLiked} />
 					</NavItem>
         		</Nav>
