@@ -19,7 +19,7 @@ import SearchForm from './SearchForm';
 import ShowLikedCheckbox from './ShowLikedCheckbox';
 import DistanceDropdown from './DistanceDropdown';
 
-function Header({onSearchRequest, setShowLiked}) {
+function Header({onSearchRequest, setShowLiked, distance, setDistance}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggle = () => setIsOpen(!isOpen);
 
@@ -43,7 +43,7 @@ function Header({onSearchRequest, setShowLiked}) {
 						<SearchForm onSearchRequest={onSearchRequest} />
 					</NavItem>
 					<NavItem className="dropdown-nav-item">
-						<DistanceDropdown />
+						<DistanceDropdown distance={distance} setDistance={setDistance} />
 						<ShowLikedCheckbox onChange={setShowLiked} />
 					</NavItem>
         		</Nav>

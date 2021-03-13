@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import constants from './scrapers/yelp/constants';
 import Header from './components/Header';
 import Gallery from './components/Gallery';
 import ErrorMessage from './components/ErrorMessage';
@@ -9,6 +9,7 @@ import Lookup from './lookup/Lookup';
 import StorageFactory from './storage/StorageFactory';
 import LikedMedia from './user/LikedMedia';
 
+const { distances } = constants;
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
 const likedMedia = new LikedMedia(getLikedMedia(storage), storage);
@@ -75,6 +76,7 @@ function App() {
 	const [likedMedia, setLikedMedia] = useState({});
 	const [searching, setSearching] = useState(false);
 	const [error, setError] = useState(null);
+	const [distance, setDistance] = useState(distances.UNKNOWN);
 	const [showLiked, setShowLiked] = useState(false);
 
 	// console.log("selectedMediaID:", selectedMediaID);
@@ -100,7 +102,7 @@ function App() {
 
 	return (
 		<div className="app">
-			<Header onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} setShowLiked={setShowLiked} />
+			<Header onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} setShowLiked={setShowLiked} distance={distance} setDistance={setDistance} />
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
 			{error ? <ErrorMessage error={error} /> : <Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} searching={searching} showLiked={showLiked} />}
 		</div>
