@@ -16,8 +16,9 @@ import {
 	FormGroup  // Slogan?
 } from 'reactstrap';
 import SearchForm from './SearchForm';
+import ShowLikedCheckbox from './ShowLikedCheckbox';
 
-function Header({onSearchRequest}) {
+function Header({onSearchRequest, setShowLiked}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggle = () => setIsOpen(!isOpen);
 
@@ -40,12 +41,7 @@ function Header({onSearchRequest}) {
 						<SearchForm onSearchRequest={onSearchRequest} />
 					</NavItem>
 					<NavItem>
-						<FormGroup className={"header-check filter-liked-check"} check>
-							<Label check>
-								<Input type="checkbox" />
-								<span className={"header-check-text"}>Show Liked</span>
-							</Label>
-						</FormGroup>
+						<ShowLikedCheckbox onChange={setShowLiked} />
 					</NavItem>
         		</Nav>
         	</Collapse>

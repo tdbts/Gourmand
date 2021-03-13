@@ -75,8 +75,9 @@ function App() {
 	const [likedMedia, setLikedMedia] = useState({});
 	const [searching, setSearching] = useState(false);
 	const [error, setError] = useState(null);
+	const [showLiked, setShowLiked] = useState(false);
 
-	console.log("selectedMediaID:", selectedMediaID);
+	// console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
 		if (url) {
 			console.log("Making request:", url);
@@ -99,9 +100,9 @@ function App() {
 
 	return (
 		<div className="app">
-			<Header onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} />
+			<Header onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} setShowLiked={setShowLiked} />
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
-			{error ? <ErrorMessage error={error} /> : <Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} searching={searching} />}
+			{error ? <ErrorMessage error={error} /> : <Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} searching={searching} showLiked={showLiked} />}
 		</div>
 	);
 }
