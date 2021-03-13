@@ -14,4 +14,6 @@ Value is encoded of form "g:lat1,long1,lat2,long2".
 
 Filter values are found in snippet JSON, under "json.searchPageProps.filterPanelProps.filterInfoMap" property, under sub-properties of the form "g:lat1,long1,lat2,long2".
 
+Distance coordinates are not returned from Yelp until user makes an initial search.  If we want to allow users to configure this property on the first search, the server will need to make an initial search with the given location, and then make a second search with the desired distance filter.
+
 */
