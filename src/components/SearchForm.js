@@ -13,7 +13,13 @@ function SearchForm({onSearchRequest}) {
 	};
 
 	const onLocationChange = (event) => {
-		setLocation(event.target.value);
+		const location = event.target.value;
+
+		if (location) {
+			hideSuggestions();
+		}
+
+		setLocation(location);
 	};
   	
   	const toggleSuggestions = () => setSuggestionsOpen(prevState => !prevState);
@@ -58,7 +64,7 @@ function SearchForm({onSearchRequest}) {
 				</InputGroup>
 				{suggestionsOpen && <Suggestions requestLocation={requestLocation} />}
 			</div>
-			<Button className="search-submit-button hidden-submit" type="submit"></Button>
+			<Button className="search-submit-button hidden-submit" type="submit" />
 		</form>
 	);
 }
