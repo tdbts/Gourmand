@@ -8,6 +8,7 @@ import MediaModal from './components/MediaModal';
 import Lookup from './lookup/Lookup';
 import StorageFactory from './storage/StorageFactory';
 import LikedMedia from './user/LikedMedia';
+import formatSearchURL from './search/formatSearchURL';
 
 const { distances } = constants;
 const lookup = new Lookup();
@@ -38,13 +39,9 @@ function updateSearchURL({description, location}, setURL) {
 	if (!location)
 		return;
 
-	const url = createSearchURL(description, location);
+	const url = formatSearchURL('/search', {description, location});
 	console.log("url:", url);
 	return setURL(url);
-}
-
-function createSearchURL(description, location) {
-	return `/search?description=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
 }
 
 function getSelectedMediaInfo(selectedID, lookup) {
@@ -58,7 +55,7 @@ function checkResponseForErrors(response) {
 		return response;
 	}
 
-	throw Error(response.statusText);
+	throw new Error(response.statusText);
 }
 
 function scrollToTop() {
