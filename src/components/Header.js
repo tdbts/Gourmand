@@ -1,19 +1,12 @@
 import { useState } from 'react';
 import {
-	Container,
-	Col,
-	Row,
 	Collapse,
 	Navbar,
 	NavbarToggler,
 	NavbarBrand,
 	Nav,
 	NavItem,
-	NavLink,
-	NavbarText,
-	Label,
-	Input,
-	FormGroup  // Slogan?
+	NavLink
 } from 'reactstrap';
 import SearchForm from './SearchForm';
 import ShowLikedCheckbox from './ShowLikedCheckbox';
