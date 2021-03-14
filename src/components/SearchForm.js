@@ -2,10 +2,7 @@ import { useState } from 'react';
 import { InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
 import Suggestions from './Suggestions';
 
-function SearchForm({onSearchRequest}) {
-	const [description, setDescription] = useState('');
-	const [requestingLocation, setRequestingLocation] = useState(false);
-	const [location, setLocation] = useState('');
+function SearchForm({onSearchRequest, description, setDescription, location, setLocation, requestingLocation, setRequestingLocation}) {
 	const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
 	const onDescriptionChange = (event) => {

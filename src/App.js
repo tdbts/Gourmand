@@ -31,7 +31,7 @@ function toggleLikedMedia(id, setLikedMedia) {
 	setLikedMedia(likedMedia.getAll());
 }
 
-function updateSearchURL(description, location, setURL) {
+function updateSearchURL({description, location}, setURL) {
 	console.log("updateSearchURL()");
 	console.log("description:", description);
 	console.log("location:", location);
@@ -72,6 +72,9 @@ function scrollToTop() {
 function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
+	const [description, setDescription] = useState('');
+	const [location, setLocation] = useState('');
+	const [requestingLocation, setRequestingLocation] = useState(false);
 	const [selectedMediaID, setSelectedMediaID] = useState('');
 	const [likedMedia, setLikedMedia] = useState({});
 	const [searching, setSearching] = useState(false);
@@ -102,7 +105,9 @@ function App() {
 
 	return (
 		<div className="app">
-			<Header onSearchRequest={(description, location) => updateSearchURL(description, location, setURL)} setShowLiked={setShowLiked} distance={distance} setDistance={setDistance} />
+			<Header onSearchRequest={() => updateSearchURL({description, location}, setURL)} description={description}
+					setDescription={setDescription} location={location} setLocation={setLocation} requestingLocation={requestingLocation}
+					setRequestingLocation={setRequestingLocation} setShowLiked={setShowLiked} distance={distance} setDistance={setDistance} />
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
 			{error ? <ErrorMessage error={error} /> : <Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} searching={searching} showLiked={showLiked} />}
 		</div>
