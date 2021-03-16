@@ -9,9 +9,19 @@ const queryTypes = {
 const url = {
 	DOMAIN,
 	LOCATION_SEARCH_PREFIX
-}
+};
+
+const distances = {
+	UNKNOWN: 'unknown',
+	BIRDS_EYE: 0,
+	DRIVING: 1,
+	BIKING: 2,
+	WALKING: 3,
+	BLOCKS: 4
+};
 
 export default {
 	queryTypes,
-	url
+	url,
+	distances
 };

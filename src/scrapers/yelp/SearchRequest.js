@@ -1,5 +1,5 @@
-import constants from './constants.js';
 import YelpRestaurant from './YelpRestaurant.js';
+import searchURLFormatter from "./searchURLFormatter.js";
 
 /*
  * SearchRequest
@@ -26,9 +26,10 @@ export default class SearchRequest {
 // TODO: Iterate over restaurant pagination
 function processSearchResponse(response) {
 	if (response.status < 300) {
-		const restaurantsData = getRestaurantDataFromJSON(response.body);
-		// console.log("restaurantsData:", restaurantsData);
-		return restaurantsFromData(restaurantsData);
+		return {
+			restaurants: restaurantsFromData(getRestaurantDataFromJSON(response.body)),
+			geodata: getGeodataFromJSON(response.body)
+		};
 	} else {
 		console.log("response:", response);
 		throw new Error("Location query returned status code:", response.status);
@@ -36,7 +37,12 @@ function processSearchResponse(response) {
 }
 
 function getRestaurantDataFromJSON(json) {
-	return json.searchPageProps.searchMapProps.hovercardData;
+	try {
+		return json.searchPageProps.searchMapProps.hovercardData;
+	} catch (e) {
+		console.log("Cannot get restaurant data from unexpected JSON format.");
+		throw e;
+	}
 }
 
 function restaurantsFromData(restaurantsData) {
@@ -56,32 +62,15 @@ function restaurantsFromData(restaurantsData) {
 		});
 }
 
+function getGeodataFromJSON(json) {
+	try {
+		return json.searchPageProps.filterPanelProps.filterSetMap.distance.filters;
+	} catch (e) {
+		console.log("Cannot get geodata from unexpected JSON format.");
+		throw e;
+	}
+}
+
 function getSearchURL(query, startIndex) {
 	return searchURLFormatter[query.getType()](query, startIndex);
 }
-
-const searchURLFormatter = {
-	location(query, startIndex) {
-		const description = query.getDescription()
-			? encodeURIComponent(query.getDescription())
-			: "Restaurants"; 
-		// Example query: "Brooklyn, NY 11219" or "Brooklyn"
-		const location = query.getLocation()
-			.split(" ")
-			.map(piece => encodeURIComponent(piece))
-			.join("+");
-
-		const start = startIndex || 0;
-
-		return constants.url.LOCATION_SEARCH_PREFIX  + `?find_desc=${description}`  + `&find_loc=${location}` + `&start=${start}`;
-	},
-
-	coordinate(query, startIndex) {
-		// Example query: "40.625513999999995,-74.0008562,30"
-		const ATTRIBUTE = "l=";
-		const COUNTRY_CODE = "a:";
-		const location = encodeURIComponent(COUNTRY_CODE + query.getText());
-
-		return constants.url.LOCATION_SEARCH_PREFIX + location;
-	}
-};

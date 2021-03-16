@@ -1,11 +1,8 @@
 import { useState } from 'react';
-import { Container, Row, Col, Nav, NavItem, Form, InputGroup, InputGroupAddon, Input, Button, Spinner } from 'reactstrap';
+import { InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
 import Suggestions from './Suggestions';
 
-function SearchForm({onSearchRequest}) {
-	const [description, setDescription] = useState('');
-	const [requestingLocation, setRequestingLocation] = useState(false);
-	const [location, setLocation] = useState('');
+function SearchForm({onSearchRequest, description, setDescription, location, setLocation, requestingLocation, setRequestingLocation}) {
 	const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
 	const onDescriptionChange = (event) => {
@@ -13,7 +10,13 @@ function SearchForm({onSearchRequest}) {
 	};
 
 	const onLocationChange = (event) => {
-		setLocation(event.target.value);
+		const location = event.target.value;
+
+		if (location) {
+			hideSuggestions();
+		}
+
+		setLocation(location);
 	};
   	
   	const toggleSuggestions = () => setSuggestionsOpen(prevState => !prevState);
@@ -35,7 +38,8 @@ function SearchForm({onSearchRequest}) {
 			e => {
 				setRequestingLocation(false);
 				console.error(e);
-			});
+			},
+			{timeout: 10 * 1000, maximumAge: 60 * 1000});
 	};
 
 	return (
@@ -58,7 +62,7 @@ function SearchForm({onSearchRequest}) {
 				</InputGroup>
 				{suggestionsOpen && <Suggestions requestLocation={requestLocation} />}
 			</div>
-			<Button className="search-submit-button hidden-submit" type="submit"></Button>
+			<Button className="search-submit-button hidden-submit" type="submit" />
 		</form>
 	);
 }
@@ -66,9 +70,7 @@ function SearchForm({onSearchRequest}) {
 function onSubmit(e, onSearchRequest) {
 	e.preventDefault();
 	console.log("onSubmit()");
-	console.log("e:", e);
-	const [descriptionInput, locationInput] = e.target;
-	onSearchRequest(descriptionInput.value, locationInput.value);
+	onSearchRequest();
 }
 
 export default SearchForm;

@@ -27,10 +27,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('/search', function (req, res) {
-	const { location, description } = req.query;
+	const { location, description, distance } = req.query;
 	console.log("location:", location);
 	console.log("description:", description);
-	return service.find(location, description)
+	console.log("distance:", distance);  // Distance remains a string (thus, truthy) until array lookup
+	return service.find({location, description, distance})
 		.then(restaurants => res.json(restaurants))
 		.catch(e => {
 			console.error("Something went wrong during search request.");

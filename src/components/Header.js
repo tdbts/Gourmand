@@ -1,20 +1,19 @@
 import { useState } from 'react';
 import {
-  Container,
-  Col,
-  Row,
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  NavbarText  // Slogan?
+	Collapse,
+	Navbar,
+	NavbarToggler,
+	NavbarBrand,
+	Nav,
+	NavItem,
+	NavLink
 } from 'reactstrap';
 import SearchForm from './SearchForm';
+import ShowLikedCheckbox from './ShowLikedCheckbox';
+import DistanceDropdown from './DistanceDropdown';
 
-function Header({onSearchRequest}) {
+function Header({onSearchRequest, description, setDescription, location, setLocation,
+					requestingLocation, setRequestingLocation, setShowLiked, distance, setDistance}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggle = () => setIsOpen(!isOpen);
 
@@ -32,9 +31,16 @@ function Header({onSearchRequest}) {
 					</NavItem>
 					<NavItem>
 						<NavLink href="#">Log In</NavLink>
-					</NavItem>										        			
+					</NavItem>
+					<NavItem className="nav-separator" />
 					<NavItem>
-						<SearchForm onSearchRequest={onSearchRequest} />
+						<SearchForm description={description} setDescription={setDescription} location={location}
+									setLocation={setLocation} requestingLocation={requestingLocation} setRequestingLocation={setRequestingLocation}
+									onSearchRequest={onSearchRequest} />
+					</NavItem>
+					<NavItem className="dropdown-nav-item">
+						<DistanceDropdown distance={distance} setDistance={setDistance} onSearchRequest={onSearchRequest} />
+						<ShowLikedCheckbox onChange={setShowLiked} />
 					</NavItem>
         		</Nav>
         	</Collapse>

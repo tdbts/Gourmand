@@ -2,6 +2,8 @@
 const queries = {};
 // Map<RestaurantID, Restaurant>
 const restaurants = {};
+// Map<Location, Geodata>
+const geodata = {};
 
 /*
  * Cache
@@ -12,10 +14,10 @@ export default class Cache {
 		return queries[query];
 	}
 
-	cacheQuery(query, restaurants) {
+	cacheQuery(query, data) {
 		queries[query] = {
 			cacheTime: new Date(),
-			restaurants
+			...data
 		};
 	}
 
@@ -29,6 +31,14 @@ export default class Cache {
 
 	cacheRestaurants(restaurants) {
 		restaurants.forEach(restaurant => this.cacheRestaurant(restaurant));
+	}
+
+	cacheGeodata(location, data) {
+		geodata[location] = data;
+	}
+
+	getGeodata(location) {
+		return geodata[location];
 	}
 
 };
