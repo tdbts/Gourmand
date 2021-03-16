@@ -47,19 +47,19 @@ function getRestaurantDataFromJSON(json) {
 
 function restaurantsFromData(restaurantsData) {
 	return Object.keys(restaurantsData)
-		.map(id => {
-			const json = restaurantsData[id];
-			// console.log("json:", json);
-			
-			return new YelpRestaurant(
-				id, 
-				json.name, 
-				json.addressLines, 
-				json.neighborhoods,
-				json.categories.map(categoryObj => categoryObj.title),
-				json.rating,
-				json.photoPageUrl)
-		});
+		.filter(id => !restaurantsData[id].isAd)  // Remove ads
+		.map(id => restaurantFromData(id, restaurantsData[id]));
+}
+
+function restaurantFromData(id, json) {
+	return new YelpRestaurant(
+		id,
+		json.name,
+		json.addressLines,
+		json.neighborhoods,
+		json.categories.map(categoryObj => categoryObj.title),
+		json.rating,
+		json.photoPageUrl);
 }
 
 function getGeodataFromJSON(json) {
