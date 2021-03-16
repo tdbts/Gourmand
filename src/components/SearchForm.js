@@ -38,7 +38,8 @@ function SearchForm({onSearchRequest, description, setDescription, location, set
 			e => {
 				setRequestingLocation(false);
 				console.error(e);
-			});
+			},
+			{timeout: 10 * 1000, maximumAge: 60 * 1000});
 	};
 
 	return (
@@ -69,9 +70,7 @@ function SearchForm({onSearchRequest, description, setDescription, location, set
 function onSubmit(e, onSearchRequest) {
 	e.preventDefault();
 	console.log("onSubmit()");
-	console.log("e:", e);
-	const [descriptionInput, locationInput] = e.target;
-	onSearchRequest(descriptionInput.value, locationInput.value);
+	onSearchRequest();
 }
 
 export default SearchForm;

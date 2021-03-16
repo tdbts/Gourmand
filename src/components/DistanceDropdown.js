@@ -14,7 +14,7 @@ const dropdownTextContents = {
     ]
 };
 
-const DistanceDropdown = ({distance, setDistance}) => {
+const DistanceDropdown = ({distance, setDistance, onSearchRequest}) => {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
 

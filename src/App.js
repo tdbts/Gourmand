@@ -32,14 +32,16 @@ function toggleLikedMedia(id, setLikedMedia) {
 	setLikedMedia(likedMedia.getAll());
 }
 
-function updateSearchURL({description, location}, setURL) {
+function updateSearchURL({description, location, distance}, setURL) {
 	console.log("updateSearchURL()");
 	console.log("description:", description);
 	console.log("location:", location);
+	console.log("distance:", distance);
+
 	if (!location)
 		return;
 
-	const url = formatSearchURL('/search', {description, location});
+	const url = formatSearchURL('/search', {description, location, distance});
 	console.log("url:", url);
 	return setURL(url);
 }
@@ -56,6 +58,16 @@ function checkResponseForErrors(response) {
 	}
 
 	throw new Error(response.statusText);
+}
+
+function checkJSONForErrors(restaurants) {
+	const hasMedia = restaurants.some(restaurant => restaurant.mediaCount > 0);
+
+	if (hasMedia) {
+		return restaurants;
+	}
+
+	throw new Error("Nothing to see here.");
 }
 
 function scrollToTop() {
@@ -89,6 +101,7 @@ function App() {
 			fetch(url)
 				.then(checkResponseForErrors)
 				.then(response => response.json())
+				.then(checkJSONForErrors)
 				.then(json => {
 					lookup.update(json);
 					console.log("lookup:", lookup);
@@ -100,9 +113,13 @@ function App() {
 		}
 	}, [url])
 
+	useEffect(() => {
+		updateSearchURL({description, location, distance}, setURL);
+	}, [distance]);
+
 	return (
 		<div className="app">
-			<Header onSearchRequest={() => updateSearchURL({description, location}, setURL)} description={description}
+			<Header onSearchRequest={() => updateSearchURL({description, location, distance}, setURL)} description={description}
 					setDescription={setDescription} location={location} setLocation={setLocation} requestingLocation={requestingLocation}
 					setRequestingLocation={setRequestingLocation} setShowLiked={setShowLiked} distance={distance} setDistance={setDistance} />
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}

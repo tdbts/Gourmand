@@ -8,33 +8,63 @@ let yelp;
 let cache;
 let dao;
 
-export default class SearchService {
+class SearchService {
 
-	constructor(client) {
-		client = client;
+	constructor(_client) {
+		client = _client;
 		yelp = new YelpScraper(client);
 		cache = new Cache();
 		dao = new DAO();
 	}
 
-	find(location, description) {
-		const query = location + description;
+	find({location, description, distance}) {
+		const query = location + description + distance;
 		const cachedResults = cache.getQuery(query);
 		// console.log("cachedResults:", cachedResults);
 		if (cachedResults)
 			return Promise.resolve(cachedResults.restaurants);
 
-		return yelp.findRestaurants(location, description)
-			.then(getRestaurantsMedia)
-			.then(restaurants => {
+		return resolveQuery({location, description, distance}, cache)
+			.then(({restaurants, geodata}) => Promise.all([getRestaurantsMedia(restaurants), geodata]))
+			.then(results => {
+				const [restaurants, geodata] = results;
 				console.log(`Caching ${restaurants.length} restaurants.`);
-				cache.cacheQuery(query, restaurants);
+				cache.cacheQuery(query, {restaurants});
+				console.log(`Caching geodata for location: ${location}.`);
+				cache.cacheGeodata(location, geodata);
 				return restaurants;
 			})
 			.then(restaurants => restaurants.map(restaurant => restaurant.toJSON()));
 	}
-
 };
+
+function resolveQuery(query, cache) {
+	const { location, distance } = query;
+
+	if (distance) {
+		// Check whether applicable geodata has already been cached
+		return resolveGeodata(location, cache)
+			.then(geodata => yelp.resolveQuery(query, geodata));
+	}
+
+	return yelp.resolveQuery(query);
+}
+
+function resolveGeodata(location, cache) {
+	const cachedGeodata = cache.getGeodata(location);
+
+	if (cachedGeodata) {
+		return Promise.resolve(cachedGeodata);
+	}
+
+	// Resolve geodata and cache before continuing with query
+	console.log("Making preliminary request to get needed geodata.");
+	return yelp.resolveQuery({location})
+		.then(({geodata}) => {
+			cache.cacheGeodata(location, geodata);
+			return geodata;
+	});
+}
 
 function getRestaurantsMedia(restaurants) {
 	return Promise.all(restaurants.map(getRestaurantMedia));
@@ -75,3 +105,5 @@ function scrapeRestaurantMedia(restaurant) {
 function instanceFromBSON(bson) {
 	return new Restaurant().populateFromBSON(bson);
 }
+
+export default SearchService;

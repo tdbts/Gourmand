@@ -39,7 +39,7 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 									onSearchRequest={onSearchRequest} />
 					</NavItem>
 					<NavItem className="dropdown-nav-item">
-						<DistanceDropdown distance={distance} setDistance={setDistance} />
+						<DistanceDropdown distance={distance} setDistance={setDistance} onSearchRequest={onSearchRequest} />
 						<ShowLikedCheckbox onChange={setShowLiked} />
 					</NavItem>
         		</Nav>

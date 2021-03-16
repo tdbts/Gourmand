@@ -1,11 +1,14 @@
 /*
  * SearchQuery
  */
-export default class SearchQuery {
-	constructor(location, type, description) {
+import constants from "./constants.js";
+
+class SearchQuery {
+	constructor({location, description, distance}, geodata) {
 		this.location = location;
-		this.type = type;
+		this.type = parseLocationType(location);
 		this.description = description;
+		this.distance = distance ? geodata[parseInt(distance)] : null;
 	}
 
 	getLocation() {
@@ -19,4 +22,15 @@ export default class SearchQuery {
 	getDescription() {
 		return this.description;
 	}
-};
+
+	getDistance() {
+		return this.distance;
+	}
+}
+
+function parseLocationType(location) {
+	// TODO: Differentiate
+	return constants.queryTypes.LOCATION;
+}
+
+export default SearchQuery;
