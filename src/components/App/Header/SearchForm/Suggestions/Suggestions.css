@@ -1,0 +1,11 @@
+.suggestions-list-group {
+    position: fixed;
+    width: 222px;
+    z-index: 5;
+    font-size: 0.9em;
+}
+
+.current-location-icon {
+    margin-right: 9px;
+    margin-bottom: 5px;
+}

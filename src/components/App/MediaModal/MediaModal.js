@@ -1,3 +1,4 @@
+import './MediaModal.css';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import getUnlikedMediaIcon from '../../utils/getUnlikedMediaIcon';
 import getLikedMediaIcon from '../../utils/getLikedMediaIcon';

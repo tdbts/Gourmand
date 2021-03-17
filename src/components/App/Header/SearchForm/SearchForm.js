@@ -1,3 +1,4 @@
+import './SearchForm.css';
 import { useState } from 'react';
 import { InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
 import Suggestions from './Suggestions/Suggestions';

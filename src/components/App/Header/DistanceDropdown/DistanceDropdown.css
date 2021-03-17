@@ -1,0 +1,9 @@
+.distance-dropdown {
+    margin-right: 20px;
+}
+
+.distance-dropdown > .dropdown-toggle {
+    background-color: #e9ecef ! important;
+    border-color: #e9ecef ! important;
+    color: rgba(0, 0, 0, 0.5) ! important;
+}

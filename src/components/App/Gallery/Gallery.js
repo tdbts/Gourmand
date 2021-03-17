@@ -1,3 +1,4 @@
+import './Gallery.css';
 import { useState, useEffect } from 'react';
 import _ from 'underscore';
 import YelpMedia from '../../../scrapers/yelp/YelpMedia';

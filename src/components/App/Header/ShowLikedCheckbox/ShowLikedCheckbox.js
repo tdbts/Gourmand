@@ -1,3 +1,4 @@
+import './ShowLikedCheckbox.css';
 import {FormGroup, Input, Label} from "reactstrap";
 
 function ShowLikedCheckbox({onChange}) {
