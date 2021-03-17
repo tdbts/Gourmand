@@ -37,7 +37,7 @@ function MediaModal({selected, onMediaLikeToggle, onClose, isLiked}) {
 				<div className="modal-info-container">
 					<div className="modal-image-container">
 						<img className="food-media modal-image" src={source} />
-						{ isLiked ? getLikedMediaIcon("32", "32", "white", onIconClick) : getUnlikedMediaIcon("32", "32", "white", onIconClick) }
+						{ isLiked ? getLikedMediaIcon("32", "32", "white", "liked-media-icon", onIconClick) : getUnlikedMediaIcon("32", "32", "white", "unliked-media-icon", onIconClick) }
 					</div>
 					<div className="restaurant-details-container">
 						{name && <div className="restaurant-name">{name}</div>}
