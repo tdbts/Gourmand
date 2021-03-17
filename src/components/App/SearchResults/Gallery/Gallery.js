@@ -5,8 +5,9 @@ import YelpMedia from '../../../../scrapers/yelp/YelpMedia';
 import GalleryMedia from './GalleryMedia/GalleryMedia';
 import SearchCurtain from './SearchCurtain/SearchCurtain';
 import { CSSTransition } from "react-transition-group";
+import MediaModal from "./MediaModal/MediaModal";
 
-const Gallery = ({restaurants, onMediaSelection, isLikedMedia, searching, showLiked}) => {
+const Gallery = ({restaurants, selectedMediaID, onMediaSelection, isLikedMedia, searching, showLiked, mediaModalProps}) => {
 	// console.log("media:", media);
 	const [canShuffleMedia, setCanShuffleMedia] = useState(true);
 	const [shuffledMedia, setShuffledMedia] = useState([]);
@@ -36,6 +37,7 @@ const Gallery = ({restaurants, onMediaSelection, isLikedMedia, searching, showLi
 					<GalleryMedia key={i} searching={searching} media={media} onMediaSelection={onMediaSelection} isLiked={isLikedMedia(media.id)} />
 				))}
 				{ searching && <SearchCurtain color={color} />}
+				{selectedMediaID && <MediaModal {...mediaModalProps} />}
 			</div>
 		</CSSTransition>
 	);

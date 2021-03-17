@@ -4,7 +4,7 @@ import constants from '../../scrapers/yelp/constants';
 import Header from './Header/Header';
 import Gallery from './SearchResults/Gallery/Gallery';
 import ErrorMessage from './SearchResults/ErrorMessage/ErrorMessage';
-import MediaModal from './MediaModal/MediaModal';
+import MediaModal from './SearchResults/Gallery/MediaModal/MediaModal';
 import Lookup from '../../lookup/Lookup';
 import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
@@ -144,14 +144,14 @@ function App() {
 		isLikedMedia,
 		searching,
 		showLiked,
+		selectedMediaID,
 		onMediaSelection: setSelectedMediaID
 	};
 
 	return (
 		<div className="app">
 			<Header {...headerProps} />
-			{selectedMediaID && <MediaModal {...mediaModalProps} />}
-			<SearchResults {...searchResultsProps} />
+			<SearchResults {...searchResultsProps} mediaModalProps={mediaModalProps} />
 		</div>
 	);
 }
