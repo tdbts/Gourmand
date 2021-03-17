@@ -153,24 +153,24 @@
 .thumbnail-swap-appear .food-thumbnail-container,
 .thumbnail-swap-enter .food-thumbnail-container,
 .thumbnail-swap-exit-done .food-thumbnail-container {
-	transform: rotateY(180deg) scale(0.5);
+	opacity: 0;
 }
 
 .thumbnail-swap-appear-active .food-thumbnail-container,
 .thumbnail-swap-enter-active .food-thumbnail-container {
 	transition: 1000ms;
-	transform: rotateY(0deg);
+	opacity: 1;
 }
 
 .thumbnail-swap-appear-done .food-thumbnail-container,
 .thumbnail-swap-enter-done .food-thumbnail-container,
 .thumbnail-swap-exit .food-thumbnail-container {
-	transform: rotateY(0deg);
+	opacity: 1;
 }
 
 .thumbnail-swap-exit-active .food-thumbnail-container {
 	transition: 1000ms;
-	transform: rotateY(180deg);
+	opacity: 0;
 }
 
 .food-thumbnail-container.transition-delay-50 {
