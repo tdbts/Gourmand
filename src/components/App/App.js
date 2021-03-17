@@ -118,13 +118,40 @@ function App() {
 		updateSearchURL({description, location, distance}, setURL);
 	}, [distance]);
 
+	const headerProps = {
+		description,
+		setDescription,
+		location,
+		setLocation,
+		requestingLocation,
+		setRequestingLocation,
+		setShowLiked,
+		distance,
+		setDistance,
+		onSearchRequest: () => updateSearchURL({description, location, distance}, setURL)
+	};
+
+	const mediaModalProps = {
+		selected: getSelectedMediaInfo(selectedMediaID, lookup),
+		onMediaLikeToggle: (id) => toggleLikedMedia(id, setLikedMedia),
+		onClose: () => setSelectedMediaID(''),
+		isLiked: isLikedMedia(selectedMediaID)
+	};
+
+	const searchResultsProps = {
+		error,
+		restaurants,
+		isLikedMedia,
+		searching,
+		showLiked,
+		onMediaSelection: setSelectedMediaID
+	};
+
 	return (
 		<div className="app">
-			<Header onSearchRequest={() => updateSearchURL({description, location, distance}, setURL)} description={description}
-					setDescription={setDescription} location={location} setLocation={setLocation} requestingLocation={requestingLocation}
-					setRequestingLocation={setRequestingLocation} setShowLiked={setShowLiked} distance={distance} setDistance={setDistance} />
-			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
-			<SearchResults error={error} restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} searching={searching} showLiked={showLiked} />
+			<Header {...headerProps} />
+			{selectedMediaID && <MediaModal {...mediaModalProps} />}
+			<SearchResults {...searchResultsProps} />
 		</div>
 	);
 }
