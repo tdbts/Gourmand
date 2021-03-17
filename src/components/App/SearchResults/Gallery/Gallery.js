@@ -1,7 +1,7 @@
 import './Gallery.css';
 import { useState, useEffect } from 'react';
 import _ from 'underscore';
-import YelpMedia from '../../../scrapers/yelp/YelpMedia';
+import YelpMedia from '../../../../scrapers/yelp/YelpMedia';
 import GalleryMedia from './GalleryMedia/GalleryMedia';
 import SearchCurtain from './SearchCurtain/SearchCurtain';
 import { CSSTransition } from "react-transition-group";

@@ -2,13 +2,14 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import constants from '../../scrapers/yelp/constants';
 import Header from './Header/Header';
-import Gallery from './Gallery/Gallery';
-import ErrorMessage from './ErrorMessage/ErrorMessage';
+import Gallery from './SearchResults/Gallery/Gallery';
+import ErrorMessage from './SearchResults/ErrorMessage/ErrorMessage';
 import MediaModal from './MediaModal/MediaModal';
 import Lookup from '../../lookup/Lookup';
 import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
 import formatSearchURL from '../../search/formatSearchURL';
+import SearchResults from "./SearchResults/SearchResults";
 
 const { distances } = constants;
 const lookup = new Lookup();
@@ -123,7 +124,7 @@ function App() {
 					setDescription={setDescription} location={location} setLocation={setLocation} requestingLocation={requestingLocation}
 					setRequestingLocation={setRequestingLocation} setShowLiked={setShowLiked} distance={distance} setDistance={setDistance} />
 			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
-			{error ? <ErrorMessage error={error} /> : <Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} searching={searching} showLiked={showLiked} />}
+			<SearchResults error={error} restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} searching={searching} showLiked={showLiked} />
 		</div>
 	);
 }
