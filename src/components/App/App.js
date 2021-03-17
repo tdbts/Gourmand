@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
 import './App.css';
-import constants from './scrapers/yelp/constants';
-import Header from './components/Header';
-import Gallery from './components/Gallery';
-import ErrorMessage from './components/ErrorMessage';
-import MediaModal from './components/MediaModal';
-import Lookup from './lookup/Lookup';
-import StorageFactory from './storage/StorageFactory';
-import LikedMedia from './user/LikedMedia';
-import formatSearchURL from './search/formatSearchURL';
+import { useState, useEffect } from 'react';
+import constants from '../../scrapers/yelp/constants';
+import Header from './Header/Header';
+import Gallery from './Gallery/Gallery';
+import ErrorMessage from './ErrorMessage/ErrorMessage';
+import MediaModal from './MediaModal/MediaModal';
+import Lookup from '../../lookup/Lookup';
+import StorageFactory from '../../storage/StorageFactory';
+import LikedMedia from '../../user/LikedMedia';
+import formatSearchURL from '../../search/formatSearchURL';
 
 const { distances } = constants;
 const lookup = new Lookup();

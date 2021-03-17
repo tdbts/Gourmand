@@ -1,0 +1,32 @@
+.caption {
+    font-style: italic;
+}
+
+.restaurant-details-container {
+    padding-top: 10px;
+}
+
+.restaurant-name {
+    font-weight: bold;
+}
+
+/* Temp */
+.restaurant-categories,
+.restaurant-rating {
+    display: none;
+}
+
+.modal-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.modal-image-container .liked-media-icon,
+.modal-image-container .unliked-media-icon {
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.modal-image {
+    width: 100%;
+}

@@ -1,9 +1,10 @@
+import './Gallery.css';
 import { useState, useEffect } from 'react';
 import _ from 'underscore';
-import YelpMedia from '../scrapers/yelp/YelpMedia';
-import GalleryMedia from './GalleryMedia';
-import SearchCurtain from './SearchCurtain';
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+import YelpMedia from '../../../scrapers/yelp/YelpMedia';
+import GalleryMedia from './GalleryMedia/GalleryMedia';
+import SearchCurtain from './SearchCurtain/SearchCurtain';
+import { CSSTransition } from "react-transition-group";
 
 const Gallery = ({restaurants, onMediaSelection, isLikedMedia, searching, showLiked}) => {
 	// console.log("media:", media);

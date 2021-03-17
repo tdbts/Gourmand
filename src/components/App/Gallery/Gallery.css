@@ -1,0 +1,67 @@
+.gallery-container {
+    position: relative;
+}
+
+.thumbnail-swap-appear .food-thumbnail-container,
+.thumbnail-swap-enter .food-thumbnail-container,
+.thumbnail-swap-exit-done .food-thumbnail-container {
+    opacity: 0;
+}
+
+.thumbnail-swap-appear-active .food-thumbnail-container,
+.thumbnail-swap-enter-active .food-thumbnail-container {
+    transition: 1000ms;
+    opacity: 1;
+}
+
+.thumbnail-swap-appear-done .food-thumbnail-container,
+.thumbnail-swap-enter-done .food-thumbnail-container,
+.thumbnail-swap-exit .food-thumbnail-container {
+    opacity: 1;
+}
+
+.thumbnail-swap-exit-active .food-thumbnail-container {
+    transition: 1000ms;
+    opacity: 0;
+}
+
+.food-thumbnail-container.transition-delay-50 {
+    transition-delay: 50ms;
+}
+
+.food-thumbnail-container.transition-delay-250 {
+    transition-delay: 250ms;
+}
+
+.food-thumbnail-container.transition-delay-500 {
+    transition-delay: 500ms;
+}
+
+.food-thumbnail-container.transition-delay-750 {
+    transition-delay: 750ms;
+}
+
+.food-thumbnail-container.transition-delay-1000 {
+    transition-delay: 1000ms;
+}
+
+.food-thumbnail-container {
+    position: relative;
+    display: inline-block;
+    width: 33%;
+    cursor: pointer;
+    background-color: white;
+    backface-visibility: hidden;
+}
+
+@media only screen and (min-width: 768px) {
+    .food-thumbnail-container {
+        width: 25%;
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .food-thumbnail-container:hover {
+        opacity: 0.7;
+    }
+}

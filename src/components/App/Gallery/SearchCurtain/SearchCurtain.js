@@ -1,3 +1,4 @@
+import './SearchCurtain.css';
 import { Spinner } from 'reactstrap';
 
 const SearchCurtain = ({ color }) => {

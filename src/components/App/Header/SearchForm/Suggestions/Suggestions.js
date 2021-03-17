@@ -1,3 +1,4 @@
+import './Suggestions.css';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
 /*

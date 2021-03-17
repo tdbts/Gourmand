@@ -1,0 +1,31 @@
+.header-navbar {
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 5;
+}
+
+.header-collapse.collapsing {
+    transition: height 200ms ease-in-out;
+}
+
+.header-content-wrapper {
+    display: inline-block;
+    max-width: 650px;
+}
+
+.header-nav > .nav-item {
+    padding: 0 10px;
+    white-space: nowrap;
+}
+
+.nav-separator {
+    height: 16px;
+}
+
+.dropdown-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
