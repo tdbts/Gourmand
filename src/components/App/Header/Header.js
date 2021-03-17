@@ -8,9 +8,9 @@ import {
 	NavItem,
 	NavLink
 } from 'reactstrap';
-import SearchForm from './SearchForm';
-import ShowLikedCheckbox from './ShowLikedCheckbox';
-import DistanceDropdown from './DistanceDropdown';
+import SearchForm from './SearchForm/SearchForm';
+import ShowLikedCheckbox from './ShowLikedCheckbox/ShowLikedCheckbox';
+import DistanceDropdown from './DistanceDropdown/DistanceDropdown';
 
 function Header({onSearchRequest, description, setDescription, location, setLocation,
 					requestingLocation, setRequestingLocation, setShowLiked, distance, setDistance}) {

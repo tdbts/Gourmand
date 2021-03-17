@@ -1,6 +1,6 @@
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import getUnlikedMediaIcon from './utils/getUnlikedMediaIcon';
-import getLikedMediaIcon from './utils/getLikedMediaIcon';
+import getUnlikedMediaIcon from '../../utils/getUnlikedMediaIcon';
+import getLikedMediaIcon from '../../utils/getLikedMediaIcon';
 
 function formatCaption(caption) {
 	return caption ? `"${caption}"` : "[ No Caption ]";

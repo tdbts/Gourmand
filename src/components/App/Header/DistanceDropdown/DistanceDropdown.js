@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import constants from '../scrapers/yelp/constants';
+import constants from '../../../../scrapers/yelp/constants';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const { distances } = constants;

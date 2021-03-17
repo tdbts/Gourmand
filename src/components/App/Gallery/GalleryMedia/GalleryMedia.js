@@ -1,4 +1,4 @@
-import getLikedMediaIcon from './utils/getLikedMediaIcon';
+import getLikedMediaIcon from '../../../utils/getLikedMediaIcon';
 
 const delays = [50, 250, 500, 750, 1000];
 
