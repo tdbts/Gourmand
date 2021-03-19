@@ -1,14 +1,12 @@
 import './App.css';
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, useHistory, useLocation } from 'react-router-dom';
 import constants from '../../scrapers/yelp/constants';
-import Header from './Header/Header';
-import Gallery from './SearchResults/Gallery/Gallery';
-import ErrorMessage from './SearchResults/ErrorMessage/ErrorMessage';
-import MediaModal from './SearchResults/Gallery/MediaModal/MediaModal';
 import Lookup from '../../lookup/Lookup';
 import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
 import formatSearchURL from '../../search/formatSearchURL';
+import Header from './Header/Header';
 import SearchResults from "./SearchResults/SearchResults";
 
 const { distances } = constants;
@@ -33,7 +31,7 @@ function toggleLikedMedia(id, setLikedMedia) {
 	setLikedMedia(likedMedia.getAll());
 }
 
-function updateSearchURL({description, location, distance}, setURL) {
+function updateSearchURL({description, location, distance}, history) {
 	console.log("updateSearchURL()");
 	console.log("description:", description);
 	console.log("location:", location);
@@ -44,7 +42,7 @@ function updateSearchURL({description, location, distance}, setURL) {
 
 	const url = formatSearchURL('/search', {description, location, distance});
 	console.log("url:", url);
-	return setURL(url);
+	return history.push(url);
 }
 
 function getSelectedMediaInfo(selectedID, lookup) {
@@ -91,10 +89,12 @@ function App() {
 	const [error, setError] = useState(null);
 	const [distance, setDistance] = useState(distances.UNKNOWN);
 	const [showLiked, setShowLiked] = useState(false);
+	const history = useHistory();
+	const browserLocation = useLocation();
 
 	// console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
-		if (url) {
+		if (browserLocation.search) {
 			console.log("Making request:", url);
 			setError(null);
 			setSearching(true);
@@ -112,7 +112,7 @@ function App() {
 				})
 				.catch(e => setError(e));
 		}
-	}, [url])
+	}, [browserLocation])
 
 	useEffect(() => {
 		updateSearchURL({description, location, distance}, setURL);
@@ -128,7 +128,7 @@ function App() {
 		setShowLiked,
 		distance,
 		setDistance,
-		onSearchRequest: () => updateSearchURL({description, location, distance}, setURL)
+		onSearchRequest: () => updateSearchURL({description, location, distance}, history)
 	};
 
 	const mediaModalProps = {
