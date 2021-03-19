@@ -1,0 +1,20 @@
+.login-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    background-position: center top -15px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.login-container .text-container {
+    margin: 50px 0;
+    padding: 20px;
+    max-width: 500px;
+}
+
+.login-container .text-container h6 {
+    margin-top: 25px;
+}

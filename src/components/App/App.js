@@ -7,10 +7,11 @@ import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
 import formatSearchURL from '../../search/formatSearchURL';
 import Header from './Header/Header';
-import Home from "./Home/Home";
-import SearchResults from "./SearchResults/SearchResults";
-import About from "./About/About";
-import Contact from "./Contact/Contact";
+import Home from './Home/Home';
+import SearchResults from './SearchResults/SearchResults';
+import About from './About/About';
+import Contact from './Contact/Contact';
+import Login from './Login/Login';
 
 const { distances } = constants;
 const lookup = new Lookup();
@@ -180,6 +181,9 @@ function App() {
 				</Route>
 				<Route path={'/contact'}>
 					<Contact />
+				</Route>
+				<Route path={'/login'}>
+					<Login />
 				</Route>
 			</Switch>
 		</div>
