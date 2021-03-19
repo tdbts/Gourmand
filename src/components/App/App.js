@@ -9,6 +9,7 @@ import formatSearchURL from '../../search/formatSearchURL';
 import Header from './Header/Header';
 import Home from "./Home/Home";
 import SearchResults from "./SearchResults/SearchResults";
+import About from "./About/About";
 
 const { distances } = constants;
 const lookup = new Lookup();
@@ -172,6 +173,9 @@ function App() {
 				</Route>
 				<Route path={'/search'}>
 					<SearchResults {...searchResultsProps} mediaModalProps={mediaModalProps} />
+				</Route>
+				<Route path={'/about'}>
+					<About />
 				</Route>
 			</Switch>
 		</div>

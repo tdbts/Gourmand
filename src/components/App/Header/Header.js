@@ -9,6 +9,7 @@ import {
 	NavItem,
 	NavLink
 } from 'reactstrap';
+// import { NavLink } from 'react-router-dom'
 import SearchForm from './SearchForm/SearchForm';
 import ShowLikedCheckbox from './ShowLikedCheckbox/ShowLikedCheckbox';
 import DistanceDropdown from './DistanceDropdown/DistanceDropdown';
@@ -25,13 +26,13 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
         	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
         		<Nav className="header-nav" navbar>
 					<NavItem>
-						<NavLink href="#">About</NavLink>
+						<NavLink href="/about">About</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink href="#">Contact</NavLink>
+						<NavLink to="#">Contact</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink href="#">Log In</NavLink>
+						<NavLink to="#">Log In</NavLink>
 					</NavItem>
 					<NavItem className="nav-separator" />
 					<NavItem>
