@@ -1,0 +1,19 @@
+.about-container {
+    width: 100vw;
+    height: 100vh;
+    padding: 50px;
+    font-family: "American Typewriter", serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top -50px;
+}
+
+@media only screen and (min-width: 768px) {
+    .about-container {
+        background-position: center top -550px;
+    }
+}
+
+.company-name {
+    font-style: italic;
+}

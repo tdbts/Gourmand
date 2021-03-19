@@ -1,14 +1,17 @@
 import './App.css';
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import constants from '../../scrapers/yelp/constants';
-import Header from './Header/Header';
-import Gallery from './Gallery/Gallery';
-import ErrorMessage from './ErrorMessage/ErrorMessage';
-import MediaModal from './MediaModal/MediaModal';
 import Lookup from '../../lookup/Lookup';
 import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
 import formatSearchURL from '../../search/formatSearchURL';
+import Header from './Header/Header';
+import Home from './Home/Home';
+import SearchResults from './SearchResults/SearchResults';
+import About from './About/About';
+import Contact from './Contact/Contact';
+import Login from './Login/Login';
 
 const { distances } = constants;
 const lookup = new Lookup();
@@ -32,7 +35,7 @@ function toggleLikedMedia(id, setLikedMedia) {
 	setLikedMedia(likedMedia.getAll());
 }
 
-function updateSearchURL({description, location, distance}, setURL) {
+function updateSearchURL({description, location, distance}, history) {
 	console.log("updateSearchURL()");
 	console.log("description:", description);
 	console.log("location:", location);
@@ -43,7 +46,7 @@ function updateSearchURL({description, location, distance}, setURL) {
 
 	const url = formatSearchURL('/search', {description, location, distance});
 	console.log("url:", url);
-	return setURL(url);
+	return history.push(url);
 }
 
 function getSelectedMediaInfo(selectedID, lookup) {
@@ -78,6 +81,13 @@ function scrollToTop() {
 	});
 }
 
+function getRestaurantJSON(url) {
+	return fetch(url)
+		.then(checkResponseForErrors)
+		.then(response => response.json())
+		.then(checkJSONForErrors);
+}
+
 function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
@@ -90,18 +100,17 @@ function App() {
 	const [error, setError] = useState(null);
 	const [distance, setDistance] = useState(distances.UNKNOWN);
 	const [showLiked, setShowLiked] = useState(false);
+	const history = useHistory();
+	const browserLocation = useLocation();
 
 	// console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
-		if (url) {
+		if (browserLocation.search) {
 			console.log("Making request:", url);
 			setError(null);
 			setSearching(true);
 
-			fetch(url)
-				.then(checkResponseForErrors)
-				.then(response => response.json())
-				.then(checkJSONForErrors)
+			getRestaurantJSON(url)
 				.then(json => {
 					lookup.update(json);
 					console.log("lookup:", lookup);
@@ -110,20 +119,73 @@ function App() {
 					scrollToTop();
 				})
 				.catch(e => setError(e));
+		} else if (browserLocation.pathname === '/') {
+			getRestaurantJSON('./home-page-restaurants.json')
+				.then(json => {
+					lookup.update(json);
+					setRestaurants(json);
+				});
 		}
-	}, [url])
+	}, [browserLocation])
 
 	useEffect(() => {
-		updateSearchURL({description, location, distance}, setURL);
+		updateSearchURL({description, location, distance}, history);
 	}, [distance]);
+
+	const headerProps = {
+		description,
+		setDescription,
+		location,
+		setLocation,
+		requestingLocation,
+		setRequestingLocation,
+		setShowLiked,
+		distance,
+		setDistance,
+		onSearchRequest: () => updateSearchURL({description, location, distance}, history)
+	};
+
+	const mediaModalProps = {
+		selected: getSelectedMediaInfo(selectedMediaID, lookup),
+		onMediaLikeToggle: (id) => toggleLikedMedia(id, setLikedMedia),
+		onClose: () => setSelectedMediaID(''),
+		isLiked: isLikedMedia(selectedMediaID)
+	};
+
+	const galleryProps = {
+		restaurants,
+		isLikedMedia,
+		searching,
+		showLiked,
+		selectedMediaID,
+		onMediaSelection: setSelectedMediaID
+	};
+
+	const searchResultsProps = {
+		error,
+		...galleryProps
+	};
 
 	return (
 		<div className="app">
-			<Header onSearchRequest={() => updateSearchURL({description, location, distance}, setURL)} description={description}
-					setDescription={setDescription} location={location} setLocation={setLocation} requestingLocation={requestingLocation}
-					setRequestingLocation={setRequestingLocation} setShowLiked={setShowLiked} distance={distance} setDistance={setDistance} />
-			{selectedMediaID && <MediaModal selected={getSelectedMediaInfo(selectedMediaID, lookup)} onMediaLikeToggle={(id) => toggleLikedMedia(id, setLikedMedia)} onClose={() => setSelectedMediaID('')} isLiked={isLikedMedia(selectedMediaID)} />}
-			{error ? <ErrorMessage error={error} /> : <Gallery restaurants={restaurants} onMediaSelection={setSelectedMediaID} isLikedMedia={isLikedMedia} searching={searching} showLiked={showLiked} />}
+			<Header {...headerProps} />
+			<Switch>
+				<Route exact path={'/'}>
+					<Home {...galleryProps} mediaModalProps={mediaModalProps} />
+				</Route>
+				<Route path={'/search'}>
+					<SearchResults {...searchResultsProps} mediaModalProps={mediaModalProps} />
+				</Route>
+				<Route path={'/about'}>
+					<About />
+				</Route>
+				<Route path={'/contact'}>
+					<Contact />
+				</Route>
+				<Route path={'/login'}>
+					<Login />
+				</Route>
+			</Switch>
 		</div>
 	);
 }

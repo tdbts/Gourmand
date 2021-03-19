@@ -1,7 +1,7 @@
 import './MediaModal.css';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import getUnlikedMediaIcon from '../../utils/getUnlikedMediaIcon';
-import getLikedMediaIcon from '../../utils/getLikedMediaIcon';
+import getUnlikedMediaIcon from '../../../../utils/getUnlikedMediaIcon';
+import getLikedMediaIcon from '../../../../utils/getLikedMediaIcon';
 
 function formatCaption(caption) {
 	return caption ? `"${caption}"` : "[ No Caption ]";
@@ -46,7 +46,6 @@ function MediaModal({selected, onMediaLikeToggle, onClose, isLiked}) {
 						{categories && <div className="restaurant-categories">{categories.join(", ")}</div>}
 						{rating && <div className="restaurant-rating">{rating}</div>}
 					</div>
-					
 				</div>
 	        </ModalBody>
 	        <ModalFooter>

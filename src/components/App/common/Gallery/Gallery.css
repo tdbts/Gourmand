@@ -45,6 +45,10 @@
     transition-delay: 1000ms;
 }
 
+.thumbnail-swap-enter-done .food-thumbnail-container[class*="transition-delay-"] {
+    transition-delay: 0ms;
+}
+
 .food-thumbnail-container {
     position: relative;
     display: inline-block;
