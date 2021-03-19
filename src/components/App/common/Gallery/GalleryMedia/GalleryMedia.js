@@ -3,7 +3,7 @@ import getLikedMediaIcon from '../../../../utils/getLikedMediaIcon';
 
 const delays = [50, 250, 500, 750, 1000];
 
-const GalleryMedia = ({ media, onMediaSelection, isLiked, searching }) => {
+const GalleryMedia = ({ media, onMediaSelection, isLiked }) => {
 	const delayIndex = Math.floor(Math.random() * delays.length);
 	const delay = delays[delayIndex];
 	return (

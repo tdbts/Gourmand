@@ -1,5 +1,5 @@
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
-import Gallery from "./Gallery/Gallery";
+import Gallery from "../common/Gallery/Gallery";
 
 const SearchResults = ({error, restaurants, selectedMediaID, onMediaSelection, isLikedMedia, searching, showLiked, mediaModalProps}) => (
     error

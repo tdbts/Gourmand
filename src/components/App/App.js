@@ -1,12 +1,13 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, useHistory, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import constants from '../../scrapers/yelp/constants';
 import Lookup from '../../lookup/Lookup';
 import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
 import formatSearchURL from '../../search/formatSearchURL';
 import Header from './Header/Header';
+import Home from "./Home/Home";
 import SearchResults from "./SearchResults/SearchResults";
 
 const { distances } = constants;
@@ -77,6 +78,13 @@ function scrollToTop() {
 	});
 }
 
+function getRestaurantJSON(url) {
+	return fetch(url)
+		.then(checkResponseForErrors)
+		.then(response => response.json())
+		.then(checkJSONForErrors);
+}
+
 function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
@@ -99,10 +107,7 @@ function App() {
 			setError(null);
 			setSearching(true);
 
-			fetch(url)
-				.then(checkResponseForErrors)
-				.then(response => response.json())
-				.then(checkJSONForErrors)
+			getRestaurantJSON(url)
 				.then(json => {
 					lookup.update(json);
 					console.log("lookup:", lookup);
@@ -111,11 +116,17 @@ function App() {
 					scrollToTop();
 				})
 				.catch(e => setError(e));
+		} else if (browserLocation.pathname === '/') {
+			getRestaurantJSON('./home-page-restaurants.json')
+				.then(json => {
+					lookup.update(json);
+					setRestaurants(json);
+				});
 		}
 	}, [browserLocation])
 
 	useEffect(() => {
-		updateSearchURL({description, location, distance}, setURL);
+		updateSearchURL({description, location, distance}, history);
 	}, [distance]);
 
 	const headerProps = {
@@ -138,8 +149,7 @@ function App() {
 		isLiked: isLikedMedia(selectedMediaID)
 	};
 
-	const searchResultsProps = {
-		error,
+	const galleryProps = {
 		restaurants,
 		isLikedMedia,
 		searching,
@@ -148,10 +158,22 @@ function App() {
 		onMediaSelection: setSelectedMediaID
 	};
 
+	const searchResultsProps = {
+		error,
+		...galleryProps
+	};
+
 	return (
 		<div className="app">
 			<Header {...headerProps} />
-			<SearchResults {...searchResultsProps} mediaModalProps={mediaModalProps} />
+			<Switch>
+				<Route exact path={'/'}>
+					<Home {...galleryProps} mediaModalProps={mediaModalProps} />
+				</Route>
+				<Route path={'/search'}>
+					<SearchResults {...searchResultsProps} mediaModalProps={mediaModalProps} />
+				</Route>
+			</Switch>
 		</div>
 	);
 }
