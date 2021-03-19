@@ -29,7 +29,7 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 						<NavLink href="/about">About</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink to="#">Contact</NavLink>
+						<NavLink href="/contact">Contact</NavLink>
 					</NavItem>
 					<NavItem>
 						<NavLink to="#">Log In</NavLink>

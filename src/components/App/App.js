@@ -10,6 +10,7 @@ import Header from './Header/Header';
 import Home from "./Home/Home";
 import SearchResults from "./SearchResults/SearchResults";
 import About from "./About/About";
+import Contact from "./Contact/Contact";
 
 const { distances } = constants;
 const lookup = new Lookup();
@@ -176,6 +177,9 @@ function App() {
 				</Route>
 				<Route path={'/about'}>
 					<About />
+				</Route>
+				<Route path={'/contact'}>
+					<Contact />
 				</Route>
 			</Switch>
 		</div>
