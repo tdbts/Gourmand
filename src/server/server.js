@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import mongoose from 'mongoose';
 import request from 'superagent';
+import cors from 'cors';
+import nodemailer from 'nodemailer';
 import Client from '../client/Client.js';
 import SearchService from '../search/SearchService.js';
 const app = express();
@@ -19,6 +21,20 @@ mongoose
 	.then(() => console.log('MongoDB Connected'))
 	.catch(err => console.log(err));
 
+const transporter = nodemailer.createTransport({
+	host: "smtp.gmail.com",
+	port: 587,
+	auth: {
+		user: process.env.CONTACT_EMAIL,
+		pass: process.env.CONTACT_EMAIL_PASSWORD
+	}
+});
+
+// verify connection configuration
+transporter.verify()
+	.then(() => console.log("Email server is ready for messages."))
+	.catch((err) => console.log(err));
+
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(process.cwd(), 'build')));
 
@@ -28,6 +44,9 @@ if (process.env.NODE_ENV === 'production') {
 		});
 	});
 }
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.get('/search', function (req, res) {
 	const { location, description, distance } = req.query;
@@ -45,5 +64,29 @@ app.get('/search', function (req, res) {
 			res.send(500);
 		});
 });
+
+app.post('/contact', (req, res) => {
+	console.log("New message incoming.");
+	console.log(req.body);
+	const { name, email, subject, message: text } = req.body;
+	const emailConfig = {
+		from: `${name} <${email}>`,
+		to: process.env.CONTACT_EMAIL,
+		subject,
+		text
+	};
+
+	console.log("JSON.stringify(emailConfig)", JSON.stringify(emailConfig));
+
+	transporter.sendMail(emailConfig)
+		.then(() => {
+			console.log("Message successfully sent.");
+			res.json({status: 'success'});
+		})
+		.catch((err) => {
+			console.error("Message error:", err);
+			res.json({status: 'failure', message: err.message});
+		});
+})
 
 app.listen(process.env.PORT || 8080, () => console.log("Gourmand server up and running."));
