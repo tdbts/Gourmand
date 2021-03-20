@@ -88,6 +88,11 @@ function getRestaurantJSON(url) {
 		.then(checkJSONForErrors);
 }
 
+function onError(e, setError) {
+	window.console.error(e);
+	setError(e);
+}
+
 function App() {
 	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
@@ -118,13 +123,14 @@ function App() {
 					setSearching(false);
 					scrollToTop();
 				})
-				.catch(e => setError(e));
+				.catch(e => onError(e, setError));
 		} else if (browserLocation.pathname === '/') {
 			getRestaurantJSON('./home-page-restaurants.json')
 				.then(json => {
 					lookup.update(json);
 					setRestaurants(json);
-				});
+				})
+				.catch(e => onError(e, setError));
 		}
 	}, [browserLocation])
 
