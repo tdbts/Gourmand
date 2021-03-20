@@ -16,7 +16,10 @@ const Contact = ({}) => {
         <div className="contact-container">
             <div className="contact-background" style={{backgroundImage: 'url(/contact-background.jpg)'}} />
             <Container className="contact-content-container">
-                <h1 className="contact-header">Contact Us</h1>
+                <div className="text-container">
+                    <h1 className="contact-header">Say Hello!</h1>
+                    <p className="contact-text">Found a bug?  Have a feature request?  Just want to vent?  Let us know!</p>
+                </div>
                 <Form className="contact-form">
                     <FormGroup>
                         <Input type="text" name="name" placeholder="Name" />
