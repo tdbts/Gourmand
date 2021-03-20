@@ -85,8 +85,10 @@ function getRestaurantJSON(url) {
 	return fetch(url)
 		.then(checkResponseForErrors)
 		.then(response => {
-			response.text().then(txt => console.log("txt:", txt));
-			return response.json();
+			if (url && (url !== "/")) {
+				response.text().then(txt => console.log("txt:", txt));
+				return response.json();
+			}
 		})
 		.then(checkJSONForErrors);
 }
