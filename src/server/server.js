@@ -8,6 +8,7 @@ import SearchService from '../search/SearchService.js';
 const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
+const nonSearchRoutes = ['/', '/about', '/contact', '/login'];
 
 // Connect to MongoDB
 mongoose
@@ -21,8 +22,10 @@ mongoose
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(process.cwd(), 'build')));
 
-	app.get('/*', function (req, res) {
-		res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
+	nonSearchRoutes.forEach(route => {
+		app.get(route, function (req, res) {
+			res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
+		});
 	});
 }
 
