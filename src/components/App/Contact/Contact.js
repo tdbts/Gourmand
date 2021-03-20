@@ -2,6 +2,7 @@ import './Contact.css';
 import React, { useState, useEffect } from 'react';
 import { Container } from 'reactstrap';
 import ContactForm from "./ContactForm/ContactForm";
+import scrollToTop from "../../utils/scrollToTop";
 
 const statuses = {
     UNSENT: '',
@@ -46,11 +47,13 @@ const onSubmitButtonClick = (e, {name, email, subject, message}, { onSuccess, on
 
 const onSuccess = (json, setStatus) => {
     setStatus(json.status);
+    scrollToTop();
 };
 
 const onError = (e, json, setStatus) => {
     console.error(e);
     setStatus(json.status);
+    scrollToTop();
 };
 
 const UnsetMessage = () => (
