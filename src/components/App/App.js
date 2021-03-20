@@ -84,11 +84,10 @@ function scrollToTop() {
 function getRestaurantJSON(url) {
 	return fetch(url)
 		.then(checkResponseForErrors)
-		.then(response => {
-			if (url && (url !== "/")) {
-				response.text().then(txt => console.log("txt:", txt));
-				return response.json();
-			}
+		.then(response => response.text())
+		.then(text => {
+			console.log("text:", text);
+			return JSON.parse(text);
 		})
 		.then(checkJSONForErrors);
 }
