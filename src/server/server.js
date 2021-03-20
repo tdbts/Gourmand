@@ -32,7 +32,10 @@ app.get('/search', function (req, res) {
 	console.log("description:", description);
 	console.log("distance:", distance);  // Distance remains a string (thus, truthy) until array lookup
 	return service.find({location, description, distance})
-		.then(restaurants => res.json(restaurants))
+		.then(restaurants => {
+			res.setHeader('Content-Type', 'application/json');
+			res.json(restaurants);
+		})
 		.catch(e => {
 			console.error("Something went wrong during search request.");
 			console.error(e);
