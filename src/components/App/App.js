@@ -12,6 +12,7 @@ import SearchResults from './SearchResults/SearchResults';
 import About from './About/About';
 import Contact from './Contact/Contact';
 import Login from './Login/Login';
+import scrollToTop from "../utils/scrollToTop";
 
 const { distances } = constants;
 const lookup = new Lookup();
@@ -71,14 +72,6 @@ function checkJSONForErrors(restaurants) {
 	}
 
 	throw new Error("Nothing to see here.");
-}
-
-function scrollToTop() {
-	window.scroll({
-		top: 0,
-		left: 0,
-		behavior: 'smooth'
-	});
 }
 
 function getRestaurantJSON(url) {
