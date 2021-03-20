@@ -86,7 +86,7 @@ function getRestaurantJSON(url) {
 		.then(checkResponseForErrors)
 		.then(response => response.text())
 		.then(text => {
-			console.log("text:", text);
+			console.log("Restaurant JSON (text):", text);
 			return JSON.parse(text);
 		})
 		.then(checkJSONForErrors);
