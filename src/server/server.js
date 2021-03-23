@@ -10,7 +10,7 @@ import SearchService from '../search/SearchService.js';
 const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
-const nonSearchRoutes = ['/', '/about', '/contact', '/login'];
+const nonSearchRoutes = ['/', '/gallery', '/about', '/contact', '/login'];
 
 // Connect to MongoDB
 mongoose
