@@ -3,7 +3,7 @@ import pipe from '../utils/pipe';
 
 const { distances } = constants;
 
-const formatSearchURL = (url, {description, location, distance}) => {
+const urlWithSearchParams = (url, {description, location, distance}) => {
     return [
         url,
         pipe(
@@ -28,4 +28,4 @@ function addDistance(distance, params) {
         : params;
 }
 
-export default formatSearchURL;
+export default urlWithSearchParams;

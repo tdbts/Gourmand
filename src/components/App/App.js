@@ -5,7 +5,7 @@ import constants from '../../scrapers/yelp/constants';
 import Lookup from '../../lookup/Lookup';
 import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
-import formatSearchURL from '../../search/formatSearchURL';
+import urlWithSearchParams from '../../search/urlWithSearchParams';
 import Header from './Header/Header';
 import Home from './Home/Home';
 import SearchResults from './SearchResults/SearchResults';
@@ -45,7 +45,7 @@ function updateSearchURL({description, location, distance}, history) {
 	if (!location)
 		return;
 
-	const url = formatSearchURL('/search', {description, location, distance});
+	const url = urlWithSearchParams('/gallery', {description, location, distance});
 	console.log("url:", url);
 	return history.push(url);
 }
@@ -112,7 +112,7 @@ function App() {
 			setError(null);
 			setSearching(true);
 
-			getRestaurantJSON(url)
+			getRestaurantJSON(urlWithSearchParams('/search', {description, location, distance}))
 				.then(json => {
 					lookup.update(json);
 					console.log("lookup:", lookup);
@@ -176,7 +176,7 @@ function App() {
 				<Route exact path={'/'}>
 					<Home {...galleryProps} mediaModalProps={mediaModalProps} />
 				</Route>
-				<Route path={'/search'}>
+				<Route path={'/gallery'}>
 					<SearchResults {...searchResultsProps} mediaModalProps={mediaModalProps} />
 				</Route>
 				<Route path={'/about'}>
