@@ -89,4 +89,7 @@ if (process.env.NODE_ENV === 'production') {
 	});
 }
 
+// app.use(express.static(path.join(process.cwd(), 'public')));
+// app.get('*', (req, res) => res.sendFile(path.join(process.cwd(), 'public/index.html')));
+
 app.listen(process.env.PORT || 8080, () => console.log("Gourmand server up and running."));

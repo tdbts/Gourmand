@@ -6,10 +6,9 @@ import {
 	NavbarToggler,
 	NavbarBrand,
 	Nav,
-	NavItem,
-	NavLink
+	NavItem
 } from 'reactstrap';
-// import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import SearchForm from './SearchForm/SearchForm';
 import ShowLikedCheckbox from './ShowLikedCheckbox/ShowLikedCheckbox';
 import DistanceDropdown from './DistanceDropdown/DistanceDropdown';
@@ -21,18 +20,20 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 
 	return (
 		<Navbar className="header-navbar" color="light" light expand="md">
-			<NavbarBrand id="home-link" href="/">Gourmand</NavbarBrand>
+			<NavLink id="home-link" className="navbar-brand" to="/">
+				Gourmand
+			</NavLink>
         	<NavbarToggler onClick={toggle} />
         	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
         		<Nav className="header-nav" navbar>
 					<NavItem>
-						<NavLink id="about-link" href="/about">About</NavLink>
+						<NavLink id="about-link" className="nav-link" to="/about">About</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink id="contact-link" href="/contact">Contact</NavLink>
+						<NavLink id="contact-link" className="nav-link" to="/contact">Contact</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink id="login-link" href="/login">Log In</NavLink>
+						<NavLink id="login-link" className="nav-link" to="/login">Log In</NavLink>
 					</NavItem>
 					<NavItem className="nav-separator" />
 					<NavItem>

@@ -20,6 +20,10 @@
     white-space: nowrap;
 }
 
+#home-link, #about-link, #contact-link, #login-link {
+    color: rgba(0,0,0,.5);
+}
+
 .nav-separator {
     height: 16px;
 }

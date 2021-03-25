@@ -22,7 +22,7 @@ class EventTracker {
 
         mixpanel.init(token);
 
-        links.forEach(link => mixpanel.track_links(link.selector, link.event, link.properties));
+        // links.forEach(link => mixpanel.track_links(link.selector, link.event, link.properties));
     }
 
     track(event, properties) {
