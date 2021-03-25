@@ -4,12 +4,13 @@
  const lookup = { 
  	restaurantsByID: {}, 
  	mediaByID: {}, 
- 	restaurantIDsByMediaID: {} 
+ 	restaurantIDsByMediaID: {},
+	restaurantsByURL: {}
  };
 
 export default class Lookup {
-	update(restaurants) {
-		updateLookup(lookup, restaurants);
+	update(url, restaurants) {
+		updateLookup(lookup, url, restaurants);
 	}
 
 	getMediaByID(id) {
@@ -23,12 +24,17 @@ export default class Lookup {
 	getRestaurantIDByMediaID(id) {
 		return lookup.restaurantIDsByMediaID[id];
 	}
+
+	getRestaurantsByURL(url) {
+		return lookup.restaurantsByURL[url];
+	}
 };
 
-function updateLookup(lookup, restaurants) {
+function updateLookup(lookup, url, restaurants) {
 	lookup.restaurantsByID = combineMaps(lookup.restaurantsByID, updateRestaurantsByID(restaurants));
 	lookup.mediaByID = combineMaps(lookup.mediaByID, updateMediaByID(restaurants));
 	lookup.restaurantIDsByMediaID = combineMaps(lookup.restaurantIDsByMediaID, updateRestaurantIDsByMediaID(restaurants));
+	lookup.restaurantsByURL = combineMaps(lookup.restaurantsByURL, updateRestaurantsByURL(url, restaurants));
 }
 
 function updateRestaurantsByID(restaurants) {
@@ -57,6 +63,12 @@ function mapMediaIDtoRestaurantID(restaurant) {
 			map[media.id] = restaurant.id;
 			return map;
 		}, {});
+}
+
+function updateRestaurantsByURL(url, restaurants) {
+	const map = {};
+	map[url] = restaurants;
+	return map;
 }
 
 function combineMaps(existing, update) {

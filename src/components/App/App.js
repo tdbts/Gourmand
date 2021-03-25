@@ -124,7 +124,10 @@ function App() {
 
 	// console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
-		if (browserLocation.search) {
+		console.log("browserLocation:", browserLocation);
+		const { pathname, search } = browserLocation;
+
+		if (search) {
 			setError(null);
 			setSearching(true);
 			eventTracker.track(EventTracker.events.SEARCH, { description, location, distance });
@@ -133,17 +136,17 @@ function App() {
 
 			getRestaurantJSON(searchURL)
 				.then(json => {
-					lookup.update(json);
+					lookup.update(pathname + search, json);
 					console.log("lookup:", lookup);
 					setRestaurants(json);
 					setSearching(false);
 					scrollToTop();
 				})
 				.catch(e => onError(e, setError, eventTracker));
-		} else if (browserLocation.pathname === '/') {
+		} else if (pathname === '/') {
 			getRestaurantJSON('./home-page-restaurants.json')
 				.then(json => {
-					lookup.update(json);
+					lookup.update(pathname + search, json);
 					setRestaurants(json);
 				})
 				.catch(e => onError(e, setError, eventTracker));
@@ -200,11 +203,11 @@ function App() {
 	};
 
 	const galleryProps = {
-		restaurants,
 		isLikedMedia,
 		searching,
 		showLiked,
 		selectedMediaID,
+		restaurants: lookup.getRestaurantsByURL(browserLocation.pathname + browserLocation.search) || restaurants,
 		onMediaSelection: setSelectedMediaID
 	};
 
