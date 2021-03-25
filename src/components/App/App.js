@@ -1,10 +1,11 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import constants from '../../scrapers/yelp/constants';
+import constants from "../../constants/constants";
 import Lookup from '../../lookup/Lookup';
 import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
+import EventTracker from "../../tracking/EventTracker";
 import urlWithSearchParams from '../../search/urlWithSearchParams';
 import Header from './Header/Header';
 import Home from './Home/Home';
@@ -13,11 +14,23 @@ import About from './About/About';
 import Contact from './Contact/Contact';
 import Login from './Login/Login';
 import scrollToTop from "../utils/scrollToTop";
+import trackedLink from "../../utils/trackedLink";
 
-const { distances } = constants;
+const { distances, TRACKING_TOKEN } = constants;
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
 const likedMedia = new LikedMedia(getLikedMedia(storage), storage);
+const eventTracker = new EventTracker(
+	TRACKING_TOKEN,
+	[
+		trackedLink('#home-link', EventTracker.events.NAVIGATE, '/'),
+		trackedLink('#about-link', EventTracker.events.NAVIGATE, '/about'),
+		trackedLink('#contact-link', EventTracker.events.NAVIGATE, '/contact'),
+		trackedLink('#login-link', EventTracker.events.NAVIGATE, '/login'),
+		trackedLink('.restaurant-address', EventTracker.events.OPEN_MAP)
+	]);
+
+eventTracker.track(EventTracker.events.PAGE_VISIT);
 
 function getLikedMedia(storage) {
 	try {
@@ -32,7 +45,9 @@ function isLikedMedia(id) {
 }
 
 function toggleLikedMedia(id, setLikedMedia) {
-	likedMedia.toggle(lookup.getRestaurantIDByMediaID(id), id);
+	const { LIKE_MEDIA, UNLIKE_MEDIA } = EventTracker.events;
+	const newLikedState = likedMedia.toggle(lookup.getRestaurantIDByMediaID(id), id);
+	eventTracker.track(newLikedState ? LIKE_MEDIA : UNLIKE_MEDIA);
 	setLikedMedia(likedMedia.getAll());
 }
 
@@ -85,8 +100,9 @@ function getRestaurantJSON(url) {
 		.then(checkJSONForErrors);
 }
 
-function onError(e, setError) {
+function onError(e, setError, eventTracker) {
 	window.console.error(e);
+	eventTracker.track(EventTracker.events.ERROR, { message: e.message });
 	setError(e);
 }
 
@@ -111,6 +127,7 @@ function App() {
 			console.log("Making request:", url);
 			setError(null);
 			setSearching(true);
+			eventTracker.track(EventTracker.events.SEARCH, { description, location, distance });
 
 			getRestaurantJSON(urlWithSearchParams('/search', {description, location, distance}))
 				.then(json => {
@@ -120,20 +137,38 @@ function App() {
 					setSearching(false);
 					scrollToTop();
 				})
-				.catch(e => onError(e, setError));
+				.catch(e => onError(e, setError, eventTracker));
 		} else if (browserLocation.pathname === '/') {
 			getRestaurantJSON('./home-page-restaurants.json')
 				.then(json => {
 					lookup.update(json);
 					setRestaurants(json);
 				})
-				.catch(e => onError(e, setError));
+				.catch(e => onError(e, setError, eventTracker));
 		}
-	}, [browserLocation])
+	}, [browserLocation]);
 
 	useEffect(() => {
+		eventTracker.track(EventTracker.events.FILTER_BY_DISTANCE, { distance });
 		updateSearchURL({description, location, distance}, history);
 	}, [distance]);
+
+	useEffect(() => {
+		if (requestingLocation) {
+			eventTracker.track(EventTracker.events.REQUEST_CURRENT_LOCATION);
+		}
+	}, [requestingLocation]);
+
+	useEffect(() => {
+		const { SHOW_LIKED_MEDIA, SHOW_ALL_MEDIA } = EventTracker.events;
+		eventTracker.track(showLiked ? SHOW_LIKED_MEDIA : SHOW_ALL_MEDIA);
+	}, [showLiked]);
+
+	useEffect(() => {
+		if (selectedMediaID) {
+			eventTracker.track(EventTracker.events.CLICK_GALLERY_MEDIA);
+		}
+	}, [selectedMediaID]);
 
 	const headerProps = {
 		description,

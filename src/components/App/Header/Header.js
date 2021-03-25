@@ -21,18 +21,18 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 
 	return (
 		<Navbar className="header-navbar" color="light" light expand="md">
-			<NavbarBrand href="/">Gourmand</NavbarBrand>
+			<NavbarBrand id="home-link" href="/">Gourmand</NavbarBrand>
         	<NavbarToggler onClick={toggle} />
         	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
         		<Nav className="header-nav" navbar>
 					<NavItem>
-						<NavLink href="/about">About</NavLink>
+						<NavLink id="about-link" href="/about">About</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink href="/contact">Contact</NavLink>
+						<NavLink id="contact-link" href="/contact">Contact</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink href="/login">Log In</NavLink>
+						<NavLink id="login-link" href="/login">Log In</NavLink>
 					</NavItem>
 					<NavItem className="nav-separator" />
 					<NavItem>
