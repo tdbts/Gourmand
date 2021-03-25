@@ -17,30 +17,14 @@ class EventTracker {
         ERROR: 'ERROR'
     };
 
-    constructor(token, links = []) {
-        validateArguments(token, links);
-
+    constructor(token) {
         mixpanel.init(token);
-
-        // links.forEach(link => mixpanel.track_links(link.selector, link.event, link.properties));
     }
 
     track(event, properties) {
         mixpanel.track(event, properties);
     }
 
-}
-
-function validateArguments(token, links) {
-    if (!token) {
-        throw new Error("No token.");
-    }
-
-    if (links.length) {
-        console.debug("Links to track:", links);
-    } else {
-        console.debug("No links given to track.");
-    }
 }
 
 export default EventTracker;

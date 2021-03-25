@@ -1,7 +1,8 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import constants from "../../constants/constants";
+import yelpConstants from "../../scrapers/yelp/constants";
 import Lookup from '../../lookup/Lookup';
 import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
@@ -16,7 +17,8 @@ import Login from './Login/Login';
 import scrollToTop from "../utils/scrollToTop";
 import trackedLink from "../../utils/trackedLink";
 
-const { distances, TRACKING_TOKEN } = constants;
+const { TRACKING_TOKEN } = constants;
+const { distances } = yelpConstants;
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
 const likedMedia = new LikedMedia(getLikedMedia(storage), storage);
@@ -107,7 +109,6 @@ function onError(e, setError, eventTracker) {
 }
 
 function App() {
-	const [url, setURL] = useState('');
 	const [restaurants, setRestaurants] = useState([]);
 	const [description, setDescription] = useState('');
 	const [location, setLocation] = useState('');
@@ -124,12 +125,13 @@ function App() {
 	// console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
 		if (browserLocation.search) {
-			console.log("Making request:", url);
 			setError(null);
 			setSearching(true);
 			eventTracker.track(EventTracker.events.SEARCH, { description, location, distance });
 
-			getRestaurantJSON(urlWithSearchParams('/search', {description, location, distance}))
+			const searchURL = urlWithSearchParams('/search', {description, location, distance});
+
+			getRestaurantJSON(searchURL)
 				.then(json => {
 					lookup.update(json);
 					console.log("lookup:", lookup);
@@ -147,6 +149,13 @@ function App() {
 				.catch(e => onError(e, setError, eventTracker));
 		}
 	}, [browserLocation]);
+
+	useEffect(() => {
+		const { pathname } = browserLocation;
+		if (pathname !== '/gallery') {
+			eventTracker.track(EventTracker.events.NAVIGATE, { pathname });
+		}
+	}, [browserLocation])
 
 	useEffect(() => {
 		eventTracker.track(EventTracker.events.FILTER_BY_DISTANCE, { distance });
