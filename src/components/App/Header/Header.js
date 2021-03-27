@@ -14,26 +14,27 @@ import ShowLikedCheckbox from './ShowLikedCheckbox/ShowLikedCheckbox';
 import DistanceDropdown from './DistanceDropdown/DistanceDropdown';
 
 function Header({onSearchRequest, description, setDescription, location, setLocation,
-					requestingLocation, setRequestingLocation, setShowLiked, distance, setDistance}) {
+					requestingLocation, setRequestingLocation, setShowLiked, distance,
+					onNavLinkClick, onDistanceDropdownClick, onShowLikedChange}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggle = () => setIsOpen(!isOpen);
 
 	return (
 		<Navbar className="header-navbar" color="light" light expand="md">
-			<NavLink id="home-link" className="navbar-brand" to="/">
+			<NavLink id="home-link" className="navbar-brand" to="/" onClick={() => onNavLinkClick('/')}>
 				Gourmand
 			</NavLink>
         	<NavbarToggler onClick={toggle} />
         	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
         		<Nav className="header-nav" navbar>
 					<NavItem>
-						<NavLink id="about-link" className="nav-link" to="/about">About</NavLink>
+						<NavLink id="about-link" className="nav-link" to="/about" onClick={() => onNavLinkClick('/about')}>About</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink id="contact-link" className="nav-link" to="/contact">Contact</NavLink>
+						<NavLink id="contact-link" className="nav-link" to="/contact" onClick={() => onNavLinkClick('/contact')}>Contact</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink id="login-link" className="nav-link" to="/login">Log In</NavLink>
+						<NavLink id="login-link" className="nav-link" to="/login" onClick={() => onNavLinkClick('/login')}>Log In</NavLink>
 					</NavItem>
 					<NavItem className="nav-separator" />
 					<NavItem>
@@ -42,8 +43,8 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 									onSearchRequest={onSearchRequest} />
 					</NavItem>
 					<NavItem className="dropdown-nav-item">
-						<DistanceDropdown distance={distance} setDistance={setDistance} onSearchRequest={onSearchRequest} />
-						<ShowLikedCheckbox onChange={setShowLiked} />
+						<DistanceDropdown distance={distance} onDistanceDropdownClick={onDistanceDropdownClick} />
+						<ShowLikedCheckbox onChange={onShowLikedChange} />
 					</NavItem>
         		</Nav>
         	</Collapse>

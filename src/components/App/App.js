@@ -108,6 +108,20 @@ function onError(e, setError, eventTracker) {
 	setError(e);
 }
 
+function onNavLinkClick(pathname) {
+	eventTracker.track(EventTracker.events.NAVIGATE, { pathname });
+}
+
+const onDistanceDropdownClick = setDistance => distance => {
+	setDistance(distance);
+};
+
+const onShowLikedChange = setShowLiked => showLiked => {
+	const { SHOW_LIKED_MEDIA, SHOW_ALL_MEDIA } = EventTracker.events;
+	eventTracker.track(showLiked ? SHOW_LIKED_MEDIA : SHOW_ALL_MEDIA);
+	setShowLiked(showLiked);
+};
+
 function App() {
 	const [restaurants, setRestaurants] = useState([]);
 	const [description, setDescription] = useState('');
@@ -154,14 +168,6 @@ function App() {
 	}, [browserLocation]);
 
 	useEffect(() => {
-		const { pathname } = browserLocation;
-		if (pathname !== '/gallery') {
-			eventTracker.track(EventTracker.events.NAVIGATE, { pathname });
-		}
-	}, [browserLocation])
-
-	useEffect(() => {
-		eventTracker.track(EventTracker.events.FILTER_BY_DISTANCE, { distance });
 		updateSearchURL({description, location, distance}, history);
 	}, [distance]);
 
@@ -170,11 +176,6 @@ function App() {
 			eventTracker.track(EventTracker.events.REQUEST_CURRENT_LOCATION);
 		}
 	}, [requestingLocation]);
-
-	useEffect(() => {
-		const { SHOW_LIKED_MEDIA, SHOW_ALL_MEDIA } = EventTracker.events;
-		eventTracker.track(showLiked ? SHOW_LIKED_MEDIA : SHOW_ALL_MEDIA);
-	}, [showLiked]);
 
 	useEffect(() => {
 		if (selectedMediaID) {
@@ -191,7 +192,9 @@ function App() {
 		setRequestingLocation,
 		setShowLiked,
 		distance,
-		setDistance,
+		onNavLinkClick,
+		onDistanceDropdownClick: onDistanceDropdownClick(setDistance),
+		onShowLikedChange: onShowLikedChange(setShowLiked),
 		onSearchRequest: () => updateSearchURL({description, location, distance}, history)
 	};
 

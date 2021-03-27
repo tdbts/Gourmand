@@ -7,7 +7,6 @@ class EventTracker {
         NAVIGATE: 'NAVIGATE',
         REQUEST_CURRENT_LOCATION: 'REQUEST_CURRENT_LOCATION',
         SEARCH: 'SEARCH',
-        FILTER_BY_DISTANCE: 'FILTER_BY_DISTANCE',
         SHOW_LIKED_MEDIA: 'SHOW_LIKED_MEDIA',
         SHOW_ALL_MEDIA: 'SHOW_ALL_MEDIA',
         CLICK_GALLERY_MEDIA: 'CLICK_GALLERY_MEDIA',
@@ -18,10 +17,15 @@ class EventTracker {
     };
 
     constructor(token) {
-        mixpanel.init(token);
+        mixpanel.init(token, {cross_site_cookie: true});
     }
 
     track(event, properties) {
+        console.log(`
+            Tracking event: ${event}
+            ${properties 
+                ? "Properties: " + JSON.stringify(properties)
+                : ""}`);
         mixpanel.track(event, properties);
     }
 
