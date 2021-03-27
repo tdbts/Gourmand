@@ -1,3 +1,3 @@
 export default {
-    TRACKING_TOKEN: "dadd0494ac9b4ff110cc4a52ba61a65a"
+    TRACKING_TOKEN: "d188ab29e796db48bd8f0dec7dd56d75"
 }
