@@ -18,7 +18,7 @@ class EventTracker {
 
     constructor(token) {
         console.log(`Initialize event tracker with token: ${token}`);
-        // mixpanel.init(token, {cross_site_cookie: true});
+        mixpanel.init(token, {cross_site_cookie: true});
     }
 
     track(event, properties) {
@@ -27,7 +27,7 @@ class EventTracker {
             ${properties 
                 ? "Properties: " + JSON.stringify(properties)
                 : ""}`);
-        // mixpanel.track(event, properties);
+        mixpanel.track(event, properties);
     }
 
 }
