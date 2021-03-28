@@ -186,7 +186,7 @@ function App() {
 
 	// Initialize Google Analytics page view tracking
 	if (GOOGLE_ANALYTICS_ID) {
-		window.console.log("Intializing Google Analytics.");
+		window.console.log("Initializing Google Analytics.");
 
 		history.listen(location => {
 			ReactGA.initialize(GOOGLE_ANALYTICS_ID);
