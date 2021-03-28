@@ -17,13 +17,16 @@ export default class LikedMedia {
 
 	toggle(restaurantID, id) {
 		const liked = { ...this.liked };
+		const newLikedState = !isLiked(liked, restaurantID, id);
 
-		this.liked = isLiked(liked, restaurantID, id)
-			? unlikeMedia(liked, restaurantID, id)
-			: likeMedia(liked, restaurantID, id);
+		this.liked = newLikedState
+			? likeMedia(liked, restaurantID, id)
+			: unlikeMedia(liked, restaurantID, id);
 
 		// TODO: Set up event mechanism for updating storage
 		updateStorage(this.storage, this.serialize());
+
+		return newLikedState;
 	}
 
 	getAll() {

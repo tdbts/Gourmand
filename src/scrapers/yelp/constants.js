@@ -6,11 +6,6 @@ const queryTypes = {
 	COORDINATE: 'coordinate'
 };
 
-const url = {
-	DOMAIN,
-	LOCATION_SEARCH_PREFIX
-};
-
 const distances = {
 	UNKNOWN: 'unknown',
 	BIRDS_EYE: 0,
@@ -20,8 +15,13 @@ const distances = {
 	BLOCKS: 4
 };
 
+const url = {
+	DOMAIN,
+	LOCATION_SEARCH_PREFIX
+};
+
 export default {
 	queryTypes,
-	url,
-	distances
+	distances,
+	url
 };

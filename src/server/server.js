@@ -35,16 +35,6 @@ transporter.verify()
 	.then(() => console.log("Email server is ready for messages."))
 	.catch((err) => console.log(err));
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(process.cwd(), 'build')));
-
-	nonSearchRoutes.forEach(route => {
-		app.get(route, function (req, res) {
-			res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
-		});
-	});
-}
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -87,6 +77,19 @@ app.post('/contact', (req, res) => {
 			console.error("Message error:", err);
 			res.json({status: 'failure', message: err.message});
 		});
-})
+});
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(process.cwd(), 'build')));
+
+	nonSearchRoutes.forEach(route => {
+		app.get(route, function (req, res) {
+			res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
+		});
+	});
+}
+
+// app.use(express.static(path.join(process.cwd(), 'public')));
+// app.get('*', (req, res) => res.sendFile(path.join(process.cwd(), 'public/index.html')));
 
 app.listen(process.env.PORT || 8080, () => console.log("Gourmand server up and running."));
