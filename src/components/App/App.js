@@ -17,13 +17,13 @@ import Login from './Login/Login';
 import scrollToTop from "../utils/scrollToTop";
 import trackedLink from "../../utils/trackedLink";
 
-const { TRACKING_TOKEN } = constants;
+const { EVENT_TRACKING_TOKEN } = constants;
 const { distances } = yelpConstants;
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
 const likedMedia = new LikedMedia(getLikedMedia(storage), storage);
 const eventTracker = new EventTracker(
-	TRACKING_TOKEN,
+	EVENT_TRACKING_TOKEN,
 	[
 		trackedLink('#home-link', EventTracker.events.NAVIGATE, '/'),
 		trackedLink('#about-link', EventTracker.events.NAVIGATE, '/about'),
