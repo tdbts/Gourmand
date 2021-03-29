@@ -6,13 +6,16 @@
     z-index: 5;
 }
 
-.header-collapse.collapsing {
-    transition: height 200ms ease-in-out;
+.bg-light {
+    background-color: #fff ! important;
 }
 
-.header-content-wrapper {
-    display: inline-block;
-    max-width: 650px;
+.header-navbar .navbar-toggler:focus {
+    outline-color: #E56300;
+}
+
+.header-collapse.collapsing {
+    transition: height 200ms ease-in-out;
 }
 
 .header-nav > .nav-item {

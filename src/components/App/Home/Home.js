@@ -9,7 +9,7 @@ const Home = (props) => {
     return (
         <div className="home-page-container">
             <div className={"home-page-text-container"  + (canShowText ? " show" : "")}>
-                <h1 className="home-page-text home-page-company-name">Gourmand</h1>
+                <h1 className="home-page-text home-page-company-name company-name">Gourmand</h1>
                 <h3 className="home-page-text home-page-slogan">Find food.  Fast.</h3>
             </div>
             <Gallery {...props} mediaOrder={mediaOrder} onEntered={() => setCanShowText(true)}

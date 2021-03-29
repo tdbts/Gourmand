@@ -21,7 +21,7 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 
 	return (
 		<Navbar className="header-navbar" color="light" light expand="md">
-			<NavLink id="home-link" className="navbar-brand" to="/" onClick={() => onNavLinkClick('/')}>
+			<NavLink id="home-link" className="navbar-brand company-name" to="/" onClick={() => onNavLinkClick('/')}>
 				Gourmand
 			</NavLink>
         	<NavbarToggler onClick={toggle} />
