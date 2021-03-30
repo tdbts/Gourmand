@@ -6,13 +6,16 @@
     z-index: 5;
 }
 
-.header-collapse.collapsing {
-    transition: height 200ms ease-in-out;
+.bg-light {
+    background-color: #fff ! important;
 }
 
-.header-content-wrapper {
-    display: inline-block;
-    max-width: 650px;
+.header-navbar .navbar-toggler:focus {
+    outline-color: #E56300;
+}
+
+.header-collapse.collapsing {
+    transition: height 200ms ease-in-out;
 }
 
 .header-nav > .nav-item {
@@ -20,8 +23,13 @@
     white-space: nowrap;
 }
 
-#home-link, #about-link, #contact-link, #login-link {
+#about-link, #contact-link, #login-link {
     color: rgba(0,0,0,.5);
+}
+
+#home-link {
+    color: rgba(0,0,0,0.65);
+    letter-spacing: 1px;
 }
 
 .nav-separator {

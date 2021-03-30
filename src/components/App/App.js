@@ -7,6 +7,7 @@ import Lookup from '../../lookup/Lookup';
 import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
 import EventTracker from "../../tracking/EventTracker";
+import ReactGA from 'react-ga';
 import urlWithSearchParams from '../../search/urlWithSearchParams';
 import Header from './Header/Header';
 import Home from './Home/Home';
@@ -17,7 +18,7 @@ import Login from './Login/Login';
 import scrollToTop from "../utils/scrollToTop";
 import trackedLink from "../../utils/trackedLink";
 
-const { EVENT_TRACKING_TOKEN } = constants;
+const { EVENT_TRACKING_TOKEN, GOOGLE_ANALYTICS_ID } = constants;
 const { distances } = yelpConstants;
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
@@ -182,6 +183,17 @@ function App() {
 			eventTracker.track(EventTracker.events.CLICK_GALLERY_MEDIA);
 		}
 	}, [selectedMediaID]);
+
+	// Initialize Google Analytics page view tracking
+	if (GOOGLE_ANALYTICS_ID) {
+		window.console.log("Initializing Google Analytics.");
+
+		history.listen(location => {
+			ReactGA.initialize(GOOGLE_ANALYTICS_ID);
+			ReactGA.set({ page: location.pathname });
+			ReactGA.pageview(location.pathname);
+		});
+	}
 
 	const headerProps = {
 		description,
