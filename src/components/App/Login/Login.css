@@ -18,3 +18,7 @@
 .login-container .text-container h6 {
     margin-top: 25px;
 }
+
+.login-text {
+    text-shadow: 3px 3px 3px #000;
+}

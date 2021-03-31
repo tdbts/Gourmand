@@ -48,6 +48,12 @@
     max-width: 576px;
 }
 
+@media (orientation: landscape) {
+    .search-form {
+        min-width: 476px;
+    }
+}
+
 .search-form .input-group-prepend {
     overflow: hidden;
     background-color: #e9ecef;
