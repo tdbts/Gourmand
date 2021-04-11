@@ -1,5 +1,7 @@
+import { Html5Entities } from 'html-entities';
+
 function unescapeHTMLEntities(str) {
-    return str.replace(/&amp;/g, "&");
+    return Html5Entities.decode(str);
 }
 
 export default unescapeHTMLEntities;

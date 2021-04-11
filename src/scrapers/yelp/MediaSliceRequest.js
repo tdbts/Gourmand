@@ -1,5 +1,8 @@
 import constants from './constants.js';
 import YelpMedia from './YelpMedia.js';
+import unescapeHTMLEntities from "../../utils/unescapeHTMLEntities.js";
+
+const { errorMessages } = constants;
 
 /*
  * MediaSliceRequest
@@ -27,25 +30,29 @@ export default class MediaSliceRequest {
 function processMediaSliceResponse(restaurant, startIndex, response) {
 	if (response.status < 300) {
 		return getMediaFromJSON(response.body);
+	} else if (response.status >= 500) {
+		throw new Error(errorMessages.BLOCKED_REQUEST);
 	}
 
-	console.error(`
+	throw new Error(`
 		Media slice response: Unable to handle response 
 		  Restaurant: ${restaurant.name}
-		  StartIndex: ${startIndex}
+		  StartIndex: ${startIndex}			  
 		  Status: ${response.status}
 	`);
-
-	return [];
 }
 
 function getMediaFromJSON(json) {
 	return json.media.map(json => new YelpMedia(
 		json.media_id,
 		json.media_type,
-		json.media_data.caption,
+		formatCaption(json.media_data.caption),
 		json.src
 	));
+}
+
+function formatCaption(caption) {
+	return caption ? unescapeHTMLEntities(caption) : null;
 }
 
 function formatMediaSliceURL(mediaSlicePath, startIndex) {

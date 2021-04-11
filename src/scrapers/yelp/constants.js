@@ -22,8 +22,14 @@ const url = {
 	LOCATION_SEARCH_SNIPPET_PREFIX
 };
 
+const errorMessages = {
+	BLOCKED_REQUEST: "BLOCKED_REQUEST",
+	MEDIA_METADATA_REQUEST_FAILURE: "MEDIA_METADATA_REQUEST_FAILURE"
+};
+
 export default {
 	queryTypes,
 	distances,
-	url
+	url,
+	errorMessages
 };

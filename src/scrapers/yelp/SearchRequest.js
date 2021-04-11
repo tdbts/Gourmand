@@ -3,13 +3,19 @@ import SearchResponseJSON from "./SearchResponseJSON.js";
 import SearchResponseHTML from "./SearchResponseHTML.js";
 import constants from "./constants.js";
 
+const { errorMessages } = constants;
+
 /*
  * SearchRequest
  *
  * Makes search request for restaurant list for a particular location.
+ *
+ * First attempts to retrieve restaurant list via '/search/snippets' endpoint.
+ *
+ * If the first attempt to endpoint gets blocked, then attempts to retrieve restaurant list by making a request to the
+ * '/search' endpoint and parsing the returned HTML.
  */
 export default class SearchRequest {
-	static BLOCKED_REQUEST = "BLOCKED_REQUEST";
 
 	constructor(client) {
 		this.client = client;
@@ -22,7 +28,7 @@ export default class SearchRequest {
 			.get(url)
 			.then(processSearchResponse)
 			.catch(e => {
-				if (e.message === SearchRequest.BLOCKED_REQUEST) {
+				if (e.message === errorMessages.BLOCKED_REQUEST) {
 					console.warn("Search snippet request blocked.  Attempting to call and parse search HTML.");
 					return this.client
 						.get(getSearchHTMLURL(query, startIndex))
@@ -40,7 +46,7 @@ function processSearchResponse(response) {
 	if (response.status < 300) {
 		return new SearchResponseJSON(response.body).parse();
 	} else if (response.status >= 500) {
-		throw new Error(SearchRequest.BLOCKED_REQUEST);
+		throw new Error(errorMessages.BLOCKED_REQUEST);
 	} else {
 		console.log("response:", response);
 		throw new Error("Location query returned status code:" + response.status);
