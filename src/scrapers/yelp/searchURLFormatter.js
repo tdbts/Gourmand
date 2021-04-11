@@ -1,5 +1,6 @@
 import constants from "./constants.js";
 import pipe from "../../utils/pipe.js";
+import url from "url";
 
 function addDescription(description, params) {
     const formatted = description
@@ -31,10 +32,11 @@ function addStart(start, params) {
     return params.concat(`start=${start || 0}`);
 }
 
-const searchURLFormatter = {
+// Encloses URL prefix and returns utility object
+const searchURLFormatter = urlPrefix => ({
     location(query, startIndex) {
         return [
-            constants.url.LOCATION_SEARCH_PREFIX,
+            urlPrefix,
             pipe(
                 params => addDescription(query.getDescription(), params),
                 params => addLocation(query.getLocation(), params),
@@ -50,8 +52,8 @@ const searchURLFormatter = {
         const COUNTRY_CODE = "a:";
         const location = encodeURIComponent(COUNTRY_CODE + query.getText());
 
-        return constants.url.LOCATION_SEARCH_PREFIX + location;
+        return urlPrefix + location;
     }
-};
+});
 
 export default searchURLFormatter;

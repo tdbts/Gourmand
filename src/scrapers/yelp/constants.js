@@ -1,5 +1,6 @@
 const DOMAIN = "https://www.yelp.com";
-const LOCATION_SEARCH_PREFIX = DOMAIN + "/search/snippet";
+const LOCATION_SEARCH_PREFIX = DOMAIN + "/search";
+const LOCATION_SEARCH_SNIPPET_PREFIX = LOCATION_SEARCH_PREFIX + "/snippet";
 
 const queryTypes = {
 	LOCATION: 'location',
@@ -17,7 +18,8 @@ const distances = {
 
 const url = {
 	DOMAIN,
-	LOCATION_SEARCH_PREFIX
+	LOCATION_SEARCH_PREFIX,
+	LOCATION_SEARCH_SNIPPET_PREFIX
 };
 
 export default {

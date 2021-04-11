@@ -64,7 +64,7 @@ function getOrderedMedia(restaurants, mediaOrder) {
 
 	return mediaOrder
 		.map(id => mediaByID[id])
-		.map(media => (new YelpMedia().populateFromBSON(media)));
+		.map(media => (YelpMedia.populateFromBSON(media)));
 }
 
 function getShuffledMedia(restaurants) {
@@ -73,7 +73,7 @@ function getShuffledMedia(restaurants) {
 	console.log("allMedia:", allMedia);
 	const shuffledMedia = _.shuffle(allMedia);
 	// console.log("shuffledMedia:", shuffledMedia);
-	return shuffledMedia.map(media => (new YelpMedia().populateFromBSON(media)));
+	return shuffledMedia.map(media => (YelpMedia.populateFromBSON(media)));
 }
 
 export default Gallery;

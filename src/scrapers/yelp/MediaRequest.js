@@ -23,7 +23,7 @@ export default class MediaRequest {
 	send(restaurant) {
 		return retrieveMediaMetadata(this.client, restaurant)
 			// If metadata retrieval successful and media URL present, make request
-			.then(() => restaurant.getMediaURL()
+			.then(() => restaurant.getMediaSlicePath()
 				// TODO: Scrape all slices
 				? new MediaSliceRequest(this.client).send(restaurant, 0)
 				: []);
@@ -32,7 +32,7 @@ export default class MediaRequest {
 };
 
 function retrieveMediaMetadata(client, restaurant) {
-	if (restaurant.getMediaURL()) {
+	if (restaurant.getMediaSlicePath()) {
 		return Promise.resolve();
 	}
 
@@ -56,7 +56,7 @@ function processMetadataResponse(restaurant, response) {
 
 function setExtractedProperties(restaurant, json) {
 	restaurant.setMediaCount(json.lightbox_metadata['data-media-count']);
-	restaurant.setMediaURL(json.lightbox_metadata['data-media-url']);	
+	restaurant.setMediaSlicePath(json.lightbox_metadata['data-media-url']);
 }
 
 function makePhotoPageRequest(client, photoPageURL) {

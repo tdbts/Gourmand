@@ -1,7 +1,8 @@
 import Cache from '../cache/Cache.js';
 import DAO from '../data/DAO.js';
 import YelpScraper from '../scrapers/yelp/YelpScraper.js';
-import Restaurant from '../domain/Restaurant.js';
+import YelpRestaurant from "../scrapers/yelp/YelpRestaurant.js";
+import YelpMedia from "../scrapers/yelp/YelpMedia.js";
 
 let client;
 let yelp;
@@ -103,7 +104,7 @@ function scrapeRestaurantMedia(restaurant) {
 }
 
 function instanceFromBSON(bson) {
-	return new Restaurant().populateFromBSON(bson);
+	return YelpRestaurant.populateFromBSON(bson, YelpMedia.populateFromBSON);
 }
 
 export default SearchService;

@@ -16,7 +16,7 @@ export default class MediaSliceRequest {
 	}
 
 	send(restaurant, startIndex) {
-		const url = formatMediaSliceURL(restaurant.mediaURL, validateStartIndex(startIndex));
+		const url = formatMediaSliceURL(restaurant.mediaSlicePath, validateStartIndex(startIndex));
 		// console.log("url:", url);
 		return this.client.get(url)
 			.then(response => processMediaSliceResponse(restaurant, startIndex, response));
@@ -48,8 +48,8 @@ function getMediaFromJSON(json) {
 	));
 }
 
-function formatMediaSliceURL(mediaURL, startIndex) {
-	return constants.url.DOMAIN + mediaURL + `&get_local_ads=1&start=${startIndex}&dir=f`;
+function formatMediaSliceURL(mediaSlicePath, startIndex) {
+	return constants.url.DOMAIN + mediaSlicePath + `&get_local_ads=1&start=${startIndex}&dir=f`;
 }
 
 function validateStartIndex(startIndex) {
