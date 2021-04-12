@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import helmet from 'helmet';
 import path from 'path';
 import mongoose from 'mongoose';
 import request from 'superagent';
@@ -11,6 +12,8 @@ const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
 const nonSearchRoutes = ['/', '/gallery', '/about', '/contact', '/login'];
+
+app.use(helmet());
 
 // Connect to MongoDB
 mongoose
