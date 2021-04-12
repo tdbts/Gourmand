@@ -2,6 +2,7 @@ import './MediaModal.css';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import getUnlikedMediaIcon from '../../../../utils/getUnlikedMediaIcon';
 import getLikedMediaIcon from '../../../../utils/getLikedMediaIcon';
+import { useDoubleTap } from "use-double-tap";
 
 function formatCaption(caption) {
 	return caption ? `"${caption}"` : "[ No Caption ]";
@@ -27,6 +28,7 @@ function MediaModal({selected, onMediaLikeToggle, onClose, isLiked}) {
 	const {source, caption} = media;
 	const {name, address, neighborhoods, categories, rating} = restaurant;
 	const onIconClick = () => onMediaLikeToggle(media.id);
+	const mobileDoubleClickHandler = useDoubleTap(onIconClick);
 
 	return (
 		<Modal isOpen={!!selected} toggle={onClose} className="media-modal-container">
@@ -36,7 +38,7 @@ function MediaModal({selected, onMediaLikeToggle, onClose, isLiked}) {
 			<ModalBody>
 				<div className="modal-info-container">
 					<div className="modal-image-container">
-						<img className="food-media modal-image" src={source} />
+						<img className="food-media modal-image" src={source}  onDoubleClick={onIconClick} {...mobileDoubleClickHandler} />
 						{ isLiked ? getLikedMediaIcon("32", "32", "white", "liked-media-icon", onIconClick) : getUnlikedMediaIcon("32", "32", "white", "unliked-media-icon", onIconClick) }
 					</div>
 					<div className="restaurant-details-container">
