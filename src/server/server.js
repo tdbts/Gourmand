@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import request from 'superagent';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
+import sanitize from "sanitize";
 import Client from '../client/Client.js';
 import SearchService from '../search/SearchService.js';
 const app = express();
@@ -13,7 +14,9 @@ const client = new Client(request);
 const service = new SearchService(client);
 const nonSearchRoutes = ['/', '/gallery', '/about', '/contact', '/login'];
 
+// Security middleware
 app.use(helmet());
+app.use(sanitize.middleware);
 
 // Connect to MongoDB
 mongoose
