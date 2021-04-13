@@ -37,7 +37,7 @@ class SearchService {
 			})
 			.then(restaurants => restaurants.map(restaurant => restaurant.toJSON()));
 	}
-};
+}
 
 function resolveQuery(query, cache) {
 	const { location, distance } = query;
