@@ -1,1 +1,1 @@
-https://www.yelp.com/search?find_desc=Restaurants&find_loc=Brooklyn%2C+NY+11219&ns=1
+https://www.yelp.com/search?find_desc=GRestaurants&find_loc=Brooklyn%2C+NY+11219&ns=1

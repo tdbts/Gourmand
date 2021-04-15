@@ -35,7 +35,7 @@ function SearchForm({onSearchRequest, description, setDescription, location, set
   	
   	const toggleSuggestions = () => setSuggestionsOpen(prevState => !prevState);
   	const hideSuggestions = () => setSuggestionsOpen(false);
-  	const getLocationIconSource = (requestingLocation) => requestingLocation ? "spinner.png" : "target.svg";
+  	const getLocationIconSource = (requestingLocation) => requestingLocation ? "/spinner.png" : "/target.svg";
   	
   	const requestLocation = (e) => {
   		// Prevent page refresh
@@ -62,7 +62,7 @@ function SearchForm({onSearchRequest, description, setDescription, location, set
 			<div className="input-group-container">
 				<InputGroup>
 					<InputGroupAddon addonType="prepend">
-						<img className="input-icon query-icon" src="magnifying-glass.svg" />
+						<img className="input-icon query-icon" src="/magnifying-glass.svg" />
 					</InputGroupAddon>
 					<Input className="search-input description-input" type="text" value={description} onChange={onDescriptionChange} placeholder="e.g. Pizza" />
 				</InputGroup>

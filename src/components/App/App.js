@@ -15,6 +15,7 @@ import SearchResults from './SearchResults/SearchResults';
 import About from './About/About';
 import Contact from './Contact/Contact';
 import Login from './Login/Login';
+import Restaurant from "./Restaurant/Restaurant";
 import scrollToTop from "../utils/scrollToTop";
 import trackedLink from "../../utils/trackedLink";
 
@@ -33,7 +34,7 @@ const eventTracker = new EventTracker(
 		trackedLink('.restaurant-address', EventTracker.events.OPEN_MAP)
 	]);
 
-eventTracker.track(EventTracker.events.PAGE_VISIT);
+eventTracker.track(EventTracker.events.PAGE_VISIT, { pathname: window.location.pathname });
 
 function getLikedMedia(storage) {
 	try {
@@ -82,7 +83,7 @@ function checkResponseForErrors(response) {
 	throw new Error(response.statusText);
 }
 
-function checkJSONForErrors(restaurants) {
+function checkSearchJSONForErrors(restaurants) {
 	const hasMedia = restaurants.some(restaurant => restaurant.mediaCount > 0);
 
 	if (hasMedia) {
@@ -95,12 +96,39 @@ function checkJSONForErrors(restaurants) {
 function getRestaurantJSON(url) {
 	return fetch(url)
 		.then(checkResponseForErrors)
-		.then(response => response.text())
+		.then(convertResponseToJSON)
+		.then(checkSearchJSONForErrors);
+}
+
+function convertResponseToJSON(response) {
+	return response.text()
 		.then(text => {
 			// console.log("Restaurant JSON (text):", text);
 			return JSON.parse(text);
-		})
-		.then(checkJSONForErrors);
+		});
+}
+
+function getRestaurantDataByID(id) {
+	let restaurant = lookup.getRestaurantByID(id);
+
+	// TODO: Get restaurant data remotely
+	if (restaurant)
+		return Promise.resolve(restaurant);
+
+	console.warn(`Restaurant data not in lookup: ${id}`);
+	const url = `/restaurant-lookup?id=${id}`;
+	return fetch(url)
+		.then(checkResponseForErrors)
+		.then(convertResponseToJSON)
+		.then(restaurant => {
+			if (!restaurant) {
+				throw new Error("Could not find that restaurant.");
+			}
+
+			// Update expects an array of restaurants
+			lookup.update(url, [restaurant]);
+			return restaurant;
+		});
 }
 
 function onError(e, setError, eventTracker) {
@@ -111,6 +139,12 @@ function onError(e, setError, eventTracker) {
 
 function onNavLinkClick(pathname) {
 	eventTracker.track(EventTracker.events.NAVIGATE, { pathname });
+}
+
+const onRestaurantLinkClick = (setSelectedMediaID) => () => {
+	eventTracker.track(EventTracker.events.OPEN_RESTAURANT_PAGE);
+	setSelectedMediaID('');
+	scrollToTop();
 }
 
 const onDistanceDropdownClick = setDistance => distance => {
@@ -213,6 +247,7 @@ function App() {
 	const mediaModalProps = {
 		selected: getSelectedMediaInfo(selectedMediaID, lookup),
 		onMediaLikeToggle: (id) => toggleLikedMedia(id, setLikedMedia),
+		onRestaurantLinkClick: onRestaurantLinkClick(setSelectedMediaID),
 		onClose: () => setSelectedMediaID(''),
 		isLiked: isLikedMedia(selectedMediaID)
 	};
@@ -229,6 +264,13 @@ function App() {
 	const searchResultsProps = {
 		error,
 		...galleryProps
+	};
+
+	const restaurantProps = {
+		getRestaurantDataByID,
+		isLikedMedia,
+		galleryProps,
+		mediaModalProps
 	};
 
 	return (
@@ -249,6 +291,9 @@ function App() {
 				</Route>
 				<Route path={'/login'}>
 					<Login />
+				</Route>
+				<Route path={'/restaurant/:id'}>
+					<Restaurant {...restaurantProps} />
 				</Route>
 			</Switch>
 		</div>

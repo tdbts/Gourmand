@@ -12,7 +12,7 @@ import SearchService from '../search/SearchService.js';
 const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
-const nonSearchRoutes = ['/', '/gallery', '/about', '/contact', '/login'];
+const nonSearchRoutes = ['/', '/gallery', '/about', '/contact', '/login', '/restaurant'];
 
 // Security middleware
 app.use(helmet());
@@ -44,7 +44,8 @@ transporter.verify()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get('/search', function (req, res) {
+app.get('/search', (req, res) => {
+	console.log("New search query.");
 	const { location, description, distance } = req.query;
 	console.log("location:", location);
 	console.log("description:", description);
@@ -56,6 +57,26 @@ app.get('/search', function (req, res) {
 		})
 		.catch(e => {
 			console.error("Something went wrong during search request.");
+			console.error(e);
+			res.send(500);
+		});
+});
+
+app.get('/restaurant-lookup', (req, res) => {
+	console.log("New restaurant query.");
+	const { id } = req.query;
+	console.log("id: " + id);
+	return service.findRestaurant({id})
+		.then(restaurant => {
+			if (restaurant) {
+				res.setHeader('Content-Type', 'application/json');
+				res.json(restaurant);
+			} else {
+				res.status(404);
+			}
+		})
+		.catch(e => {
+			console.error("Something went wrong during restaurant query request.");
 			console.error(e);
 			res.send(500);
 		});

@@ -1,28 +1,16 @@
 import './MediaModal.css';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import MapLink from "../../MapLink/MapLink";
 import getUnlikedMediaIcon from '../../../../utils/getUnlikedMediaIcon';
 import getLikedMediaIcon from '../../../../utils/getLikedMediaIcon';
 import { useDoubleTap } from "use-double-tap";
+import {Link} from "react-router-dom";
 
 function formatCaption(caption) {
 	return caption ? `"${caption}"` : "[ No Caption ]";
 }
 
-function onAddressClick(e, address) {
-	e.preventDefault();
-	openInNewTab(formatMapLink(address));
-}
-
-function openInNewTab(url) {
-	const win = window.open(url, '_blank');
-	win.focus();
-}
-
-function formatMapLink(address) {
-	return "https://www.google.com/maps/place/" + address.join(" ").replace(" ", "+");
-}
-
-function MediaModal({selected, onMediaLikeToggle, onClose, isLiked}) {
+function MediaModal({selected, onMediaLikeToggle, onRestaurantLinkClick, onClose, isLiked }) {
 	console.log("selected:", selected);
 	const {media, restaurant} = selected;
 	const {source, caption} = media;
@@ -42,8 +30,8 @@ function MediaModal({selected, onMediaLikeToggle, onClose, isLiked}) {
 						{ isLiked ? getLikedMediaIcon("32", "32", "white", "liked-media-icon", onIconClick) : getUnlikedMediaIcon("32", "32", "white", "unliked-media-icon", onIconClick) }
 					</div>
 					<div className="restaurant-details-container">
-						{name && <div className="restaurant-name">{name}</div>}
-						{address && <a onClick={e => onAddressClick(e, address)} className="restaurant-address">{address.join(" ")}</a>}
+						{name && <Link className="restaurant-name" to={`/restaurant/${restaurant.id}`} onClick={onRestaurantLinkClick}><div>{name}</div></Link>}
+						{address && <MapLink className="restaurant-address" address={address} />}
 						{neighborhoods && <div className="restaurant-neighborhoods">{neighborhoods.join(", ")}</div>}
 						{categories && <div className="restaurant-categories">{categories.join(", ")}</div>}
 						{rating && <div className="restaurant-rating">{rating}</div>}

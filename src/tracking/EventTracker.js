@@ -13,6 +13,7 @@ class EventTracker {
         LIKE_MEDIA: 'LIKE_MEDIA',
         UNLIKE_MEDIA: 'UNLIKE_MEDIA',
         OPEN_MAP: 'OPEN_MAP',
+        OPEN_RESTAURANT_PAGE: 'OPEN_RESTAURANT_PAGE',
         ERROR: 'ERROR'
     };
 
