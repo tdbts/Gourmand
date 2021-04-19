@@ -1,8 +1,14 @@
+import { useState, useEffect } from 'react';
 import YelpMedia from "../../../../scrapers/yelp/YelpMedia";
 
 const withOrderedMedia = (Gallery) => ({ restaurants, mediaOrder, ...props }) => {
-    const media = getOrderedMedia(restaurants, mediaOrder);
-    return <Gallery media={media} {...props} />;
+    const [orderedMedia, setOrderedMedia] = useState([]);
+
+    useEffect(() => {
+        setOrderedMedia(getOrderedMedia(restaurants, mediaOrder));
+    }, [restaurants]);
+
+    return <Gallery media={orderedMedia} {...props} />;
 };
 
 function getOrderedMedia(restaurants, mediaOrder) {

@@ -175,27 +175,36 @@ function App() {
 	useEffect(() => {
 		console.log("browserLocation:", browserLocation);
 		const { pathname, search } = browserLocation;
+		const lookupKey = pathname + search;
 
 		if (search) {
 			setError(null);
-			setSearching(true);
-			eventTracker.track(EventTracker.events.SEARCH, { description, location, distance });
 
-			const searchURL = urlWithSearchParams('/search', {description, location, distance});
+			const cachedRestaurants = lookup.getRestaurantsByURL(lookupKey);
 
-			getRestaurantJSON(searchURL)
-				.then(json => {
-					lookup.update(pathname + search, json);
-					console.log("lookup:", lookup);
-					setRestaurants(json);
-					setSearching(false);
-					scrollToTop();
-				})
-				.catch(e => onError(e, setError, eventTracker));
+			if (cachedRestaurants) {
+				setRestaurants(cachedRestaurants);
+				scrollToTop();
+			} else {
+				setSearching(true);
+				eventTracker.track(EventTracker.events.SEARCH, { description, location, distance });
+
+				const searchURL = urlWithSearchParams('/search', {description, location, distance});
+
+				getRestaurantJSON(searchURL)
+					.then(json => {
+						lookup.update(lookupKey, json);
+						console.log("lookup:", lookup);
+						setRestaurants(json);
+						setSearching(false);
+						scrollToTop();
+					})
+					.catch(e => onError(e, setError, eventTracker));
+			}
 		} else if (pathname === '/') {
 			getRestaurantJSON('./home-page-restaurants.json')
 				.then(json => {
-					lookup.update(pathname + search, json);
+					lookup.update(lookupKey, json);
 					setRestaurants(json);
 				})
 				.catch(e => onError(e, setError, eventTracker));
@@ -257,7 +266,7 @@ function App() {
 		searching,
 		showLiked,
 		selectedMediaID,
-		restaurants: lookup.getRestaurantsByURL(browserLocation.pathname + browserLocation.search) || restaurants,
+		restaurants,
 		onMediaSelection: setSelectedMediaID
 	};
 

@@ -3,21 +3,22 @@ import _ from "underscore";
 import YelpMedia from "../../../../scrapers/yelp/YelpMedia";
 
 const withShuffledMedia = (Gallery) => ({ restaurants, ...props }) => {
-    const [canShuffleMedia, setCanShuffleMedia] = useState(true);
+    // const [canShuffleMedia, setCanShuffleMedia] = useState(true);
     const [shuffledMedia, setShuffledMedia] = useState([]);
-    const onEntered = () => {
-        setCanShuffleMedia(false);
-    };
-    const onExited = () => {
-        setCanShuffleMedia(true);
-    };
+    // const onEntered = () => {
+    //     setCanShuffleMedia(false);
+    // };
+    // const onExited = () => {
+    //     setCanShuffleMedia(true);
+    // };
     useEffect(() => {
-        if (canShuffleMedia) {
-            setShuffledMedia(getShuffledMedia(restaurants));
-        }
-    }, [restaurants, canShuffleMedia]);
+        // if (canShuffleMedia) {
+        //     setShuffledMedia(getShuffledMedia(restaurants));
+        // }
+        setShuffledMedia(getShuffledMedia(restaurants));
+    }, [restaurants]);
 
-    return <Gallery media={shuffledMedia} {...props} onEntered={onEntered} onExited={onExited} />;
+    return <Gallery media={shuffledMedia} {...props} />;
 };
 
 function getShuffledMedia(restaurants) {
