@@ -20,7 +20,7 @@ function getOrderedMedia(restaurants, mediaOrder) {
         .reduce((map, media) => {
             map[media.id] = media;
             return map;
-        }, {})
+        }, {});
 
     return mediaOrder
         .map(id => mediaByID[id])

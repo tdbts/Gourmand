@@ -27,6 +27,7 @@
     "react-transition-group": "^4.3.0",
     "reactstrap": "^8.7.1",
     "sanitize": "^2.1.0",
+    "seededshuffle": "^0.2.0",
     "superagent": "^6.1.0",
     "underscore": "^1.11.0",
     "url": "^0.11.0",

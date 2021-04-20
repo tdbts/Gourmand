@@ -18,6 +18,7 @@ import Login from './Login/Login';
 import Restaurant from "./Restaurant/Restaurant";
 import scrollToTop from "../utils/scrollToTop";
 import trackedLink from "../../utils/trackedLink";
+import path from "path";
 
 const { EVENT_TRACKING_TOKEN, GOOGLE_ANALYTICS_ID } = constants;
 const { distances } = yelpConstants;
@@ -157,6 +158,9 @@ const onShowLikedChange = setShowLiked => showLiked => {
 	setShowLiked(showLiked);
 };
 
+const isGalleryPage = pathname => pathname.startsWith('/gallery');
+const isHomePage = pathname => pathname === '/';
+
 function App() {
 	const [restaurants, setRestaurants] = useState([]);
 	const [description, setDescription] = useState('');
@@ -171,36 +175,37 @@ function App() {
 	const history = useHistory();
 	const browserLocation = useLocation();
 
+    console.log("browserLocation:", browserLocation);
+    const { pathname, search } = browserLocation;
+    const lookupKey = pathname + search;
+
 	// console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
-		console.log("browserLocation:", browserLocation);
-		const { pathname, search } = browserLocation;
-		const lookupKey = pathname + search;
+        setError(null);
 
-		if (search) {
-			setError(null);
+        if (!isGalleryPage(pathname) || !isHomePage(pathname))
+            return;
 
-			const cachedRestaurants = lookup.getRestaurantsByURL(lookupKey);
+        const cachedRestaurants = lookup.getRestaurantsByURL(lookupKey);
 
-			if (cachedRestaurants) {
-				setRestaurants(cachedRestaurants);
-				scrollToTop();
-			} else {
-				setSearching(true);
-				eventTracker.track(EventTracker.events.SEARCH, { description, location, distance });
+        if (cachedRestaurants) {
+            setRestaurants(cachedRestaurants);
+            scrollToTop();
+        } else if (search) {
+            setSearching(true);
+            eventTracker.track(EventTracker.events.SEARCH, { description, location, distance });
 
-				const searchURL = urlWithSearchParams('/search', {description, location, distance});
+            const searchURL = urlWithSearchParams('/search', {description, location, distance});
 
-				getRestaurantJSON(searchURL)
-					.then(json => {
-						lookup.update(lookupKey, json);
-						console.log("lookup:", lookup);
-						setRestaurants(json);
-						setSearching(false);
-						scrollToTop();
-					})
-					.catch(e => onError(e, setError, eventTracker));
-			}
+            getRestaurantJSON(searchURL)
+                .then(json => {
+                    lookup.update(lookupKey, json);
+                    console.log("lookup:", lookup);
+                    setRestaurants(json);
+                    setSearching(false);
+                    scrollToTop();
+                })
+                .catch(e => onError(e, setError, eventTracker));
 		} else if (pathname === '/') {
 			getRestaurantJSON('./home-page-restaurants.json')
 				.then(json => {
@@ -287,7 +292,7 @@ function App() {
 			<Header {...headerProps} />
 			<Switch>
 				<Route exact path={'/'}>
-					<Home {...galleryProps} mediaModalProps={mediaModalProps} />
+					<Home {...galleryProps} mediaModalProps={mediaModalProps} restaurants={lookup.getRestaurantsByURL(lookupKey) || []} />
 				</Route>
 				<Route path={'/gallery'}>
 					<SearchResults {...searchResultsProps} mediaModalProps={mediaModalProps} />
