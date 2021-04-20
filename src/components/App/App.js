@@ -183,7 +183,7 @@ function App() {
 	useEffect(() => {
         setError(null);
 
-        if (!isGalleryPage(pathname) || !isHomePage(pathname))
+        if (!isGalleryPage(pathname) && !isHomePage(pathname))
             return;
 
         const cachedRestaurants = lookup.getRestaurantsByURL(lookupKey);

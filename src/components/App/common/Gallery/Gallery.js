@@ -4,7 +4,6 @@ import GalleryMedia from './GalleryMedia/GalleryMedia';
 import SearchCurtain from './SearchCurtain/SearchCurtain';
 import { CSSTransition } from "react-transition-group";
 import MediaModal from "./MediaModal/MediaModal";
-import _ from 'underscore';
 
 const NOOP = () => {};
 
@@ -15,11 +14,6 @@ const Gallery = ({media, selectedMediaID, onMediaSelection, isLikedMedia, search
 	const [canEnter, setCanEnter] = useState(true);
 	const color = renderedMedia.length ? "light" : "dark";
 	const canRender = !searching && canEnter;
-
-	const _setCanEnter = (...args) => {
-		console.log("onExited(): setCanEnter()");
-		return setCanEnter(...args);
-	};
 
 	useEffect(() => {
 		if (canRender && (media !== renderedMedia) && media.length) {
@@ -34,7 +28,7 @@ const Gallery = ({media, selectedMediaID, onMediaSelection, isLikedMedia, search
 	}, [searching]);
 
 	return (
-		<CSSTransition classNames={"thumbnail-swap"} in={canRender} appear={true} timeout={transitionTimeout || 1000} onEntered={onEntered} onExited={() => _setCanEnter(true)}>
+		<CSSTransition classNames={"thumbnail-swap"} in={canRender} appear={true} timeout={transitionTimeout || 1000} onEntered={onEntered} onExited={() => setCanEnter(true)}>
 			<div className="gallery-container">
 				{filterLiked(renderedMedia, showLiked, isLikedMedia).map((m, i) => (
 					<GalleryMedia key={i} searching={searching} media={m} onMediaSelection={onMediaSelection} isLiked={isLikedMedia(m.id)} />
