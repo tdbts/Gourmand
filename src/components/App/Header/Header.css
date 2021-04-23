@@ -19,6 +19,10 @@
     transition: height 200ms ease-in-out;
 }
 
+.header-nav .nav-link {
+    display: inline-block;
+}
+
 .header-nav > .nav-item {
     padding: 0 10px;
     white-space: nowrap;

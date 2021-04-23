@@ -59,12 +59,6 @@
     background-color: #e9ecef;
 }
 
-@media only screen and (min-width: 768px) {
-    .search-form {
-        display: flex;
-    }
-}
-
 .search-input {
     padding: 5px;
 }

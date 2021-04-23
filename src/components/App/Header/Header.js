@@ -20,7 +20,7 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 	const toggle = () => setIsOpen(!isOpen);
 
 	return (
-		<Navbar className="header-navbar" color="light" light expand="md">
+		<Navbar className="header-navbar" color="light" light>
 			<NavLink id="home-link" className="navbar-brand company-name" to="/" onClick={() => onNavLinkClick('/')}>
 				Gourmand
 			</NavLink>
