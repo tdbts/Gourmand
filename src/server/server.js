@@ -7,6 +7,7 @@ import request from 'superagent';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
 import sanitize from "sanitize";
+import indexRoute from "./routes/index/index.js";
 import Client from '../client/Client.js';
 import SearchService from '../search/SearchService.js';
 const app = express();
@@ -43,74 +44,13 @@ transporter.verify()
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.get('/search', (req, res) => {
-	console.log("New search query.");
-	const { location, description, distance } = req.query;
-	console.log("location:", location);
-	console.log("description:", description);
-	console.log("distance:", distance);  // Distance remains a string (thus, truthy) until array lookup
-	return service.find({location, description, distance})
-		.then(restaurants => {
-			res.setHeader('Content-Type', 'application/json');
-			res.json(restaurants);
-		})
-		.catch(e => {
-			console.error("Something went wrong during search request.");
-			console.error(e);
-			res.send(500);
-		});
-});
-
-app.get('/restaurant-lookup', (req, res) => {
-	console.log("New restaurant query.");
-	const { id } = req.query;
-	console.log("id: " + id);
-	return service.findRestaurant({id})
-		.then(restaurant => {
-			if (restaurant) {
-				res.setHeader('Content-Type', 'application/json');
-				res.json(restaurant);
-			} else {
-				res.status(404);
-			}
-		})
-		.catch(e => {
-			console.error("Something went wrong during restaurant query request.");
-			console.error(e);
-			res.send(500);
-		});
-});
-
-app.post('/contact', (req, res) => {
-	console.log("New message incoming.");
-	console.log(req.body);
-	const { name, email, subject, message: text } = req.body;
-	const emailConfig = {
-		from: `${name} <${email}>`,
-		to: process.env.CONTACT_EMAIL,
-		subject,
-		text
-	};
-
-	console.log("JSON.stringify(emailConfig)", JSON.stringify(emailConfig));
-
-	transporter.sendMail(emailConfig)
-		.then(() => {
-			console.log("Message successfully sent.");
-			res.json({status: 'success'});
-		})
-		.catch((err) => {
-			console.error("Message error:", err);
-			res.json({status: 'failure', message: err.message});
-		});
-});
+app.use('/', indexRoute(service, transporter));
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(process.cwd(), 'build')));
 
 	nonSearchRoutes.forEach(route => {
-		app.get(route, function (req, res) {
+		app.get(route, (req, res) => {
 			res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
 		});
 	});
