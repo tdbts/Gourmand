@@ -1,0 +1,7 @@
+.sign-up-button a.active {
+    color: #fff;
+}
+
+.sign-up-button a {
+    text-decoration: none;
+}

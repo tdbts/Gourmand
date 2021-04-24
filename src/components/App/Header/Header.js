@@ -6,9 +6,11 @@ import {
 	NavbarToggler,
 	NavbarBrand,
 	Nav,
-	NavItem
+	NavItem,
+	Button
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom'
+import SignUpButton from "./SignUpButton/SignUpButton";
 import SearchForm from './SearchForm/SearchForm';
 import ShowLikedCheckbox from './ShowLikedCheckbox/ShowLikedCheckbox';
 import DistanceDropdown from './DistanceDropdown/DistanceDropdown';
@@ -24,6 +26,11 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 			<NavLink id="home-link" className="navbar-brand company-name" to="/" onClick={() => onNavLinkClick('/')}>
 				Gourmand
 			</NavLink>
+			<Nav className="ml-auto mr-3" pills>
+				<NavItem>
+					<SignUpButton />
+				</NavItem>
+			</Nav>
         	<NavbarToggler onClick={toggle} />
         	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
         		<Nav className="header-nav" navbar>
