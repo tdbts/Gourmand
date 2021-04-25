@@ -4,7 +4,7 @@ import { Button } from "reactstrap";
 
 const SignUpButton = ({}) => (
     <Button className="sign-up-button" color="secondary" size="sm">
-        <NavLink href="#" to="#">Sign Up</NavLink>
+        <NavLink href="#" to="/user/signup">Sign Up</NavLink>
     </Button>
 );
 

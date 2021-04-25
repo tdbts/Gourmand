@@ -16,6 +16,7 @@ import About from './About/About';
 import Contact from './Contact/Contact';
 import Login from './Login/Login';
 import Restaurant from "./Restaurant/Restaurant";
+import SignUp from "./SignUp/SignUp";
 import scrollToTop from "../utils/scrollToTop";
 import trackedLink from "../../utils/trackedLink";
 import path from "path";
@@ -303,11 +304,14 @@ function App() {
 				<Route path={'/contact'}>
 					<Contact />
 				</Route>
-				<Route path={'/login'}>
+				<Route path={'/user/login'}>
 					<Login />
 				</Route>
 				<Route path={'/restaurant/:id'}>
 					<Restaurant {...restaurantProps} />
+				</Route>
+				<Route path={'/user/signup'}>
+					<SignUp />
 				</Route>
 			</Switch>
 		</div>

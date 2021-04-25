@@ -13,7 +13,7 @@ import SearchService from '../search/SearchService.js';
 const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
-const nonSearchRoutes = ['/', '/gallery', '/about', '/contact', '/login', '/restaurant'];
+const nonSearchRoutes = ['/', '/gallery', '/about', '/contact', '/restaurant', '/user/signup', '/user/login'];
 
 // Security middleware
 app.use(helmet());

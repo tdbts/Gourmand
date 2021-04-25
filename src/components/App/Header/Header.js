@@ -41,7 +41,7 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 						<NavLink id="contact-link" className="nav-link" to="/contact" onClick={() => onNavLinkClick('/contact')}>Contact</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink id="login-link" className="nav-link" to="/login" onClick={() => onNavLinkClick('/login')}>Log In</NavLink>
+						<NavLink id="login-link" className="nav-link" to="/user/login" onClick={() => onNavLinkClick('/user/login')}>Log In</NavLink>
 					</NavItem>
 					<NavItem className="nav-separator" />
 					<NavItem>
