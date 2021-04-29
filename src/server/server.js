@@ -6,14 +6,15 @@ import mongoose from 'mongoose';
 import request from 'superagent';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
-import sanitize from "sanitize";
-import indexRoute from "./routes/index/index.js";
+import sanitize from 'sanitize';
+import indexRoute from './routes/index/index.js';
+import userRoute from './routes/user/user.js';
 import Client from '../client/Client.js';
 import SearchService from '../search/SearchService.js';
 const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
-const nonSearchRoutes = ['/', '/gallery', '/about', '/contact', '/restaurant', '/user/signup', '/user/login'];
+const nonAPIRoutes = ['/', '/gallery', '/about', '/contact', '/restaurant', '/user/signup', '/user/login'];
 
 // Security middleware
 app.use(helmet());
@@ -44,19 +45,18 @@ transporter.verify()
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use('/user', express.static(path.join(process.cwd(), 'public')));
 app.use('/', indexRoute(service, transporter));
+app.use('/user', userRoute);
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(process.cwd(), 'build')));
 
-	nonSearchRoutes.forEach(route => {
+	nonAPIRoutes.forEach(route => {
 		app.get(route, (req, res) => {
 			res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
 		});
 	});
 }
-
-// app.use(express.static(path.join(process.cwd(), 'public')));
-// app.get('*', (req, res) => res.sendFile(path.join(process.cwd(), 'public/index.html')));
 
 app.listen(process.env.PORT || 8080, () => console.log("Gourmand server up and running."));

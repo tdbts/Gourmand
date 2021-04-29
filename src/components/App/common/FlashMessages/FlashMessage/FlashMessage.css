@@ -1,0 +1,44 @@
+.flash-message {
+    position: relative;
+    display: block;
+    margin: 5px auto;
+    width: 75%;
+    text-align: center;
+    border-radius: 10px;
+    padding: 5px;
+    transition: all 250ms ease-in-out;
+    box-shadow: 3px 3px 3px #000;
+}
+
+.flash-message-enter {
+    opacity: 0;
+}
+
+.flash-message-enter-active,
+.flash-message-exit {
+    transition: all 250ms ease-in-out;
+    opacity: 0.9;
+}
+
+.flash-message-exit-active {
+    transition: all 250ms ease-in-out;
+    opacity: 0.9;
+    transform: translateX(-10000px);
+}
+
+.flash-message-info {
+    background-color: #6c757d;
+}
+
+.flash-message-warn {
+    background-color: #ffc107;
+}
+
+.flash-message-error {
+    background-color: #c82333;
+}
+
+.flash-message-text {
+    display: inline-block;
+    color: #fff;
+}

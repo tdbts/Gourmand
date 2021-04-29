@@ -1,33 +1,9 @@
 import './SignUp.css';
+import { useState, useEffect } from 'react';
 import { Container } from 'reactstrap';
-import SignUpForm from "./SignUpForm/SignUpForm";
-import * as Yup from 'yup';
-
-const validationSchema = Yup.object().shape({
-    name: Yup.string()
-        .min(1, "Name is too short.")
-        .max(50, "Name is too long.")
-        .required("Name is required."),
-    email: Yup.string()
-        .email("Email is not valid.")
-        .required("Email is required."),
-    password: Yup.string()
-        .required("Password is required.")
-        .min(8, "Password is too short.")
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-            "Please use a stronger password."
-        ),
-    passwordConfirm: Yup.string()
-        .when("password", {
-            is: val => (val && (val.length > 0)),
-            then: Yup.string()
-                .oneOf(
-                    [Yup.ref("password")],
-                    "Passwords do not match."
-                )
-        })
-});
+import SignUpForm from './SignUpForm/SignUpForm';
+import FlashMessages from "../common/FlashMessages/FlashMessages";
+import validationSchema from '../../../common/signUpValidationSchema';
 
 const initialValues = {
     name: '',
@@ -36,12 +12,45 @@ const initialValues = {
     passwordConfirm: ''
 };
 
+const onSubmit = (setSubmitting, setResponse) => values => {
+    console.log("values: ", values);
+    setSubmitting(true);
+    fetch('/user/signup', {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(values) // body data type must match "Content-Type" header
+        })
+        .then(response => console.log("response:", response) || response.json())
+        .then(setResponse)
+        .then(() => setSubmitting(false))
+        .catch(e => console.error(e));
+}
+
 const SignUp = ({}) => {
+    const [ response, setResponse ] = useState(null);
+    const [ flashMessages, setFlashMessages ] = useState([]);
+    const [ submitting, setSubmitting ] = useState(false);
+
     const formProps = {
+        submitting,
         initialValues,
         validationSchema,
-        onSubmit: (values) => console.log("values:", values)
+        onSubmit: onSubmit(setSubmitting, setResponse)
     };
+
+    useEffect(() => {
+        console.log("response:", response);
+        if (response && response.errors.length) {
+            setFlashMessages(response.errors);
+        }
+    }, [response]);
 
     return (
         <div className="sign-up-container" style={{backgroundImage: 'url(/sign-up-background.jpg)'}}>
@@ -52,6 +61,13 @@ const SignUp = ({}) => {
                 </p>
                 <SignUpForm {...formProps} />
             </Container>
+            <FlashMessages
+                timeout={250}
+                duration={5000}
+                level="error"
+                messages={flashMessages}
+                onClose={i => setFlashMessages(flashMessages.filter((message, j) => i !== j ))}
+            />
         </div>
     );
 };

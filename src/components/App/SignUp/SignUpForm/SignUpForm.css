@@ -17,3 +17,11 @@
     font-weight: bold;
     text-decoration: underline;
 }
+
+.submitting-spinner {
+    width: 20px;
+}
+
+.submitting-spinner.rotate {
+    animation: rotation 2s infinite linear;
+}

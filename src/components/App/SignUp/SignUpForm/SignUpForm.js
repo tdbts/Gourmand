@@ -4,8 +4,17 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
 import setFieldClass from "../../../utils/setFieldClass";
 
+const allTouched = touched => {
+    const { name, email, password } = touched;
+    return name && email && password;
+};
+
+const getButtonContent = (submitting) => submitting
+    ? <img className="submitting-spinner rotate" src="spinner.png" />
+    : "Sign Up";
+
 // TODO: Open issue - Webkit autocomplete classes hide validation icons in form fields
-const SignUpForm = ({ initialValues, validationSchema, onSubmit }) => {
+const SignUpForm = ({ submitting, initialValues, validationSchema, onSubmit }) => {
     return (
         <Formik
             initialValues={initialValues}
@@ -44,7 +53,7 @@ const SignUpForm = ({ initialValues, validationSchema, onSubmit }) => {
                             <ErrorMessage name="passwordConfirm" component={FormFeedback}
                                           className="field-error-feedback" />
                         </FormGroup>
-                        <Button type="submit" disabled={!(dirty && isValid)} color="danger" block>Sign Up</Button>
+                        <Button type="submit" disabled={!(dirty && allTouched(touched) && isValid)} color="danger" block>{getButtonContent(submitting)}</Button>
                         <p className="have-account-text text-container with-image-underlay">Have an account? <Link className="login-link" to="/user/login">Log in here.</Link></p>
                     </Form>
                 );
