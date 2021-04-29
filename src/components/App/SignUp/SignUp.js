@@ -12,6 +12,8 @@ const initialValues = {
     passwordConfirm: ''
 };
 
+const filterMessageByIndex = (messages, setter, i) => setter(messages.filter((message, j) => i !== j));
+
 const onSubmit = (setSubmitting, setResponse) => values => {
     console.log("values: ", values);
     setSubmitting(true);
@@ -35,7 +37,8 @@ const onSubmit = (setSubmitting, setResponse) => values => {
 
 const SignUp = ({}) => {
     const [ response, setResponse ] = useState(null);
-    const [ flashMessages, setFlashMessages ] = useState([]);
+    const [ errorMessages, setErrorMessages ] = useState([]);
+    const [ successMessages, setSuccessMessages ] = useState([]);
     const [ submitting, setSubmitting ] = useState(false);
 
     const formProps = {
@@ -47,8 +50,10 @@ const SignUp = ({}) => {
 
     useEffect(() => {
         console.log("response:", response);
-        if (response && response.errors.length) {
-            setFlashMessages(response.errors);
+        if (response && response.success) {
+            setSuccessMessages(["Account successfully registered."]);
+        } else if (response && response.errors.length) {
+            setErrorMessages(response.errors);
         }
     }, [response]);
 
@@ -65,8 +70,15 @@ const SignUp = ({}) => {
                 timeout={250}
                 duration={5000}
                 level="error"
-                messages={flashMessages}
-                onClose={i => setFlashMessages(flashMessages.filter((message, j) => i !== j ))}
+                messages={errorMessages}
+                onClose={i => filterMessageByIndex(errorMessages, setErrorMessages, i)}
+            />
+            <FlashMessages
+                timeout={250}
+                duration={5000}
+                level="success"
+                messages={successMessages}
+                onClose={i => filterMessageByIndex(successMessages, setSuccessMessages, i)}
             />
         </div>
     );

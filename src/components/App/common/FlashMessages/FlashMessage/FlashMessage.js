@@ -3,11 +3,11 @@ import './FlashMessage.css';
 const getLevelClass = (level) => {
     const prefix = 'flash-message';
 
-    if ((level === 'error') || (level === 'warn')) {
+    if ((level === 'success') || (level === 'info') || (level === 'warn')) {
         return `${prefix}-${level}`;
     }
 
-    return `${prefix}-info`;
+    return `${prefix}-error`;
 };
 
 const FlashMessage = ({ level, message, className, onClose, duration }) => {

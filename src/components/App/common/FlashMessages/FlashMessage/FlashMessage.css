@@ -15,6 +15,7 @@
 }
 
 .flash-message-enter-active,
+.flash-message-enter-done,
 .flash-message-exit {
     transition: all 250ms ease-in-out;
     opacity: 0.9;
@@ -26,8 +27,13 @@
     transform: translateX(-10000px);
 }
 
+.flash-message-success {
+    background-color: #28a745;
+}
+
 .flash-message-info {
-    background-color: #6c757d;
+    background-color: #e9ecef;
+    color: #6c757d;
 }
 
 .flash-message-warn {
