@@ -22,6 +22,7 @@ function getOrderedMedia(restaurants, mediaOrder) {
             return map;
         }, {});
 
+    // TODO: Iteration over a large number of media can cause significant performance degradation
     return mediaOrder
         .map(id => mediaByID[id])
         .map(media => (YelpMedia.populateFromBSON(media)));

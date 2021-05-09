@@ -1,10 +1,10 @@
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string()
-        .min(1, "Name is too short.")
-        .max(50, "Name is too long.")
-        .required("Name is required."),
+    username: Yup.string()
+        .min(1, "Username is too short.")
+        .max(50, "Username is too long.")
+        .required("Username is required."),
     email: Yup.string()
         .email("Email is not valid.")
         .required("Email is required."),

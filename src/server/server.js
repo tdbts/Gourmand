@@ -1,12 +1,16 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
 import helmet from 'helmet';
 import path from 'path';
 import mongoose from 'mongoose';
 import request from 'superagent';
 import cors from 'cors';
+import passport from 'passport';
 import nodemailer from 'nodemailer';
 import sanitize from 'sanitize';
+import passportConfig from '../../config/passport.js';
 import indexRoute from './routes/index/index.js';
 import userRoute from './routes/user/user.js';
 import Client from '../client/Client.js';
@@ -15,6 +19,8 @@ const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
 const nonAPIRoutes = ['/', '/gallery', '/about', '/contact', '/restaurant', '/user/signup', '/user/login'];
+
+passportConfig(passport);
 
 // Security middleware
 app.use(helmet());
@@ -43,8 +49,13 @@ transporter.verify()
 	.then(() => console.log("Email server is ready for messages."))
 	.catch((err) => console.log(err));
 
+app.use(cors());
+app.use(cookieParser('keyboard cat'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/user', express.static(path.join(process.cwd(), 'public')));
 app.use('/', indexRoute(service, transporter));
 app.use('/user', userRoute);

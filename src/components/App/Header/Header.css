@@ -28,7 +28,7 @@
     white-space: nowrap;
 }
 
-#about-link, #contact-link, #login-link {
+#about-link, #contact-link, #login-link, #logout-link {
     color: rgba(0,0,0,.5);
 }
 

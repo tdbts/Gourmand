@@ -10,14 +10,35 @@ import {
 	Button
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom'
+import { useAuth } from "../../utils/auth/useAuth";
 import SignUpButton from "./SignUpButton/SignUpButton";
 import SearchForm from './SearchForm/SearchForm';
 import ShowLikedCheckbox from './ShowLikedCheckbox/ShowLikedCheckbox';
 import DistanceDropdown from './DistanceDropdown/DistanceDropdown';
+import LoginNavLink from "./LoginNavLink/LoginNavLink";
+import LogoutNavLink from "./LogoutNavLink/LogoutNavLink";
 
-function Header({onSearchRequest, description, setDescription, location, setLocation,
+const getSignUpButton = (auth) => {
+	return !auth.isAuthenticated()
+		&& (
+			<Nav className="ml-auto mr-3" pills>
+				<NavItem>
+					<SignUpButton />
+				</NavItem>
+			</Nav>
+		);
+};
+
+const getLogInOutNavLink = (auth, onNavLinkClick) => {
+	return auth.isAuthenticated()
+		? <LogoutNavLink onNavLinkClick={onNavLinkClick} />
+		: <LoginNavLink onNavLinkClick={onNavLinkClick} />;
+};
+
+const Header = ({onSearchRequest, description, setDescription, location, setLocation,
 					requestingLocation, setRequestingLocation, setShowLiked, distance,
-					onNavLinkClick, onDistanceDropdownClick, onShowLikedChange}) {
+					onNavLinkClick, onDistanceDropdownClick, onShowLikedChange}) => {
+	const auth = useAuth();
 	const [isOpen, setIsOpen] = useState(false);
 	const toggle = () => setIsOpen(!isOpen);
 
@@ -26,11 +47,7 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 			<NavLink id="home-link" className="navbar-brand company-name" to="/" onClick={() => onNavLinkClick('/')}>
 				Gourmand
 			</NavLink>
-			<Nav className="ml-auto mr-3" pills>
-				<NavItem>
-					<SignUpButton />
-				</NavItem>
-			</Nav>
+			{ getSignUpButton(auth) }
         	<NavbarToggler onClick={toggle} />
         	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
         		<Nav className="header-nav" navbar>
@@ -41,7 +58,7 @@ function Header({onSearchRequest, description, setDescription, location, setLoca
 						<NavLink id="contact-link" className="nav-link" to="/contact" onClick={() => onNavLinkClick('/contact')}>Contact</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink id="login-link" className="nav-link" to="/user/login" onClick={() => onNavLinkClick('/user/login')}>Log In</NavLink>
+						{ getLogInOutNavLink(auth, onNavLinkClick ) }
 					</NavItem>
 					<NavItem className="nav-separator" />
 					<NavItem>

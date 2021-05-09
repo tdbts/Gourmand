@@ -1,4 +1,5 @@
 .login-container {
+    position: relative;
     width: 100vw;
     height: 100vh;
     background-position: center top -15px;
@@ -31,4 +32,8 @@
 .login-text {
     text-shadow: 3px 3px 3px #000;
     font-size: 1.25em;
+}
+
+.login-container .flash-message {
+    margin: 25px auto;
 }

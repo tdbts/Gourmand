@@ -1,17 +1,9 @@
 import './SignUpForm.css';
-import {Button, FormGroup, FormFeedback } from "reactstrap";
+import { FormGroup, FormFeedback } from "reactstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
+import SpinnerButton from "../../common/SpinnerButton/SpinnerButton";
 import setFieldClass from "../../../utils/setFieldClass";
-
-const allTouched = touched => {
-    const { name, email, password } = touched;
-    return name && email && password;
-};
-
-const getButtonContent = (submitting) => submitting
-    ? <img className="submitting-spinner rotate" src="spinner.png" />
-    : "Sign Up";
 
 // TODO: Open issue - Webkit autocomplete classes hide validation icons in form fields
 const SignUpForm = ({ submitting, initialValues, validationSchema, onSubmit }) => {
@@ -27,9 +19,9 @@ const SignUpForm = ({ submitting, initialValues, validationSchema, onSubmit }) =
                 return (
                     <Form className="sign-up-form">
                         <FormGroup>
-                            <Field required type="text" name="name" placeholder="Name"
-                                   className={setFieldClass(touched.name, errors.name)} />
-                            <ErrorMessage name="name" component={FormFeedback}
+                            <Field required type="text" name="username" placeholder="Username"
+                                   className={setFieldClass(touched.username, errors.username)} />
+                            <ErrorMessage name="username" component={FormFeedback}
                                     className="field-error-feedback" />
                         </FormGroup>
                         <FormGroup>
@@ -53,7 +45,7 @@ const SignUpForm = ({ submitting, initialValues, validationSchema, onSubmit }) =
                             <ErrorMessage name="passwordConfirm" component={FormFeedback}
                                           className="field-error-feedback" />
                         </FormGroup>
-                        <Button type="submit" disabled={!(dirty && allTouched(touched) && isValid)} color="danger" block>{getButtonContent(submitting)}</Button>
+                        <SpinnerButton spin={submitting} text={"Sign Up"} disabled={!(dirty && isValid)} color="danger" block />
                         <p className="have-account-text text-container with-image-underlay">Have an account? <Link className="login-link" to="/user/login">Log in here.</Link></p>
                     </Form>
                 );

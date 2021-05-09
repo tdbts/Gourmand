@@ -1,10 +1,11 @@
 import './LoginForm.css';
-import { Button, FormGroup, FormFeedback } from "reactstrap";
+import { FormGroup, FormFeedback } from "reactstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
+import SpinnerButton from "../../common/SpinnerButton/SpinnerButton";
 import setFieldClass from "../../../utils/setFieldClass";
 
-const LoginForm = ({ initialValues, validationSchema, onSubmit }) => {
+const LoginForm = ({ initialValues, validationSchema, onSubmit, submitting }) => {
     return (
         <Formik
             initialValues={initialValues}
@@ -28,7 +29,7 @@ const LoginForm = ({ initialValues, validationSchema, onSubmit }) => {
                             <ErrorMessage name="password" component={FormFeedback}
                                           className="field-error-feedback" />
                         </FormGroup>
-                        <Button type="submit" disabled={!(dirty && isValid)} color="danger" block>Log in</Button>
+                        <SpinnerButton spin={submitting} text={"Log In"} disabled={!(dirty && isValid)} color="danger" block />
                         <p className="need-account-text text-container with-image-underlay">Need an account? <Link className="sign-up-link" to="/user/signup">Sign up here.</Link></p>
                     </Form>
                 );

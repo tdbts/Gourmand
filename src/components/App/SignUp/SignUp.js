@@ -1,9 +1,11 @@
 import './SignUp.css';
 import { useState, useEffect } from 'react';
 import { Container } from 'reactstrap';
+import { Redirect, useLocation } from 'react-router-dom';
 import SignUpForm from './SignUpForm/SignUpForm';
-import FlashMessages from "../common/FlashMessages/FlashMessages";
 import validationSchema from '../../../common/signUpValidationSchema';
+import { useAuth } from "../../utils/auth/useAuth";
+import useFlashMessages from "../../utils/useFlashMessages/useFlashMessages";
 
 const initialValues = {
     name: '',
@@ -12,24 +14,10 @@ const initialValues = {
     passwordConfirm: ''
 };
 
-const filterMessageByIndex = (messages, setter, i) => setter(messages.filter((message, j) => i !== j));
-
-const onSubmit = (setSubmitting, setResponse) => values => {
+const onSubmit = (setSubmitting, setResponse, auth) => values => {
     console.log("values: ", values);
     setSubmitting(true);
-    fetch('/user/signup', {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(values) // body data type must match "Content-Type" header
-        })
-        .then(response => console.log("response:", response) || response.json())
+    auth.signUp(values)
         .then(setResponse)
         .then(() => setSubmitting(false))
         .catch(e => console.error(e));
@@ -37,25 +25,33 @@ const onSubmit = (setSubmitting, setResponse) => values => {
 
 const SignUp = ({}) => {
     const [ response, setResponse ] = useState(null);
-    const [ errorMessages, setErrorMessages ] = useState([]);
-    const [ successMessages, setSuccessMessages ] = useState([]);
     const [ submitting, setSubmitting ] = useState(false);
+    const [ redirectToReferrer, setRedirectToReferrer ] = useState(false)
+
+    const auth = useAuth();
+    const { messages, setErrorMessages, setSuccessMessages } = useFlashMessages();
+    const { state } = useLocation();
 
     const formProps = {
         submitting,
         initialValues,
         validationSchema,
-        onSubmit: onSubmit(setSubmitting, setResponse)
+        onSubmit: onSubmit(setSubmitting, setResponse, auth)
     };
 
     useEffect(() => {
         console.log("response:", response);
-        if (response && response.success) {
+        if (response?.success) {
             setSuccessMessages(["Account successfully registered."]);
-        } else if (response && response.errors.length) {
+            setTimeout(() => setRedirectToReferrer(true), 500);
+        } else if (response?.errors?.length) {
             setErrorMessages(response.errors);
         }
     }, [response]);
+
+    if (redirectToReferrer === true) {
+        return <Redirect to={state?.from || '/'} />
+    }
 
     return (
         <div className="sign-up-container" style={{backgroundImage: 'url(/sign-up-background.jpg)'}}>
@@ -66,20 +62,7 @@ const SignUp = ({}) => {
                 </p>
                 <SignUpForm {...formProps} />
             </Container>
-            <FlashMessages
-                timeout={250}
-                duration={5000}
-                level="error"
-                messages={errorMessages}
-                onClose={i => filterMessageByIndex(errorMessages, setErrorMessages, i)}
-            />
-            <FlashMessages
-                timeout={250}
-                duration={5000}
-                level="success"
-                messages={successMessages}
-                onClose={i => filterMessageByIndex(successMessages, setSuccessMessages, i)}
-            />
+            { messages }
         </div>
     );
 };

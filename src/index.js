@@ -5,11 +5,14 @@ import './index.css';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from "react-router-dom";
+import { ProvideAuth } from "./components/utils/auth/useAuth";
 
 ReactDOM.render(
   <React.StrictMode>
       <Router>
-        <App />
+          <ProvideAuth>
+              <App />
+          </ProvideAuth>
       </Router>
   </React.StrictMode>,
   document.getElementById('root')

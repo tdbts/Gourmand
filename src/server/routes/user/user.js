@@ -1,5 +1,6 @@
 import express from 'express';
 import _ from 'underscore';
+import passport from 'passport';
 import bcrypt from 'bcryptjs';
 import User from '../../../models/User.js';
 import signUpValidationSchema from "../../../common/signUpValidationSchema.js";
@@ -13,7 +14,7 @@ const onFatalError = (e, res) => {
 };
 
 const registerUser = (userInput, res) => {
-    const registrationData = _.pick(userInput, 'name', 'email', 'password');
+    const registrationData = _.pick(userInput, 'username', 'email', 'password');
     const newUser = new User(registrationData);
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -25,9 +26,9 @@ const registerUser = (userInput, res) => {
             newUser.password = hash;
             newUser.save()
                 .then(user => {
-                    const {name, email} = user;
-                    console.log("Successfully registered user: ", { name, email });
-                    res.status(200).json({name, email, success: true});
+                    const {username, email} = user;
+                    console.log("Successfully registered user: ", { username, email });
+                    res.status(200).json({username, email, success: true});
                 })
                 .catch(e => onFatalError(e, res));
         });
@@ -35,7 +36,7 @@ const registerUser = (userInput, res) => {
 };
 
 router.post('/signup', (req, res) => {
-   const userInput = _.pick(req.body, 'name', 'email', 'password', 'passwordConfirm');
+   const userInput = _.pick(req.body, 'username', 'email', 'password', 'passwordConfirm');
 
    signUpValidationSchema.validate(userInput)
        .catch(err => {
@@ -58,6 +59,35 @@ router.post('/signup', (req, res) => {
            }
        })
        .catch(e => onFatalError(e, res));
+});
+
+router.post('/login', (req, res, next) => {
+    console.log("/login");
+    console.log("req.body:", req.body);
+    passport.authenticate('local', {}, (err, user, info) => {
+        console.log("Checking result of local strategy authentication.");
+
+        if (err) {
+            console.err(err);
+            return next(err);
+        }
+
+        console.log("user:", user);
+        console.log("info:", info);
+
+        if (user) {
+            const userInfo = _.pick(user, 'username', 'id');
+            console.log("userInfo: ", userInfo);
+            res.json({ ...userInfo, success: true, info });
+        } else {
+            res.json({ success: false, errors: [info.message] });
+        }
+    })(req, res, next);
+});
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.json({ success: true });
 });
 
 export default router;
