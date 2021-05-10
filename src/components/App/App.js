@@ -17,9 +17,9 @@ import Contact from './Contact/Contact';
 import Login from './Login/Login';
 import Restaurant from "./Restaurant/Restaurant";
 import SignUp from "./SignUp/SignUp";
+import Footer from "./Footer/Footer";
 import scrollToTop from "../utils/scrollToTop";
 import trackedLink from "../../utils/trackedLink";
-import path from "path";
 
 const { EVENT_TRACKING_TOKEN, GOOGLE_ANALYTICS_ID } = constants;
 const { distances } = yelpConstants;
@@ -314,6 +314,7 @@ function App() {
 					<SignUp />
 				</Route>
 			</Switch>
+			<Footer />
 		</div>
 	);
 }
