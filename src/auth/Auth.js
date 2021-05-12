@@ -36,6 +36,7 @@ class Auth {
 
     constructor(user) {
         this.user = user ? user : new NullUser();
+        this.authChecked = false;
     }
 
     setUser(user) {
@@ -44,6 +45,22 @@ class Auth {
 
     getUser() {
         return this.user;
+    }
+
+    authenticate() {
+        return fetch('/user/authenticate', {
+                ...requestOptions
+            })
+            .then(checkResponseForErrors)
+            .then(json => setUserOnSuccess(json, this))
+            .then(json => {
+                this.authChecked = true;
+                return json;
+            });
+    }
+
+    hasCheckedAuthentication() {
+        return this.authChecked;
     }
 
     isAuthenticated() {

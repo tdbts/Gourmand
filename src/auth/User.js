@@ -9,7 +9,7 @@ class User {
         return this.id;
     }
 
-    getUserName() {
+    getUsername() {
         return this.username;
     }
 
