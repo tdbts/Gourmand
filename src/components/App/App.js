@@ -20,6 +20,7 @@ import SignUp from "./SignUp/SignUp";
 import scrollToTop from "../utils/scrollToTop";
 import trackedLink from "../../utils/trackedLink";
 import path from "path";
+import {useAuth} from "../utils/auth/useAuth";
 
 const { EVENT_TRACKING_TOKEN, GOOGLE_ANALYTICS_ID } = constants;
 const { distances } = yelpConstants;
@@ -175,10 +176,23 @@ function App() {
 	const [showLiked, setShowLiked] = useState(false);
 	const history = useHistory();
 	const browserLocation = useLocation();
+	const auth = useAuth();
 
     console.log("browserLocation:", browserLocation);
     const { pathname, search } = browserLocation;
     const lookupKey = pathname + search;
+
+    // Check authentication status once on initial render
+    useEffect(() => {
+    	auth.authenticate()
+			.then(() => {
+				if (auth.isAuthenticated()) {
+					console.log(`Welcome back, ${auth.getUser().getUsername()}!`);
+				} else {
+					console.log("New user.");
+				}
+			})
+	}, [])
 
 	// console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {

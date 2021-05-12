@@ -63,7 +63,7 @@ router.post('/signup', (req, res) => {
 
 router.post('/login', (req, res, next) => {
     console.log("/login");
-    console.log("req.body:", req.body);
+    // console.log("req.body:", req.body);
     passport.authenticate('local', {}, (err, user, info) => {
         console.log("Checking result of local strategy authentication.");
 
@@ -72,13 +72,19 @@ router.post('/login', (req, res, next) => {
             return next(err);
         }
 
-        console.log("user:", user);
-        console.log("info:", info);
+        // console.log("user:", user);
+        // console.log("info:", info);
 
         if (user) {
             const userInfo = _.pick(user, 'username', 'id');
             console.log("userInfo: ", userInfo);
-            res.json({ ...userInfo, success: true, info });
+            req.login(userInfo.id, err => {
+                if (err) {
+                    throw err;
+                }
+
+                res.json({ ...userInfo, success: true, info });
+            });
         } else {
             res.json({ success: false, errors: [info.message] });
         }
@@ -88,6 +94,18 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res) => {
     req.logout();
     res.json({ success: true });
+});
+
+router.get('/authenticate', (req, res) => {
+    // console.log("req.session:", req.session);
+    // console.log("req.user:", req.user);
+    // console.log("req.isAuthenticated():", req.isAuthenticated());
+    if (req.isAuthenticated()) {
+        const { username, _id: id } = req.user;
+        res.json({ success: true, username, id });
+    } else {
+        res.json({ success: false });
+    }
 });
 
 export default router;

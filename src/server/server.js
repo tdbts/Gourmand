@@ -5,6 +5,7 @@ import session from 'express-session';
 import helmet from 'helmet';
 import path from 'path';
 import mongoose from 'mongoose';
+import MongoStore from "connect-mongo";
 import request from 'superagent';
 import cors from 'cors';
 import passport from 'passport';
@@ -53,7 +54,16 @@ app.use(cors());
 app.use(cookieParser('keyboard cat'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+console.log("process.env.NODE_ENV:", process.env.NODE_ENV);
+app.use(session({
+	secret: 'keyboard cat',
+	resave: false,
+	saveUninitialized: false,
+	cookie: { secure: process.env.NODE_ENV === 'production' },
+	store: MongoStore.create({
+		mongoUrl: process.env.MONGODB_URI
+	})
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/user', express.static(path.join(process.cwd(), 'public')));

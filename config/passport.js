@@ -27,8 +27,8 @@ const strategy = (passport) => {
                 .catch(e => done(e));
         }));
 
-    passport.serializeUser((user, done) => {
-        done(null, user.id);
+    passport.serializeUser((id, done) => {
+        done(null, id);
     });
 
     passport.deserializeUser((id, done) => {

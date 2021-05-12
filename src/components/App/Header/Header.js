@@ -19,7 +19,7 @@ import LoginNavLink from "./LoginNavLink/LoginNavLink";
 import LogoutNavLink from "./LogoutNavLink/LogoutNavLink";
 
 const getSignUpButton = (auth) => {
-	return !auth.isAuthenticated()
+	return auth.hasCheckedAuthentication() && !auth.isAuthenticated()
 		&& (
 			<Nav className="ml-auto mr-3" pills>
 				<NavItem>
