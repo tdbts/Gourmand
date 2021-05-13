@@ -38,7 +38,7 @@ const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaMod
             <div className="restaurant-details-container text-container">
                 <h2 className="restaurant-name">{name}</h2>
                 <p><MapLink className="restaurant-address" address={address} /></p>
-                {neighborhoods.length && <p className="restaurant-neighborhoods">{neighborhoods.join(", ")}</p>}
+                {(neighborhoods.length > 0) && <p className="restaurant-neighborhoods">{neighborhoods.join(", ")}</p>}
             </div>
             <div className="restaurant-media-container">
                 <OrderedGallery {...galleryProps} mediaModalProps={mediaModalProps} restaurants={[restaurant]} mediaOrder={mediaOrder} showLiked={false} transitionTimeout={50} />
