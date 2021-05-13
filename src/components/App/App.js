@@ -256,7 +256,6 @@ function App() {
 		setLocation,
 		requestingLocation,
 		setRequestingLocation,
-		setShowLiked,
 		distance,
 		onDistanceDropdownClick: onDistanceDropdownClick(setDistance),
 		onShowLikedChange: onShowLikedChange(setShowLiked),

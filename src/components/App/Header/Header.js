@@ -39,7 +39,7 @@ const getLogInOutNavLink = (auth) => {
 };
 
 const Header = ({onSearchRequest, description, setDescription, location, setLocation,
-					requestingLocation, setRequestingLocation, setShowLiked, distance,
+					requestingLocation, setRequestingLocation, distance,
 					onDistanceDropdownClick, onShowLikedChange}) => {
 	const auth = useAuth();
 	const [isOpen, setIsOpen] = useState(false);
