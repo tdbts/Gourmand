@@ -65,12 +65,10 @@ const Header = ({onSearchRequest, description, setDescription, location, setLoca
 					</NavItem>
 					<NavItem className="nav-separator" />
 					<NavItem>
-						<SearchForm description={description} setDescription={setDescription} location={location}
-									setLocation={setLocation} requestingLocation={requestingLocation} setRequestingLocation={setRequestingLocation}
-									onSearchRequest={onSearchRequest} />
+						<SearchForm {...{ description, setDescription, location, setLocation, requestingLocation, setRequestingLocation, onSearchRequest }} />
 					</NavItem>
 					<NavItem className="dropdown-nav-item">
-						<DistanceDropdown distance={distance} onDistanceDropdownClick={onDistanceDropdownClick} />
+						<DistanceDropdown {...{ distance, onDistanceDropdownClick }} />
 						<ShowLikedCheckbox onChange={onShowLikedChange} />
 					</NavItem>
         		</Nav>
