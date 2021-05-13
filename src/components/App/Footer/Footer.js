@@ -12,7 +12,7 @@ import withNavigationTracking from "../../utils/withNavigationTracking/withNavig
 
 const TrackedLink = withNavigationTracking(NavLink);
 
-const Footer = ({}) => {
+const Footer = ({ openedHeader, setOpenedHeader }) => {
     return (
         <Navbar className="footer-navbar fixed-bottom" color="light" light>
             <Nav>
@@ -24,9 +24,9 @@ const Footer = ({}) => {
             </Nav>
             <Nav>
                 <NavItem>
-                    <TrackedLink className="nav-link" to="/search">
-                        <SearchIcon/>
-                    </TrackedLink>
+                    <NavLink className="nav-link" to="#" onClick={() => setOpenedHeader(!openedHeader)}>
+                        <SearchIcon />
+                    </NavLink>
                 </NavItem>
             </Nav>
             <Nav>

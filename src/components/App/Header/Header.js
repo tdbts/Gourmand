@@ -38,12 +38,11 @@ const getLogInOutNavLink = (auth) => {
 		: <LoginNavLink />;
 };
 
-const Header = ({onSearchRequest, description, setDescription, location, setLocation,
+const Header = ({openedHeader, setOpenedHeader, onSearchRequest, description, setDescription, location, setLocation,
 					requestingLocation, setRequestingLocation, distance,
 					onDistanceDropdownClick, onShowLikedChange}) => {
 	const auth = useAuth();
-	const [isOpen, setIsOpen] = useState(false);
-	const toggle = () => setIsOpen(!isOpen);
+	const toggle = () => setOpenedHeader(!openedHeader);
 
 	return (
 		<Navbar className="header-navbar" color="light" light>
@@ -52,7 +51,7 @@ const Header = ({onSearchRequest, description, setDescription, location, setLoca
 			</TrackedLink>
 			{ getSignUpButton(auth) }
         	<NavbarToggler onClick={toggle} />
-        	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
+        	<Collapse className="header-collapse" in={true} isOpen={openedHeader} timeout={200} navbar>
         		<Nav className="header-nav" navbar>
 					<NavItem>
 						<TrackedLink id="about-link" className="nav-link" to="/about">About</TrackedLink>

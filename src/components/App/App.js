@@ -18,7 +18,6 @@ import Login from './Login/Login';
 import Restaurant from "./Restaurant/Restaurant";
 import SignUp from "./SignUp/SignUp";
 import Footer from "./Footer/Footer";
-import Search from './Search/Search';
 import Upload from "./Upload/Upload";
 import Map from "./Map/Map";
 import Profile from "./Profile/Profile";
@@ -156,6 +155,7 @@ const isHomePage = pathname => pathname === '/';
 
 function App() {
 	const [restaurants, setRestaurants] = useState([]);
+	const [openedHeader, setOpenedHeader] = useState(false);
 	const [description, setDescription] = useState('');
 	const [location, setLocation] = useState('');
 	const [requestingLocation, setRequestingLocation] = useState(false);
@@ -250,6 +250,8 @@ function App() {
 	}
 
 	const headerProps = {
+		openedHeader,
+		setOpenedHeader,
 		description,
 		setDescription,
 		location,
@@ -316,9 +318,6 @@ function App() {
 				<Route path={'/user/signup'}>
 					<SignUp />
 				</Route>
-				<Route path={'/search'}>
-					<Search />
-				</Route>
 				<Route path={'/upload'}>
 					<Upload />
 				</Route>
@@ -329,7 +328,7 @@ function App() {
 					<Profile />
 				</Route>
 			</Switch>
-			<Footer />
+			<Footer {...{openedHeader, setOpenedHeader}} />
 		</div>
 	);
 }
