@@ -18,8 +18,6 @@ import Login from './Login/Login';
 import Restaurant from "./Restaurant/Restaurant";
 import SignUp from "./SignUp/SignUp";
 import scrollToTop from "../utils/scrollToTop";
-import trackedLink from "../../utils/trackedLink";
-import path from "path";
 import {useAuth} from "../utils/auth/useAuth";
 
 const { EVENT_TRACKING_TOKEN, GOOGLE_ANALYTICS_ID } = constants;
@@ -27,15 +25,7 @@ const { distances } = yelpConstants;
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
 const likedMedia = new LikedMedia(getLikedMedia(storage), storage);
-const eventTracker = new EventTracker(
-	EVENT_TRACKING_TOKEN,
-	[
-		trackedLink('#home-link', EventTracker.events.NAVIGATE, '/'),
-		trackedLink('#about-link', EventTracker.events.NAVIGATE, '/about'),
-		trackedLink('#contact-link', EventTracker.events.NAVIGATE, '/contact'),
-		trackedLink('#login-link', EventTracker.events.NAVIGATE, '/login'),
-		trackedLink('.restaurant-address', EventTracker.events.OPEN_MAP)
-	]);
+const eventTracker = new EventTracker(EVENT_TRACKING_TOKEN);
 
 eventTracker.track(EventTracker.events.PAGE_VISIT, { pathname: window.location.pathname });
 
@@ -138,10 +128,6 @@ function onError(e, setError, eventTracker) {
 	window.console.error(e);
 	eventTracker.track(EventTracker.events.ERROR, { message: e.message });
 	setError(e);
-}
-
-function onNavLinkClick(pathname) {
-	eventTracker.track(EventTracker.events.NAVIGATE, { pathname });
 }
 
 const onRestaurantLinkClick = (setSelectedMediaID) => () => {
@@ -267,7 +253,6 @@ function App() {
 		setRequestingLocation,
 		setShowLiked,
 		distance,
-		onNavLinkClick,
 		onDistanceDropdownClick: onDistanceDropdownClick(setDistance),
 		onShowLikedChange: onShowLikedChange(setShowLiked),
 		onSearchRequest: () => updateSearchURL({description, location, distance}, history)

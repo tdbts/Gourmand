@@ -17,9 +17,12 @@ import ShowLikedCheckbox from './ShowLikedCheckbox/ShowLikedCheckbox';
 import DistanceDropdown from './DistanceDropdown/DistanceDropdown';
 import LoginNavLink from "./LoginNavLink/LoginNavLink";
 import LogoutNavLink from "./LogoutNavLink/LogoutNavLink";
+import withNavigationTracking from "../../utils/withNavigationTracking/withNavigationTracking";
+
+const TrackedLink = withNavigationTracking(NavLink);
 
 const getSignUpButton = (auth) => {
-	return auth.hasCheckedAuthentication() && !auth.isAuthenticated()
+	return !auth.isAuthenticated()
 		&& (
 			<Nav className="ml-auto mr-3" pills>
 				<NavItem>
@@ -29,36 +32,36 @@ const getSignUpButton = (auth) => {
 		);
 };
 
-const getLogInOutNavLink = (auth, onNavLinkClick) => {
+const getLogInOutNavLink = (auth) => {
 	return auth.isAuthenticated()
-		? <LogoutNavLink onNavLinkClick={onNavLinkClick} />
-		: <LoginNavLink onNavLinkClick={onNavLinkClick} />;
+		? <LogoutNavLink />
+		: <LoginNavLink />;
 };
 
 const Header = ({onSearchRequest, description, setDescription, location, setLocation,
 					requestingLocation, setRequestingLocation, setShowLiked, distance,
-					onNavLinkClick, onDistanceDropdownClick, onShowLikedChange}) => {
+					onDistanceDropdownClick, onShowLikedChange}) => {
 	const auth = useAuth();
 	const [isOpen, setIsOpen] = useState(false);
 	const toggle = () => setIsOpen(!isOpen);
 
 	return (
 		<Navbar className="header-navbar" color="light" light>
-			<NavLink id="home-link" className="navbar-brand company-name" to="/" onClick={() => onNavLinkClick('/')}>
+			<TrackedLink id="home-link" className="navbar-brand company-name" to="/">
 				Gourmand
-			</NavLink>
+			</TrackedLink>
 			{ getSignUpButton(auth) }
         	<NavbarToggler onClick={toggle} />
         	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
         		<Nav className="header-nav" navbar>
 					<NavItem>
-						<NavLink id="about-link" className="nav-link" to="/about" onClick={() => onNavLinkClick('/about')}>About</NavLink>
+						<TrackedLink id="about-link" className="nav-link" to="/about">About</TrackedLink>
 					</NavItem>
 					<NavItem>
-						<NavLink id="contact-link" className="nav-link" to="/contact" onClick={() => onNavLinkClick('/contact')}>Contact</NavLink>
+						<TrackedLink id="contact-link" className="nav-link" to="/contact">Contact</TrackedLink>
 					</NavItem>
 					<NavItem>
-						{ getLogInOutNavLink(auth, onNavLinkClick ) }
+						{ getLogInOutNavLink(auth) }
 					</NavItem>
 					<NavItem className="nav-separator" />
 					<NavItem>
