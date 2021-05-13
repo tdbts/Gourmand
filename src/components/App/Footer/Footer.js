@@ -1,50 +1,53 @@
 import './Footer.css';
-import {Nav, Navbar, NavItem, NavLink} from "reactstrap";
+import {Nav, Navbar, NavItem
+    // , NavLink
+} from "reactstrap";
+import {NavLink} from 'react-router-dom';
 import {HomeIcon} from "./HomeIcon";
 import {SearchIcon} from "./SearchIcon";
 import {PlusIcon} from "./PlusIcon";
 import {PinIcon} from "./PinIcon";
 import {UserIcon} from "./UserIcon";
-import { useAuth } from "../../utils/auth/useAuth";
+import withNavigationTracking from "../../utils/withNavigationTracking/withNavigationTracking";
+
+const TrackedLink = withNavigationTracking(NavLink);
 
 const Footer = ({}) => {
-    const auth = useAuth();
-
-    return auth.isAuthenticated() && (
+    return (
         <Navbar className="footer-navbar fixed-bottom" color="light" light>
             <Nav>
                 <NavItem>
-                    <NavLink>
+                    <TrackedLink className="nav-link" to="/">
                         <HomeIcon/>
-                    </NavLink>
+                    </TrackedLink>
                 </NavItem>
             </Nav>
             <Nav>
                 <NavItem>
-                    <NavLink>
+                    <TrackedLink className="nav-link" to="/search">
                         <SearchIcon/>
-                    </NavLink>
+                    </TrackedLink>
                 </NavItem>
             </Nav>
             <Nav>
                 <NavItem>
-                    <NavLink>
+                    <TrackedLink className="nav-link" to="/upload">
                         <PlusIcon/>
-                    </NavLink>
+                    </TrackedLink>
                 </NavItem>
             </Nav>
             <Nav>
                 <NavItem>
-                    <NavLink>
+                    <TrackedLink className="nav-link" to="/map">
                         <PinIcon/>
-                    </NavLink>
+                    </TrackedLink>
                 </NavItem>
             </Nav>
             <Nav>
                 <NavItem>
-                    <NavLink>
+                    <TrackedLink className="nav-link" to="/user/profile">
                         <UserIcon/>
-                    </NavLink>
+                    </TrackedLink>
                 </NavItem>
             </Nav>
         </Navbar>

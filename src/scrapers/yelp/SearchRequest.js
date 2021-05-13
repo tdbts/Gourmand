@@ -13,7 +13,7 @@ const { errorMessages } = constants;
  * First attempts to retrieve restaurant list via '/search/snippets' endpoint.
  *
  * If the first attempt to endpoint gets blocked, then attempts to retrieve restaurant list by making a request to the
- * '/search' endpoint and parsing the returned HTML.
+ * '/query' endpoint and parsing the returned HTML.
  */
 export default class SearchRequest {
 

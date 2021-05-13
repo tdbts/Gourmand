@@ -18,6 +18,10 @@ import Login from './Login/Login';
 import Restaurant from "./Restaurant/Restaurant";
 import SignUp from "./SignUp/SignUp";
 import Footer from "./Footer/Footer";
+import Search from './Search/Search';
+import Upload from "./Upload/Upload";
+import Map from "./Map/Map";
+import Profile from "./Profile/Profile";
 import scrollToTop from "../utils/scrollToTop";
 import {useAuth} from "../utils/auth/useAuth";
 
@@ -197,7 +201,7 @@ function App() {
             setSearching(true);
             eventTracker.track(EventTracker.events.SEARCH, { description, location, distance });
 
-            const searchURL = urlWithSearchParams('/search', {description, location, distance});
+            const searchURL = urlWithSearchParams('/query', {description, location, distance});
 
             getRestaurantJSON(searchURL)
                 .then(json => {
@@ -312,6 +316,18 @@ function App() {
 				</Route>
 				<Route path={'/user/signup'}>
 					<SignUp />
+				</Route>
+				<Route path={'/search'}>
+					<Search />
+				</Route>
+				<Route path={'/upload'}>
+					<Upload />
+				</Route>
+				<Route path={'/map'}>
+					<Map />
+				</Route>
+				<Route path={'/user/profile'}>
+					<Profile />
 				</Route>
 			</Switch>
 			<Footer />

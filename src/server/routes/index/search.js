@@ -1,5 +1,5 @@
 const searchRoute = (router, service) => {
-    router.get('/search', (req, res) => {
+    router.get('/query', (req, res) => {
         console.log("New search query.");
         const { location, description, distance } = req.query;
         console.log("location:", location);
