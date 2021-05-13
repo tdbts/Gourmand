@@ -4,6 +4,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
 import SpinnerButton from "../../common/SpinnerButton/SpinnerButton";
 import setFieldClass from "../../../utils/setFieldClass";
+import withNavigationTracking from "../../../utils/withNavigationTracking/withNavigationTracking";
+
+const TrackedLink = withNavigationTracking(Link);
 
 const LoginForm = ({ initialValues, validationSchema, onSubmit, submitting }) => {
     return (
@@ -30,7 +33,7 @@ const LoginForm = ({ initialValues, validationSchema, onSubmit, submitting }) =>
                                           className="field-error-feedback" />
                         </FormGroup>
                         <SpinnerButton spin={submitting} text={"Log In"} disabled={!(dirty && isValid)} color="danger" block />
-                        <p className="need-account-text text-container with-image-underlay">Need an account? <Link className="sign-up-link" to="/user/signup">Sign up here.</Link></p>
+                        <p className="need-account-text text-container with-image-underlay">Need an account? <TrackedLink className="sign-up-link" to="/user/signup">Sign up here.</TrackedLink></p>
                     </Form>
                 );
             }}

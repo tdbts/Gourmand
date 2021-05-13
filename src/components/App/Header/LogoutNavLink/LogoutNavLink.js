@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {NavLink, useHistory} from "react-router-dom";
 import {useAuth} from "../../../utils/auth/useAuth";
 
-const LogoutNavLink = ({ onNavLinkClick }) => {
+const LogoutNavLink = ({}) => {
     const [ loggingOut, setLoggingOut ] = useState(false);
     const history = useHistory();
     const auth = useAuth();
@@ -19,7 +19,6 @@ const LogoutNavLink = ({ onNavLinkClick }) => {
     }, [loggingOut]);
 
     const onClick = () => {
-        onNavLinkClick('/user/logout');
         setLoggingOut(true);
     };
 
