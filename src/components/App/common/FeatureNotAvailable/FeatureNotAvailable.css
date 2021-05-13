@@ -1,5 +1,4 @@
-.feature-not-available-container,
-.feature-not-available-background {
+.feature-not-available-container {
     width: 100vw;
     height: 100vh;
 }
@@ -8,13 +7,18 @@
     display: flex;
     align-items: start;
     justify-content: center;
-}
-
-.feature-not-available-background {
-    background-size: cover;
     background-position: center;
     background-position-y: -50px;
     background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.feature-not-available-container .contrast-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #000;
+    opacity: 0.1;
 }
 
 .feature-not-available-content {
