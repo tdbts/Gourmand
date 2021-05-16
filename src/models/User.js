@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -19,9 +19,14 @@ const UserSchema = new mongoose.Schema({
     signupDate: {
         type: Date,
         default: Date.now
+    },
+    likedMedia: {
+        type: Map,
+        of: [String],
+        default: {}
     }
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User;

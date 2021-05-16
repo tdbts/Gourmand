@@ -23,15 +23,18 @@ import Map from "./Map/Map";
 import Profile from "./Profile/Profile";
 import scrollToTop from "../utils/scrollToTop";
 import {useAuth} from "../utils/auth/useAuth";
+import EventEmitter from 'events';
 
 const { EVENT_TRACKING_TOKEN, GOOGLE_ANALYTICS_ID } = constants;
 const { distances } = yelpConstants;
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
-const likedMedia = new LikedMedia(getLikedMedia(storage), storage);
+const likedMedia = new LikedMedia(getLikedMedia(storage));
 const eventTracker = new EventTracker(EVENT_TRACKING_TOKEN);
+const eventEmitter = new EventEmitter();
+const { events } = constants;
 
-eventTracker.track(EventTracker.events.PAGE_VISIT, { pathname: window.location.pathname });
+eventTracker.track(events.PAGE_VISIT, { pathname: window.location.pathname });
 
 function getLikedMedia(storage) {
 	try {
@@ -41,15 +44,29 @@ function getLikedMedia(storage) {
 	}
 }
 
-function isLikedMedia(id) {
+const isLikedMedia = (auth, lookup) => (id) => {
+	const { likedMedia } = auth.getUser();
 	return id && likedMedia.isLiked(lookup.getRestaurantIDByMediaID(id), id);
-}
+};
 
-function toggleLikedMedia(id, setLikedMedia) {
-	const { LIKE_MEDIA, UNLIKE_MEDIA } = EventTracker.events;
-	const newLikedState = likedMedia.toggle(lookup.getRestaurantIDByMediaID(id), id);
-	eventTracker.track(newLikedState ? LIKE_MEDIA : UNLIKE_MEDIA);
-	setLikedMedia(likedMedia.getAll());
+function toggleLikedMedia(id, auth, setLikedMediaJSON) {
+	const { LIKE_MEDIA, UNLIKE_MEDIA } = events;
+	const { likedMedia } = auth.getUser();
+	const restaurantID = lookup.getRestaurantIDByMediaID(id);
+	const likedState = likedMedia.toggle(restaurantID, id);
+	eventTracker.track(likedState ? LIKE_MEDIA : UNLIKE_MEDIA);
+	storage.set('likedMedia', likedMedia.serialize());
+	setLikedMediaJSON(likedMedia.getAll());
+
+	if (auth.isAuthenticated()) {
+		if (likedState) {
+			auth.like({[restaurantID]: [id]})
+				.catch(e => console.error(e));
+		} else {
+			auth.unlike({[restaurantID]: [id]})
+				.catch(e => console.error(e));
+		}
+	}
 }
 
 function updateSearchURL({description, location, distance}, history) {
@@ -130,12 +147,12 @@ function getRestaurantDataByID(id) {
 
 function onError(e, setError, eventTracker) {
 	window.console.error(e);
-	eventTracker.track(EventTracker.events.ERROR, { message: e.message });
+	eventTracker.track(events.ERROR, { message: e.message });
 	setError(e);
 }
 
 const onRestaurantLinkClick = (setSelectedMediaID) => () => {
-	eventTracker.track(EventTracker.events.OPEN_RESTAURANT_PAGE);
+	eventTracker.track(events.OPEN_RESTAURANT_PAGE);
 	setSelectedMediaID('');
 	scrollToTop();
 }
@@ -145,7 +162,7 @@ const onDistanceDropdownClick = setDistance => distance => {
 };
 
 const onShowLikedChange = setShowLiked => showLiked => {
-	const { SHOW_LIKED_MEDIA, SHOW_ALL_MEDIA } = EventTracker.events;
+	const { SHOW_LIKED_MEDIA, SHOW_ALL_MEDIA } = events;
 	eventTracker.track(showLiked ? SHOW_LIKED_MEDIA : SHOW_ALL_MEDIA);
 	setShowLiked(showLiked);
 };
@@ -155,12 +172,14 @@ const isHomePage = pathname => pathname === '/';
 
 function App() {
 	const [restaurants, setRestaurants] = useState([]);
+	const [ canRenderSignUpButton, setCanRenderSignUpButton ] = useState(false);
+	// Used solely to re-render components on changes
+	const [likedMediaJSON, setLikedMediaJSON] = useState({});
 	const [openedHeader, setOpenedHeader] = useState(false);
 	const [description, setDescription] = useState('');
 	const [location, setLocation] = useState('');
 	const [requestingLocation, setRequestingLocation] = useState(false);
 	const [selectedMediaID, setSelectedMediaID] = useState('');
-	const [likedMedia, setLikedMedia] = useState({});
 	const [searching, setSearching] = useState(false);
 	const [error, setError] = useState(null);
 	const [distance, setDistance] = useState(distances.UNKNOWN);
@@ -175,15 +194,20 @@ function App() {
 
     // Check authentication status once on initial render
     useEffect(() => {
+    	// Set liked media for null user before rendering any children
+		auth.getUser().setLikedMedia(likedMedia);
+
     	auth.authenticate()
 			.then(() => {
 				if (auth.isAuthenticated()) {
 					console.log(`Welcome back, ${auth.getUser().getUsername()}!`);
 				} else {
 					console.log("New user.");
+					console.log(auth.getUser());
+					setCanRenderSignUpButton(true);
 				}
 			})
-	}, [])
+	}, []);
 
 	// console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
@@ -199,7 +223,7 @@ function App() {
             scrollToTop();
         } else if (search) {
             setSearching(true);
-            eventTracker.track(EventTracker.events.SEARCH, { description, location, distance });
+            eventTracker.track(events.SEARCH, { description, location, distance });
 
             const searchURL = urlWithSearchParams('/query', {description, location, distance});
 
@@ -228,13 +252,13 @@ function App() {
 
 	useEffect(() => {
 		if (requestingLocation) {
-			eventTracker.track(EventTracker.events.REQUEST_CURRENT_LOCATION);
+			eventTracker.track(events.REQUEST_CURRENT_LOCATION);
 		}
 	}, [requestingLocation]);
 
 	useEffect(() => {
 		if (selectedMediaID) {
-			eventTracker.track(EventTracker.events.CLICK_GALLERY_MEDIA);
+			eventTracker.track(events.CLICK_GALLERY_MEDIA);
 		}
 	}, [selectedMediaID]);
 
@@ -252,6 +276,7 @@ function App() {
 	const headerProps = {
 		openedHeader,
 		setOpenedHeader,
+		canRenderSignUpButton,
 		description,
 		setDescription,
 		location,
@@ -265,15 +290,17 @@ function App() {
 	};
 
 	const mediaModalProps = {
+		isAuthenticated: auth.isAuthenticated(),
 		selected: getSelectedMediaInfo(selectedMediaID, lookup),
-		onMediaLikeToggle: (id) => toggleLikedMedia(id, setLikedMedia),
+		onMediaLikeToggle: (id) => toggleLikedMedia(id, auth, setLikedMediaJSON),
 		onRestaurantLinkClick: onRestaurantLinkClick(setSelectedMediaID),
 		onClose: () => setSelectedMediaID(''),
-		isLiked: isLikedMedia(selectedMediaID)
+		isLiked: isLikedMedia(auth, lookup)(selectedMediaID)
 	};
 
 	const galleryProps = {
-		isLikedMedia,
+		isAuthenticated: auth.isAuthenticated(),
+		isLikedMedia: isLikedMedia(auth, lookup),
 		searching,
 		showLiked,
 		selectedMediaID,

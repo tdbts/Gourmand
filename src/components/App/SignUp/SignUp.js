@@ -17,13 +17,15 @@ const initialValues = {
 const onSubmit = (setSubmitting, setResponse, auth) => values => {
     console.log("values: ", values);
     setSubmitting(true);
-    auth.signUp(values)
+    const likedMedia = auth.getUser().getLikedMedia().listify();
+    console.log("Liked media for signup:", likedMedia);
+    return auth.signUp({ ...values, likedMedia })
         .then(setResponse)
         .then(() => setSubmitting(false))
         .catch(e => console.error(e));
 }
 
-const SignUp = ({}) => {
+const SignUp = () => {
     const [ response, setResponse ] = useState(null);
     const [ submitting, setSubmitting ] = useState(false);
     const [ redirectToReferrer, setRedirectToReferrer ] = useState(false)

@@ -56,6 +56,11 @@ const restaurantSchema = new mongoose.Schema({
 	}
 });
 
+restaurantSchema.methods.verifyMediaIDs = function (ids) {
+	const mediaIDs = this.media.toObject().map(media => media.id);
+	return ids.filter(id => mediaIDs.includes(id));
+};
+
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
 export default Restaurant;

@@ -10,9 +10,12 @@
 */
 export default class LikedMedia {
 
-	constructor(data, storage) {
+	constructor(data) {
 		this.liked = setLiked(data);
-		this.storage = storage;
+	}
+
+	static setify(json) {
+		return setify(json);
 	}
 
 	toggle(restaurantID, id) {
@@ -22,9 +25,6 @@ export default class LikedMedia {
 		this.liked = newLikedState
 			? likeMedia(liked, restaurantID, id)
 			: unlikeMedia(liked, restaurantID, id);
-
-		// TODO: Set up event mechanism for updating storage
-		updateStorage(this.storage, this.serialize());
 
 		return newLikedState;
 	}
@@ -37,14 +37,24 @@ export default class LikedMedia {
 		return isLiked(this.liked, restaurantID, id);
 	}
 
-	serialize() {
-		const json = {};
-
-		for (const restaurantID in this.liked) {
-			json[restaurantID] = [...this.liked[restaurantID]];
+	unlike(restaurantID, id) {
+		if (isLiked(this.liked,restaurantID, id)) {
+			unlikeMedia(this.liked, restaurantID, id);
 		}
+	}
 
-		return JSON.stringify(json);
+	merge(likedMedia) {
+		Object.keys(likedMedia)
+			.forEach(restaurantID => likedMedia[restaurantID]
+				.forEach(mediaID => likeMedia(this.liked, restaurantID, mediaID)));
+	}
+
+	serialize() {
+		return JSON.stringify(listify(this.liked));
+	}
+
+	listify() {
+		return listify(this.liked);
 	}
 }
 
@@ -84,15 +94,25 @@ function unlikeMedia(liked, restaurantID, id) {
 	return liked;
 }
 
-function updateStorage(storage, data) {
-	storage.set('likedMedia', data);
+function hydrate(data) {
+	return setify(JSON.parse(data));
 }
 
-function hydrate(data) {
-	const json = JSON.parse(data);
+function setify(json) {
+	const liked = {};
 
 	for (const restaurantID in json) {
-		json[restaurantID] = new Set(json[restaurantID]);
+		liked[restaurantID] = new Set(json[restaurantID]);
+	}
+
+	return liked;
+}
+
+function listify(liked) {
+	const json = {};
+
+	for (const restaurantID in liked) {
+		json[restaurantID] = [...liked[restaurantID]];
 	}
 
 	return json;

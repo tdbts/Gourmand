@@ -1,5 +1,5 @@
 import './Header.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
 	Collapse,
 	Navbar,
@@ -21,8 +21,8 @@ import withNavigationTracking from "../../utils/withNavigationTracking/withNavig
 
 const TrackedLink = withNavigationTracking(NavLink);
 
-const getSignUpButton = (auth) => {
-	return !auth.isAuthenticated()
+const getSignUpButton = (canRenderSignUpButton, auth) => {
+	return canRenderSignUpButton && !auth.isAuthenticated()
 		&& (
 			<Nav className="ml-auto mr-3" pills>
 				<NavItem>
@@ -38,7 +38,7 @@ const getLogInOutNavLink = (auth) => {
 		: <LoginNavLink />;
 };
 
-const Header = ({openedHeader, setOpenedHeader, onSearchRequest, description, setDescription, location, setLocation,
+const Header = ({openedHeader, setOpenedHeader, canRenderSignUpButton, onSearchRequest, description, setDescription, location, setLocation,
 					requestingLocation, setRequestingLocation, distance,
 					onDistanceDropdownClick, onShowLikedChange}) => {
 	const auth = useAuth();
@@ -49,7 +49,7 @@ const Header = ({openedHeader, setOpenedHeader, onSearchRequest, description, se
 			<TrackedLink id="home-link" className="navbar-brand company-name" to="/">
 				Gourmand
 			</TrackedLink>
-			{ getSignUpButton(auth) }
+			{ getSignUpButton(canRenderSignUpButton, auth) }
         	<NavbarToggler onClick={toggle} />
         	<Collapse className="header-collapse" in={true} isOpen={openedHeader} timeout={200} navbar>
         		<Nav className="header-nav" navbar>

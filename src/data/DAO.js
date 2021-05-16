@@ -1,5 +1,5 @@
-import MongoClient from 'mongodb';
 import Restaurant from '../models/Restaurant.js';
+import User from '../models/User.js';
 
 export default class DAO {
 
@@ -21,6 +21,14 @@ export default class DAO {
 	saveRestaurants(restaurants) {
 		return Restaurant.insertMany(restaurants.map(restaurant => restaurant.toJSON()))
 			.catch(onError);
+	}
+
+	saveUser(user) {
+		return user.save();
+	}
+
+	findUserByEmail(email) {
+		return User.findOne({ email });
 	}
 
 };

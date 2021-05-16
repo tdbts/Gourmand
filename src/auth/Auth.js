@@ -1,5 +1,6 @@
 import User from './User';
 import NullUser from "./NullUser";
+import LikedMedia from "../user/LikedMedia";
 
 const requestOptions = {
     mode: 'cors', // no-cors, *cors, same-origin
@@ -26,7 +27,7 @@ const setUserOnSuccess = (json, auth) => {
     console.log("json: ", json);
 
     if (json.success) {
-        auth.setUser(new User(json.id, json.username));
+        auth.setUser(new User(json.id, json.username, json.email, new LikedMedia(LikedMedia.setify(json.likedMedia))));
     }
 
     return json;
@@ -96,6 +97,29 @@ class Auth {
             })
             .then(checkResponseForErrors)
             .then(json => setUserOnSuccess(json, this));
+    }
+
+    like(likedMedia) {
+        return fetch('/user/like', {
+                ...requestOptions,
+                method: 'POST',
+                body: JSON.stringify({ likedMedia })
+            })
+            .then(checkResponseForErrors);
+    }
+
+    unlike(unlikedMedia) {
+        return fetch('/user/unlike', {
+                ...requestOptions,
+                method: 'POST',
+                body: JSON.stringify({ unlikedMedia })
+            })
+            .then(checkResponseForErrors);
+    }
+
+    getLiked() {
+        return fetch('/user/liked', {...requestOptions})
+            .then(checkResponseForErrors);
     }
 
     sendPasswordResetEmail() {
