@@ -9,6 +9,7 @@ const restaurantLookupRoute = (router, service) => {
                     res.setHeader('Content-Type', 'application/json');
                     res.json(restaurant);
                 } else {
+                    console.log(`Restaurant not found: ${id}`);
                     res.status(404);
                 }
             })
