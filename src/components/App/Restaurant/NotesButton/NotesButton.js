@@ -4,8 +4,8 @@ import {
 } from 'reactstrap';
 import NotesIcon from './NotesIcon';
 
-const NotesButton = ({}) => (
-    <Button className="notes-button">
+const NotesButton = ({ onClick }) => (
+    <Button {...{ onClick }} className="notes-button">
         <div className="square-container">
             <NotesIcon />
         </div>

@@ -5,6 +5,11 @@
     bottom: 100px;
     right: 50px;
     border-radius: 50%;
+}
+
+.notes-button,
+.notes-button:focus,
+.notes-button:hover {
     background-color: #e9ecef;
     color: rgba(0, 0, 0, 0.5) ! important;
 }

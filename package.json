@@ -32,6 +32,7 @@
     "react-ga": "^3.3.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
+    "react-swipeable-list": "^1.4.0",
     "react-transition-group": "^4.3.0",
     "reactstrap": "^8.7.1",
     "sanitize": "^2.1.0",

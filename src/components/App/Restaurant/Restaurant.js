@@ -2,6 +2,7 @@ import './Restaurant.css';
 import Gallery from "../common/Gallery/Gallery";
 import MapLink from "../common/MapLink/MapLink";
 import NotesButton from "./NotesButton/NotesButton";
+import NotesModal from "./NotesModal/NotesModal";
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import withOrderedMedia from "../common/Gallery/withOrderedMedia";
@@ -10,7 +11,13 @@ const OrderedGallery = withOrderedMedia(Gallery);
 
 const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaModalProps}) => {
     const [restaurant, setRestaurant] = useState(null);
+    const [showNotesModal, setShowNotesModal] = useState(false);
+    const [notes, setNotes] = useState(["Test note 1.", "Test note 2."]);
     const { id } = useParams();
+    const toggleNotes = () => {
+        console.log(`Setting notes modal to ${!showNotesModal}`);
+        setShowNotesModal(!showNotesModal);
+    };
 
     useEffect(() => {
         if (id) {
@@ -44,7 +51,8 @@ const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaMod
             <div className="restaurant-media-container">
                 <OrderedGallery {...galleryProps} mediaModalProps={mediaModalProps} restaurants={[restaurant]} mediaOrder={mediaOrder} showLiked={false} transitionTimeout={50} />
             </div>
-            <NotesButton />
+            <NotesButton onClick={toggleNotes} />
+            <NotesModal isOpen={showNotesModal} toggle={toggleNotes} {...{ notes, restaurant }} />
         </div>
     );
 };
