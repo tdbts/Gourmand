@@ -1,6 +1,7 @@
 import './Restaurant.css';
 import Gallery from "../common/Gallery/Gallery";
 import MapLink from "../common/MapLink/MapLink";
+import NotesButton from "./NotesButton/NotesButton";
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import withOrderedMedia from "../common/Gallery/withOrderedMedia";
@@ -43,6 +44,7 @@ const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaMod
             <div className="restaurant-media-container">
                 <OrderedGallery {...galleryProps} mediaModalProps={mediaModalProps} restaurants={[restaurant]} mediaOrder={mediaOrder} showLiked={false} transitionTimeout={50} />
             </div>
+            <NotesButton />
         </div>
     );
 };

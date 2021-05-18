@@ -1,0 +1,15 @@
+.notes-button {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 100px;
+    right: 50px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    color: rgba(0, 0, 0, 0.5) ! important;
+}
+
+.square-container {
+    width: 35px;
+    height: 35px;
+}
