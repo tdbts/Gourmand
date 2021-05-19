@@ -13,6 +13,7 @@ import {
     Button
 } from 'reactstrap';
 import Note from './Note/Note';
+import { useState } from 'react';
 
 const ActionContent = ({ children, color }) => (
     <Button outline className="action-content" {...{ color }}>
@@ -22,21 +23,26 @@ const ActionContent = ({ children, color }) => (
     </Button>
 );
 
-const leadingActions = () => (
+const leadingActions = (removeNote) => (
     <LeadingActions>
         <SwipeAction
-            destructive={true}
-            onClick={() => console.info('Deleting note.')}
+            onClick={() => {
+                console.info('Deleting note.');
+                removeNote();
+            }}
         >
             <ActionContent color="danger">Delete</ActionContent>
         </SwipeAction>
     </LeadingActions>
 );
 
-const trailingActions = () => (
+const trailingActions = (makeNoteEditable) => (
     <TrailingActions>
         <SwipeAction
-            onClick={() => console.info('Editing Note.')}
+            onClick={() => {
+                console.info('Editing Note.');
+                makeNoteEditable();
+            }}
         >
             <ActionContent color="warning">Edit</ActionContent>
         </SwipeAction>
@@ -47,7 +53,8 @@ const NoNotesMessage = () => (
     <p className="no-notes-message">There are no notes for this restaurant.</p>
 );
 
-const Notes = ({ notes }) => {
+const Notes = ({ notes, updateNote, removeNote, currentlyEditableNote, setCurrentlyEditableNote, ...props }) => {
+
     return notes.length
         ? (
             <SwipeableList
@@ -58,12 +65,17 @@ const Notes = ({ notes }) => {
                 {
                     notes.map((note, i) => (
                         <SwipeableListItem
-                            key={i}
-                            leadingActions={leadingActions()}
-                            trailingActions={trailingActions()}
+                            key={(currentlyEditableNote === i) ? i : note}
+                            leadingActions={leadingActions(removeNote(i))}
+                            trailingActions={trailingActions(() => setCurrentlyEditableNote(i))}
                             listType={ListType.IOS}
                         >
-                            <Note text={note} />
+                            <Note
+                                text={note}
+                                onNoteChange={updateNote(i)}
+                                disabled={currentlyEditableNote !== i}
+                                disable={() => (currentlyEditableNote === i) && setCurrentlyEditableNote(null)}
+                            />
                         </SwipeableListItem>
                     ))
                 }

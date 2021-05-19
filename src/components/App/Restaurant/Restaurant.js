@@ -12,11 +12,39 @@ const OrderedGallery = withOrderedMedia(Gallery);
 const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaModalProps}) => {
     const [restaurant, setRestaurant] = useState(null);
     const [showNotesModal, setShowNotesModal] = useState(false);
-    const [notes, setNotes] = useState(["Test note 1.", "Test note 2."]);
+    const [notes, setNotes] = useState([]);
+    const [ currentlyEditableNote, setCurrentlyEditableNote ] = useState(null);
     const { id } = useParams();
     const toggleNotes = () => {
+        cleanupNotes();
         console.log(`Setting notes modal to ${!showNotesModal}`);
         setShowNotesModal(!showNotesModal);
+    };
+
+    const removeEmpty = notes => notes.filter(note => !!note);
+
+    const cleanupNotes = () => {
+        const updatedNotes = [].concat(notes);
+        setNotes(removeEmpty(updatedNotes));
+    };
+
+    const updateNote = (i) => (text) => {
+        const updatedNotes = [].concat(notes);
+        updatedNotes[i] = text;
+        setNotes(updatedNotes);
+    };
+
+    const removeNote = (i) => () => {
+        const updatedNotes = [].concat(notes);
+        updatedNotes.splice(i, 1);
+        setNotes(updatedNotes);
+    };
+
+    const addNote = () => {
+        const updatedNotes = [].concat(notes);
+        updatedNotes.push("");
+        setNotes(updatedNotes);
+        setCurrentlyEditableNote(updatedNotes.length - 1);
     };
 
     useEffect(() => {
@@ -52,7 +80,7 @@ const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaMod
                 <OrderedGallery {...galleryProps} mediaModalProps={mediaModalProps} restaurants={[restaurant]} mediaOrder={mediaOrder} showLiked={false} transitionTimeout={50} />
             </div>
             <NotesButton onClick={toggleNotes} />
-            <NotesModal isOpen={showNotesModal} toggle={toggleNotes} {...{ notes, restaurant }} />
+            <NotesModal isOpen={showNotesModal} toggle={toggleNotes} {...{ notes, restaurant, updateNote, removeNote, currentlyEditableNote, setCurrentlyEditableNote, addNote }} />
         </div>
     );
 };

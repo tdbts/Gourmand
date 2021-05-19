@@ -8,15 +8,15 @@ import {
 } from "reactstrap";
 import Notes from './Notes/Notes';
 
-const NotesModal = ({ isOpen, toggle, notes, restaurant }) => {
+const NotesModal = ({ isOpen, toggle, notes, restaurant, updateNote, removeNote, currentlyEditableNote, setCurrentlyEditableNote, addNote }) => {
     return (
         <Modal className="notes-modal-container" {...{ isOpen, toggle }}>
             <ModalHeader {...{ toggle }}>{ restaurant && restaurant.name }</ModalHeader>
             <ModalBody>
-                <Notes {...{ notes }} />
+                <Notes {...{ notes, updateNote, removeNote, currentlyEditableNote, setCurrentlyEditableNote }} />
             </ModalBody>
             <ModalFooter>
-                <Button color="secondary" onClick={toggle}>Close</Button>
+                <Button color="primary" onClick={addNote} size="sm">Add Note</Button>
             </ModalFooter>
         </Modal>
     );

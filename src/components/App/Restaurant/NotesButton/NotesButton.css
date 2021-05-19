@@ -5,13 +5,17 @@
     bottom: 100px;
     right: 50px;
     border-radius: 50%;
+    border-color: #ffc107;
+    border-width: 2px;
 }
 
 .notes-button,
 .notes-button:focus,
 .notes-button:hover {
-    background-color: #e9ecef;
-    color: rgba(0, 0, 0, 0.5) ! important;
+    /*color: rgba(233, 236, 239, 0);*/
+    /*color: rgba(0, 0, 0, 0.5) ! important;*/
+    color: white;
+    background-color: rgba(255, 193, 7, 0.9);
 }
 
 .square-container {
