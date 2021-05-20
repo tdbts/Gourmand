@@ -145,7 +145,6 @@ router.post('/like', (req, res) => {
                .then(verified => verified.reduce((map, obj) => ({...map, ...obj}), {}))
                // Mongoose schemas do not support Sets
                .then(verifiedLikedMedia => {
-                   console.log("JSON.stringify(verifiedLikedMedia):", JSON.stringify(verifiedLikedMedia));
                    const { user } = req;
                    // Setify user's existing liked media and create 'LikedMedia' instance
                    const likedMedia =
@@ -158,7 +157,6 @@ router.post('/like', (req, res) => {
                    return dao.saveUser(user);
                })
                .then((...args) => {
-                   console.log("args:", args);
                    res.json({
                        success: true
                    });
@@ -180,6 +178,8 @@ router.post('/unlike', (req, res) => {
 
         if (unlikedMedia) {
             const { user } = req;
+            // Mongoose doesn't play nice with sets, so use 'LikedMedia' instance to handle set manipulation
+            // and conversion
             const likedMedia = new LikedMedia(LikedMedia.setify(user.getLikedMediaJSON()));
 
             Object.keys(unlikedMedia)

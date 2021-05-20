@@ -44,16 +44,20 @@ userSchema.methods.getNotesJSON = function getNotesJSON() {
     return this._convertMongooseEntityToJSON(this.notes);
 }
 
+// Must be called with a complete depiction of the current state of the user's liked media.
+// I.e., this will remove liked media that is not included in the given object.
 userSchema.methods.updateLikedMedia = function updateLikedMedia(likedMedia) {
+    const keyValues = [];
+
     for (const restaurantID in likedMedia) {
         if (likedMedia.hasOwnProperty(restaurantID)) {
             if (likedMedia[restaurantID].length) {
-                this.likedMedia.set(restaurantID, likedMedia[restaurantID]);
-            } else {
-                this.likedMedia.delete(restaurantID);
+                keyValues.push([restaurantID, likedMedia[restaurantID]]);
             }
         }
     }
+
+    this.likedMedia = new Map(keyValues);
 }
 
 const User = mongoose.model('User', userSchema);
