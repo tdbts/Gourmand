@@ -154,7 +154,7 @@ router.post('/like', (req, res) => {
                    // Return liked media to listified form after merge
                    user.likedMedia = likedMedia.listify();
                    // Persist update
-                   dao.saveUser(user);
+                   return dao.saveUser(user);
                })
                .then(likedMedia => res.json({
                    success: true
@@ -203,6 +203,54 @@ router.get('/liked', (req, res) => {
     } else {
         res.status(400).json({ success: false, message: "User not authenticated." });
     }
-})
+});
+
+router.get('/notes', (req, res) => {
+    if (req.isAuthenticated()) {
+        const { restaurantID } = req.params;
+        const notes = req.user.notes.toObject();
+
+        res.json({ success: true, notes: (restaurantID in notes) ? notes[restaurantID] : [] });
+    } else {
+        res.status(400).json({ success: false, message: "User not authenticated." });
+    }
+});
+
+router.post('/notes', (req, res) => {
+    if (req.isAuthenticated()) {
+        const { notes: updatedNotes } = req.body;
+        const { user } = req;
+        const notes = user.notes;
+
+        for (const restaurantID in updatedNotes) {
+            if (updatedNotes.hasOwnProperty(restaurantID)
+                && Array.isArray(updatedNotes[restaurantID])) {
+                const updatedRestaurantNotes = updatedNotes[restaurantID].filter(note => !!note);
+                if (updatedRestaurantNotes.length) {
+                    notes.set(restaurantID, updatedRestaurantNotes);
+                } else {
+                    notes.delete(restaurantID);
+                }
+            }
+        }
+
+        console.log(`Updating user with email '${user.email}' with notes: ${JSON.stringify(notes)}`)
+
+        dao.updateUser(user.email, { notes })
+            .then((result) => {
+                res.json({
+                    success: !!result.ok
+                });
+            })
+            .catch(e => {
+                console.error(e);
+                res.json({
+                    success: false
+                });
+            });
+    } else {
+        res.status(400).json({ success: false, message: "User not authenticated." });
+    }
+});
 
 export default router;

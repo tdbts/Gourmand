@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
         type: Map,
         of: [String],
         default: {}
+    },
+    notes: {
+        type: Map,
+        of: [String],
+        default: {}
     }
 });
 

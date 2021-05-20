@@ -171,6 +171,7 @@ const isGalleryPage = pathname => pathname.startsWith('/gallery');
 const isHomePage = pathname => pathname === '/';
 
 function App() {
+	const [loggedIn, setLoggedIn] = useState(false);
 	const [restaurants, setRestaurants] = useState([]);
 	const [ canRenderSignUpButton, setCanRenderSignUpButton ] = useState(false);
 	// Used solely to re-render components on changes
@@ -207,6 +208,12 @@ function App() {
 					setCanRenderSignUpButton(true);
 				}
 			})
+	}, []);
+
+    useEffect(() => {
+    	if (setLoggedIn !== auth.isAuthenticated()) {
+			setLoggedIn(auth.isAuthenticated());
+		}
 	}, []);
 
 	// console.log("selectedMediaID:", selectedMediaID);
@@ -274,6 +281,7 @@ function App() {
 	}
 
 	const headerProps = {
+		loggedIn,
 		openedHeader,
 		setOpenedHeader,
 		canRenderSignUpButton,

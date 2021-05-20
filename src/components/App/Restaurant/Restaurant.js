@@ -4,8 +4,9 @@ import MapLink from "../common/MapLink/MapLink";
 import NotesButton from "./NotesButton/NotesButton";
 import NotesModal from "./NotesModal/NotesModal";
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import {Redirect, useHistory, useLocation, useParams} from 'react-router-dom';
 import withOrderedMedia from "../common/Gallery/withOrderedMedia";
+import {useAuth} from "../../utils/auth/useAuth";
 
 const OrderedGallery = withOrderedMedia(Gallery);
 
@@ -14,11 +15,55 @@ const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaMod
     const [showNotesModal, setShowNotesModal] = useState(false);
     const [notes, setNotes] = useState([]);
     const [ currentlyEditableNote, setCurrentlyEditableNote ] = useState(null);
+    const [ redirectToLogin, setRedirectToLogin ] = useState(false);
     const { id } = useParams();
+    const auth = useAuth();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (restaurant) {
+            auth.authenticate()
+                .then(() => {
+                    if (auth.isAuthenticated()) {
+                        auth.getNotes(restaurant.id)
+                            .then(json => {
+                                if (json.success) {
+                                    setNotes(json.notes);
+                                } else {
+                                    console.error(json.message);
+                                }
+                            })
+                            .catch(e => {
+                                throw e
+                            });
+                    }
+                })
+                .catch(e => {
+                    throw e;
+                });
+        }
+    }, [restaurant]);
+
     const toggleNotes = () => {
         cleanupNotes();
-        console.log(`Setting notes modal to ${!showNotesModal}`);
+
+        // If currently exiting notes
+        if (showNotesModal) {
+            auth.updateNotes(restaurant.id, notes)
+                .catch(e => {
+                    throw e
+                });
+        }
+
         setShowNotesModal(!showNotesModal);
+    };
+
+    const toggleNotesIfAuthenticated = () => {
+        if (auth.isAuthenticated()) {
+            toggleNotes();
+        } else {
+            setRedirectToLogin(true);
+        }
     };
 
     const removeEmpty = notes => notes.filter(note => !!note);
@@ -58,6 +103,13 @@ const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaMod
         }
     }, [id]);
 
+    if (redirectToLogin) {
+        return <Redirect to={{
+            pathname: '/user/login',
+            state: { from: location.pathname }
+        }} />;
+    }
+
     if (!restaurant)
         return null;
 
@@ -79,8 +131,8 @@ const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaMod
             <div className="restaurant-media-container">
                 <OrderedGallery {...galleryProps} mediaModalProps={mediaModalProps} restaurants={[restaurant]} mediaOrder={mediaOrder} showLiked={false} transitionTimeout={50} />
             </div>
-            <NotesButton onClick={toggleNotes} />
-            <NotesModal isOpen={showNotesModal} toggle={toggleNotes} {...{ notes, restaurant, updateNote, removeNote, currentlyEditableNote, setCurrentlyEditableNote, addNote }} />
+            <NotesButton onClick={toggleNotesIfAuthenticated} />
+            <NotesModal isOpen={showNotesModal} toggle={toggleNotesIfAuthenticated} {...{ notes, restaurant, updateNote, removeNote, currentlyEditableNote, setCurrentlyEditableNote, addNote }} />
         </div>
     );
 };

@@ -99,6 +99,11 @@ class Auth {
             .then(json => setUserOnSuccess(json, this));
     }
 
+    getLiked() {
+        return fetch('/user/liked', {...requestOptions})
+            .then(checkResponseForErrors);
+    }
+
     like(likedMedia) {
         return fetch('/user/like', {
                 ...requestOptions,
@@ -117,8 +122,20 @@ class Auth {
             .then(checkResponseForErrors);
     }
 
-    getLiked() {
-        return fetch('/user/liked', {...requestOptions})
+    getNotes(restaurantID) {
+        const params = new URLSearchParams({ restaurantID });
+        return fetch(`/user/notes?${params}`, {
+                ...requestOptions
+            })
+            .then(checkResponseForErrors);
+    }
+
+    updateNotes(restaurantID, notes) {
+        return fetch('/user/notes', {
+                ...requestOptions,
+                method: 'POST',
+                body: JSON.stringify({ notes: { [restaurantID]: notes }})
+            })
             .then(checkResponseForErrors);
     }
 
