@@ -212,10 +212,15 @@ router.get('/liked', (req, res) => {
 
 router.get('/notes', (req, res) => {
     if (req.isAuthenticated()) {
-        const { restaurantID } = req.params;
-        const notes = req.user.getNotesJSON();
+        const { restaurantID } = req.query;
 
-        res.json({ success: true, notes: (restaurantID in notes) ? notes[restaurantID] : [] });
+        if (restaurantID) {
+            const notes = req.user.getNotesJSON();
+
+            res.json({ success: true, notes: (restaurantID in notes) ? notes[restaurantID] : [] });
+        } else {
+            res.status(404).json({ success: false, message: "No restaurant ID in notes request."});
+        }
     } else {
         res.status(400).json({ success: false, message: "User not authenticated." });
     }
