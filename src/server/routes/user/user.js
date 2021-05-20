@@ -145,20 +145,24 @@ router.post('/like', (req, res) => {
                .then(verified => verified.reduce((map, obj) => ({...map, ...obj}), {}))
                // Mongoose schemas do not support Sets
                .then(verifiedLikedMedia => {
+                   console.log("JSON.stringify(verifiedLikedMedia):", JSON.stringify(verifiedLikedMedia));
                    const { user } = req;
                    // Setify user's existing liked media and create 'LikedMedia' instance
                    const likedMedia =
-                       new LikedMedia(LikedMedia.setify(user.likedMedia.toObject()));
+                       new LikedMedia(LikedMedia.setify(user.getLikedMediaJSON()));
                    // Merge, handling de-duplication
                    likedMedia.merge(verifiedLikedMedia);
-                   // Return liked media to listified form after merge
-                   user.likedMedia = likedMedia.listify();
+                   // Update user document
+                   user.updateLikedMedia(likedMedia.listify());
                    // Persist update
                    return dao.saveUser(user);
                })
-               .then(likedMedia => res.json({
-                   success: true
-               }))
+               .then((...args) => {
+                   console.log("args:", args);
+                   res.json({
+                       success: true
+                   });
+               })
                .catch(e => {
                    throw e;
                });
@@ -173,16 +177,17 @@ router.post('/like', (req, res) => {
 router.post('/unlike', (req, res) => {
     if (req.isAuthenticated()) {
         const { unlikedMedia } = req.body;
-        const { user } = req;
-        const likedMedia = new LikedMedia(LikedMedia.setify(user.likedMedia.toObject()));
 
         if (unlikedMedia) {
+            const { user } = req;
+            const likedMedia = new LikedMedia(LikedMedia.setify(user.getLikedMediaJSON()));
+
             Object.keys(unlikedMedia)
                 .forEach(restaurantID => unlikedMedia[restaurantID]
                     .forEach(mediaID => likedMedia.unlike(restaurantID, mediaID)));
 
             // Return liked media to listified form after merge
-            user.likedMedia = likedMedia.listify();
+            user.updateLikedMedia(likedMedia.listify());
             // Persist update
             dao.saveUser(user)
                 .then(() => res.json({ success: true }))
@@ -208,7 +213,7 @@ router.get('/liked', (req, res) => {
 router.get('/notes', (req, res) => {
     if (req.isAuthenticated()) {
         const { restaurantID } = req.params;
-        const notes = req.user.notes.toObject();
+        const notes = req.user.getNotesJSON();
 
         res.json({ success: true, notes: (restaurantID in notes) ? notes[restaurantID] : [] });
     } else {

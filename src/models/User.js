@@ -32,6 +32,30 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+userSchema.methods._convertMongooseEntityToJSON = function _convertMongooseEntityToJSON(entity) {
+    return JSON.parse(JSON.stringify(entity));
+}
+
+userSchema.methods.getLikedMediaJSON = function getLikedMediaJSON() {
+    return this._convertMongooseEntityToJSON(this.likedMedia);
+};
+
+userSchema.methods.getNotesJSON = function getNotesJSON() {
+    return this._convertMongooseEntityToJSON(this.notes);
+}
+
+userSchema.methods.updateLikedMedia = function updateLikedMedia(likedMedia) {
+    for (const restaurantID in likedMedia) {
+        if (likedMedia.hasOwnProperty(restaurantID)) {
+            if (likedMedia[restaurantID].length) {
+                this.likedMedia.set(restaurantID, likedMedia[restaurantID]);
+            } else {
+                this.likedMedia.delete(restaurantID);
+            }
+        }
+    }
+}
+
 const User = mongoose.model('User', userSchema);
 
 export default User;
