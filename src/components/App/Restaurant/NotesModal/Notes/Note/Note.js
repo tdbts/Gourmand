@@ -4,6 +4,7 @@ import {
 } from 'reactstrap';
 import { useEditable } from "use-editable";
 import { useRef, useCallback } from "react";
+import Linkify from 'react-linkify';
 
 const Note = ({ text, onNoteChange, disabled, disable }) => {
     const ref = useRef(null);
@@ -15,7 +16,9 @@ const Note = ({ text, onNoteChange, disabled, disable }) => {
     return (
         <Container className="note-container">
             <div {...{ ref }} className={`note-text ${disabled ? "" : "editable"}`} onBlur={disable}>
-                {text}
+                <Linkify>
+                    {text}
+                </Linkify>
             </div>
         </Container>
     );
