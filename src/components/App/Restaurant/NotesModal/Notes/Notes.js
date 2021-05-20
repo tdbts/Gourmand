@@ -9,11 +9,14 @@ import {
     Type as ListType
 } from 'react-swipeable-list';
 import {
-    Container,
     Button
 } from 'reactstrap';
 import Note from './Note/Note';
-import { useState } from 'react';
+import EventTracker from "../../../../../tracking/EventTracker";
+import constants from '../../../../../constants/constants';
+
+const { events } = constants;
+const eventTracker = new EventTracker(constants.EVENT_TRACKING_TOKEN);
 
 const ActionContent = ({ children, color }) => (
     <Button outline className="action-content" {...{ color }}>
@@ -28,6 +31,7 @@ const leadingActions = (removeNote) => (
         <SwipeAction
             onClick={() => {
                 console.info('Deleting note.');
+                eventTracker.track(events.DELETE_NOTE);
                 removeNote();
             }}
         >
@@ -41,6 +45,7 @@ const trailingActions = (makeNoteEditable) => (
         <SwipeAction
             onClick={() => {
                 console.info('Editing Note.');
+                eventTracker.track(events.EDIT_NOTE);
                 makeNoteEditable();
             }}
         >

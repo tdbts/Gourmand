@@ -225,7 +225,7 @@ router.post('/notes', (req, res) => {
         for (const restaurantID in updatedNotes) {
             if (updatedNotes.hasOwnProperty(restaurantID)
                 && Array.isArray(updatedNotes[restaurantID])) {
-                const updatedRestaurantNotes = updatedNotes[restaurantID].filter(note => !!note);
+                const updatedRestaurantNotes = updatedNotes[restaurantID].filter(note => note && !!(note.trim()));
                 if (updatedRestaurantNotes.length) {
                     notes.set(restaurantID, updatedRestaurantNotes);
                 } else {

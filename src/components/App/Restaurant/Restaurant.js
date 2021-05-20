@@ -7,6 +7,11 @@ import { useState, useEffect } from "react";
 import {Redirect, useHistory, useLocation, useParams} from 'react-router-dom';
 import withOrderedMedia from "../common/Gallery/withOrderedMedia";
 import {useAuth} from "../../utils/auth/useAuth";
+import EventTracker from "../../../tracking/EventTracker";
+import constants from '../../../constants/constants';
+
+const { events } = constants;
+const eventTracker = new EventTracker(constants.EVENT_TRACKING_TOKEN);
 
 const OrderedGallery = withOrderedMedia(Gallery);
 
@@ -86,6 +91,7 @@ const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaMod
     };
 
     const addNote = () => {
+        eventTracker.track(events.ADD_NOTE);
         const updatedNotes = [].concat(notes);
         updatedNotes.push("");
         setNotes(updatedNotes);
