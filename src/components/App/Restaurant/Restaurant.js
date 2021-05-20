@@ -54,10 +54,13 @@ const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaMod
 
         // If currently exiting notes
         if (showNotesModal) {
+            eventTracker.track(events.CLOSE_NOTES);
             auth.updateNotes(restaurant.id, notes)
                 .catch(e => {
                     throw e
                 });
+        } else {
+            eventTracker.track(events.OPEN_NOTES);
         }
 
         setShowNotesModal(!showNotesModal);
