@@ -15,19 +15,30 @@ import { useState } from "react";
 
 const ShuffledGallery = withShuffledMedia(Gallery);
 
-const SearchResultsView = ({ galleryProps, restaurantProps }) => {
+const SearchResultsView = ({ galleryProps, restaurantProps, onViewSelection }) => {
     const [ listView, setListView ] = useState(false);
+
+    const onViewTabClick = (value) => {
+        if (value === listView)
+            return;
+
+        setListView(value);
+
+        if (onViewSelection) {
+            onViewSelection(value);
+        }
+    };
 
     return (
         <div className="search-results-container">
             <Nav className="search-results-view-options" tabs>
                 <NavItem className="search-results-view-option-button">
-                    <NavLink href="#" active={!listView} onClick={() => setListView(false)}>
+                    <NavLink href="#" active={!listView} onClick={() => onViewTabClick(false)}>
                         <GridIcon />
                     </NavLink>
                 </NavItem>
                 <NavItem className="search-results-view-option-button">
-                    <NavLink href="#" active={listView} onClick={() => setListView(true)}>
+                    <NavLink href="#" active={listView} onClick={() => onViewTabClick(true)}>
                         <ListIcon />
                     </NavLink>
                 </NavItem>

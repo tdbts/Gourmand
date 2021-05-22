@@ -330,7 +330,8 @@ function App() {
 	const searchResultsProps = {
 		error,
 		galleryProps,
-		restaurantProps
+		restaurantProps,
+		onViewSelection: listView => eventTracker.track(listView ? events.SEARCH_RESULTS_VIEW_LIST : events.SEARCH_RESULTS_VIEW_GALLERY)
 	};
 
 	return (
