@@ -12,15 +12,14 @@ import constants from '../../../constants/constants';
 
 const { events } = constants;
 const eventTracker = new EventTracker(constants.EVENT_TRACKING_TOKEN);
-
 const OrderedGallery = withOrderedMedia(Gallery);
 
-const Restaurant = ({id, getRestaurantDataByID, isLikedMedia, galleryProps }) => {
+const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) => {
     const [restaurant, setRestaurant] = useState(null);
     const [showNotesModal, setShowNotesModal] = useState(false);
     const [notes, setNotes] = useState([]);
-    const [ currentlyEditableNote, setCurrentlyEditableNote ] = useState(null);
-    const [ redirectToLogin, setRedirectToLogin ] = useState(false);
+    const [currentlyEditableNote, setCurrentlyEditableNote] = useState(null);
+    const [redirectToLogin, setRedirectToLogin] = useState(false);
     const auth = useAuth();
     const location = useLocation();
 
@@ -108,6 +107,9 @@ const Restaurant = ({id, getRestaurantDataByID, isLikedMedia, galleryProps }) =>
                         setRestaurant(restaurant);
                     }
                 })
+                .catch(e => {
+                    throw e;
+                });
         }
     }, [id]);
 
@@ -122,7 +124,7 @@ const Restaurant = ({id, getRestaurantDataByID, isLikedMedia, galleryProps }) =>
         return null;
 
     const { name, address, neighborhoods, media } = restaurant;
-    const separatedByLiked = media.reduce((lists, media, i) => {
+    const separatedByLiked = media.reduce((lists, media) => {
         const listIndex = isLikedMedia(media.id) ? 0 : 1;
         lists[listIndex] = lists[listIndex].concat(media.id);
         return lists;

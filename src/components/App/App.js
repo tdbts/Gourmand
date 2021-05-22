@@ -313,18 +313,18 @@ function App() {
 	};
 
 	const galleryProps = {
-		isAuthenticated: auth.isAuthenticated(),
-		isLikedMedia: isLikedMedia(auth, lookup),
 		searching,
 		showLiked,
 		restaurants,
+		isAuthenticated: auth.isAuthenticated(),
+		isLikedMedia: isLikedMedia(auth, lookup),
 		onMediaSelection: setSelectedMediaID
 	};
 
 	const restaurantProps = {
 		getRestaurantDataByID,
-		isLikedMedia,
-		galleryProps
+		galleryProps,
+		isLikedMedia: isLikedMedia(auth, lookup)
 	};
 
 	const searchResultsProps = {
