@@ -11,7 +11,6 @@ function formatCaption(caption) {
 }
 
 function MediaModal({selected, onMediaLikeToggle, onRestaurantLinkClick, onClose, isLiked }) {
-	console.log("selected:", selected);
 	const {media, restaurant} = selected;
 	const {source, caption} = media;
 	const {name, address, neighborhoods, categories, rating} = restaurant;
