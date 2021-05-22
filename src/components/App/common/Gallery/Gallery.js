@@ -33,7 +33,7 @@ const Gallery = ({media, selectedMediaID, onMediaSelection, isLikedMedia, search
 					<GalleryMedia key={m.id} searching={searching} media={m} onMediaSelection={onMediaSelection} isLiked={isLikedMedia(m.id)} />
 				))}
 				{ searching && <SearchCurtain color={color} />}
-				{selectedMediaID && <MediaModal {...mediaModalProps} />}
+				{ selectedMediaID && <MediaModal {...mediaModalProps} /> }
 			</div>
 		</CSSTransition>
 	);

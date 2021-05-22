@@ -15,13 +15,12 @@ const eventTracker = new EventTracker(constants.EVENT_TRACKING_TOKEN);
 
 const OrderedGallery = withOrderedMedia(Gallery);
 
-const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaModalProps}) => {
+const Restaurant = ({id, getRestaurantDataByID, isLikedMedia, galleryProps, mediaModalProps}) => {
     const [restaurant, setRestaurant] = useState(null);
     const [showNotesModal, setShowNotesModal] = useState(false);
     const [notes, setNotes] = useState([]);
     const [ currentlyEditableNote, setCurrentlyEditableNote ] = useState(null);
     const [ redirectToLogin, setRedirectToLogin ] = useState(false);
-    const { id } = useParams();
     const auth = useAuth();
     const location = useLocation();
 
@@ -132,15 +131,21 @@ const Restaurant = ({getRestaurantDataByID, isLikedMedia, galleryProps, mediaMod
 
     return (
         <div className="restaurant-container">
-            <div className="restaurant-details-container text-container">
-                <h2 className="restaurant-name">{name}</h2>
-                <p><MapLink className="restaurant-address" address={address} /></p>
-                {(neighborhoods.length > 0) && <p className="restaurant-neighborhoods">{neighborhoods.join(", ")}</p>}
+            <div className="restaurant-details-container">
+                <div className="text-container">
+                    <h2 className="restaurant-name">{name}</h2>
+                    <p><MapLink className="restaurant-address" address={address} /></p>
+                    {(neighborhoods.length > 0) && <p className="restaurant-neighborhoods">{neighborhoods.join(", ")}</p>}
+                </div>
             </div>
             <div className="restaurant-media-container">
                 <OrderedGallery {...galleryProps} mediaModalProps={mediaModalProps} restaurants={[restaurant]} mediaOrder={mediaOrder} showLiked={false} transitionTimeout={50} />
+                <div className="notes-button-container">
+                    <div className="notes-button-boundary">
+                        <NotesButton onClick={toggleNotesIfAuthenticated} />
+                    </div>
+                </div>
             </div>
-            <NotesButton onClick={toggleNotesIfAuthenticated} />
             <NotesModal isOpen={showNotesModal} toggle={toggleNotesIfAuthenticated} {...{ notes, restaurant, updateNote, removeNote, currentlyEditableNote, setCurrentlyEditableNote, addNote }} />
         </div>
     );

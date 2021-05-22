@@ -23,6 +23,7 @@ import Map from "./Map/Map";
 import Profile from "./Profile/Profile";
 import scrollToTop from "../utils/scrollToTop";
 import {useAuth} from "../utils/auth/useAuth";
+import withIDFromURL from "../utils/withIDFromURL/withIDFromURL";
 
 const { EVENT_TRACKING_TOKEN, GOOGLE_ANALYTICS_ID } = constants;
 const { distances } = yelpConstants;
@@ -31,6 +32,7 @@ const storage = new StorageFactory().get(window.localStorage);
 const likedMedia = new LikedMedia(getLikedMedia(storage));
 const eventTracker = new EventTracker(EVENT_TRACKING_TOKEN);
 const { events } = constants;
+const RestaurantPage = withIDFromURL(Restaurant);
 
 eventTracker.track(events.PAGE_VISIT, { pathname: window.location.pathname });
 
@@ -230,7 +232,7 @@ function App() {
             setSearching(true);
             eventTracker.track(events.SEARCH, { description, location, distance });
 
-            const searchURL = urlWithSearchParams('/query', {description, location, distance});
+            const searchURL = urlWithSearchParams('/search', {description, location, distance});
 
             getRestaurantJSON(searchURL)
                 .then(json => {
@@ -314,16 +316,17 @@ function App() {
 		onMediaSelection: setSelectedMediaID
 	};
 
-	const searchResultsProps = {
-		error,
-		...galleryProps
-	};
-
 	const restaurantProps = {
 		getRestaurantDataByID,
 		isLikedMedia,
 		galleryProps,
 		mediaModalProps
+	};
+
+	const searchResultsProps = {
+		error,
+		galleryProps,
+		restaurantProps
 	};
 
 	return (
@@ -346,7 +349,7 @@ function App() {
 					<Login />
 				</Route>
 				<Route path={'/restaurant/:id'}>
-					<Restaurant {...restaurantProps} />
+					<RestaurantPage {...restaurantProps} />
 				</Route>
 				<Route path={'/user/signup'}>
 					<SignUp />
