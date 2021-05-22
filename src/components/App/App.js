@@ -167,27 +167,32 @@ const onShowLikedChange = setShowLiked => showLiked => {
 	setShowLiked(showLiked);
 };
 
+const getInitialSearchState = (param, fallback, browserLocation) => {
+	return new URLSearchParams(browserLocation.search).get(param) || fallback;
+};
+
 const isGalleryPage = pathname => pathname.startsWith('/gallery');
 const isHomePage = pathname => pathname === '/';
 
 function App() {
+	const history = useHistory();
+	const browserLocation = useLocation();
+	const auth = useAuth();
+
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [restaurants, setRestaurants] = useState([]);
 	const [ canRenderSignUpButton, setCanRenderSignUpButton ] = useState(false);
 	// Used solely to re-render components on changes
 	const [likedMediaJSON, setLikedMediaJSON] = useState({});
 	const [openedHeader, setOpenedHeader] = useState(false);
-	const [description, setDescription] = useState('');
-	const [location, setLocation] = useState('');
+	const [description, setDescription] = useState(getInitialSearchState("description", "", browserLocation));
+	const [location, setLocation] = useState(getInitialSearchState("location", '', browserLocation));
+	const [distance, setDistance] = useState(getInitialSearchState("distance", distances.UNKNOWN, browserLocation));
 	const [requestingLocation, setRequestingLocation] = useState(false);
 	const [selectedMediaID, setSelectedMediaID] = useState('');
 	const [searching, setSearching] = useState(false);
 	const [error, setError] = useState(null);
-	const [distance, setDistance] = useState(distances.UNKNOWN);
 	const [showLiked, setShowLiked] = useState(false);
-	const history = useHistory();
-	const browserLocation = useLocation();
-	const auth = useAuth();
 
     console.log("browserLocation:", browserLocation);
     const { pathname, search } = browserLocation;
