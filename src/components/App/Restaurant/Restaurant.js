@@ -15,7 +15,7 @@ const eventTracker = new EventTracker(constants.EVENT_TRACKING_TOKEN);
 
 const OrderedGallery = withOrderedMedia(Gallery);
 
-const Restaurant = ({id, getRestaurantDataByID, isLikedMedia, galleryProps, mediaModalProps}) => {
+const Restaurant = ({id, getRestaurantDataByID, isLikedMedia, galleryProps }) => {
     const [restaurant, setRestaurant] = useState(null);
     const [showNotesModal, setShowNotesModal] = useState(false);
     const [notes, setNotes] = useState([]);
@@ -139,7 +139,7 @@ const Restaurant = ({id, getRestaurantDataByID, isLikedMedia, galleryProps, medi
                 </div>
             </div>
             <div className="restaurant-media-container">
-                <OrderedGallery {...galleryProps} mediaModalProps={mediaModalProps} restaurants={[restaurant]} mediaOrder={mediaOrder} showLiked={false} transitionTimeout={50} />
+                <OrderedGallery {...galleryProps} restaurants={[restaurant]} mediaOrder={mediaOrder} showLiked={false} transitionTimeout={50} />
                 <div className="notes-button-container">
                     <div className="notes-button-boundary">
                         <NotesButton onClick={toggleNotesIfAuthenticated} />

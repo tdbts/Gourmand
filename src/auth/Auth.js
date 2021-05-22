@@ -14,8 +14,6 @@ const requestOptions = {
 };
 
 const checkResponseForErrors = response => {
-    console.log("response:", response);
-
     if (response.status >= 500) {
         throw new Error("Something went wrong.");
     }

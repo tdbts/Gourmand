@@ -24,6 +24,7 @@ import Profile from "./Profile/Profile";
 import scrollToTop from "../utils/scrollToTop";
 import {useAuth} from "../utils/auth/useAuth";
 import withIDFromURL from "../utils/withIDFromURL/withIDFromURL";
+import MediaModal from "./MediaModal/MediaModal";
 
 const { EVENT_TRACKING_TOKEN, GOOGLE_ANALYTICS_ID } = constants;
 const { distances } = yelpConstants;
@@ -316,7 +317,6 @@ function App() {
 		isLikedMedia: isLikedMedia(auth, lookup),
 		searching,
 		showLiked,
-		selectedMediaID,
 		restaurants,
 		onMediaSelection: setSelectedMediaID
 	};
@@ -324,8 +324,7 @@ function App() {
 	const restaurantProps = {
 		getRestaurantDataByID,
 		isLikedMedia,
-		galleryProps,
-		mediaModalProps
+		galleryProps
 	};
 
 	const searchResultsProps = {
@@ -339,10 +338,10 @@ function App() {
 			<Header {...headerProps} />
 			<Switch>
 				<Route exact path={'/'}>
-					<Home {...galleryProps} mediaModalProps={mediaModalProps} restaurants={lookup.getRestaurantsByURL(lookupKey) || []} />
+					<Home {...galleryProps} restaurants={lookup.getRestaurantsByURL(lookupKey) || []} />
 				</Route>
 				<Route path={'/gallery'}>
-					<SearchResults {...searchResultsProps} mediaModalProps={mediaModalProps} />
+					<SearchResults {...searchResultsProps} />
 				</Route>
 				<Route path={'/about'}>
 					<About />
@@ -369,6 +368,7 @@ function App() {
 					<Profile />
 				</Route>
 			</Switch>
+			{ selectedMediaID && <MediaModal {...mediaModalProps} /> }
 			<Footer {...{openedHeader, setOpenedHeader}} />
 		</div>
 	);

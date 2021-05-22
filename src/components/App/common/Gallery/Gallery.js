@@ -3,12 +3,9 @@ import { useState, useEffect } from 'react';
 import GalleryMedia from './GalleryMedia/GalleryMedia';
 import SearchCurtain from './SearchCurtain/SearchCurtain';
 import { CSSTransition } from "react-transition-group";
-import MediaModal from "./MediaModal/MediaModal";
 
-const NOOP = () => {};
-
-const Gallery = ({media, selectedMediaID, onMediaSelection, isLikedMedia, searching,
-					 showLiked, mediaModalProps, onEnter, onEntered, onExited, transitionTimeout}) => {
+const Gallery = ({media, onMediaSelection, isLikedMedia, searching,
+					 showLiked, onEnter, onEntered, onExited, transitionTimeout}) => {
 	const [renderedMedia, setRenderedMedia] = useState([]);
 	const [canEnter, setCanEnter] = useState(true);
 	const color = renderedMedia.length ? "light" : "dark";
@@ -33,7 +30,6 @@ const Gallery = ({media, selectedMediaID, onMediaSelection, isLikedMedia, search
 					<GalleryMedia key={m.id} searching={searching} media={m} onMediaSelection={onMediaSelection} isLiked={isLikedMedia(m.id)} />
 				))}
 				{ searching && <SearchCurtain color={color} />}
-				{ selectedMediaID && <MediaModal {...mediaModalProps} /> }
 			</div>
 		</CSSTransition>
 	);

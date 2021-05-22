@@ -15,7 +15,7 @@ import { useState } from "react";
 
 const ShuffledGallery = withShuffledMedia(Gallery);
 
-const SearchResultsView = ({ galleryProps, mediaModalProps, restaurantProps }) => {
+const SearchResultsView = ({ galleryProps, restaurantProps }) => {
     const [ listView, setListView ] = useState(false);
 
     return (
@@ -35,7 +35,7 @@ const SearchResultsView = ({ galleryProps, mediaModalProps, restaurantProps }) =
             {
                 listView
                     ? <RestaurantsList {...{ restaurants: galleryProps.restaurants, restaurantProps }} />
-                    : <ShuffledGallery {...galleryProps} mediaModalProps={mediaModalProps} />
+                    : <ShuffledGallery {...galleryProps} />
             }
         </div>
 
