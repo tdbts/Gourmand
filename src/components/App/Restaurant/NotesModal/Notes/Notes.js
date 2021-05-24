@@ -58,9 +58,9 @@ const NoNotesMessage = () => (
     <p className="no-notes-message">There are no notes for this restaurant.</p>
 );
 
-const Notes = ({ notes, updateNote, removeNote, currentlyEditableNote, setCurrentlyEditableNote, ...props }) => {
+const Notes = ({ notesManager, ...props }) => {
 
-    return notes.length
+    return notesManager.getNotes().length
         ? (
             <SwipeableList
                 threshold={0.5}
@@ -68,18 +68,18 @@ const Notes = ({ notes, updateNote, removeNote, currentlyEditableNote, setCurren
                 type={ListType.IOS}
             >
                 {
-                    notes.map((note, i) => (
+                    notesManager.getNotes().map((note, i) => (
                         <SwipeableListItem
-                            key={(currentlyEditableNote === i) ? i : note}
-                            leadingActions={leadingActions(removeNote(i))}
-                            trailingActions={trailingActions(() => setCurrentlyEditableNote(i))}
+                            key={notesManager.isEditable(i) ? i : note}
+                            leadingActions={leadingActions(notesManager.remove(i))}
+                            trailingActions={trailingActions(() => notesManager.setCurrentlyEditableNote(i))}
                             listType={ListType.IOS}
                         >
                             <Note
                                 text={note}
-                                onNoteChange={updateNote(i)}
-                                disabled={currentlyEditableNote !== i}
-                                disable={() => (currentlyEditableNote === i) && setCurrentlyEditableNote(null)}
+                                onNoteChange={notesManager.update(i)}
+                                disabled={!notesManager.isEditable(i)}
+                                disable={() => notesManager.isEditable(i) && notesManager.setCurrentlyEditableNote(null)}
                             />
                         </SwipeableListItem>
                     ))

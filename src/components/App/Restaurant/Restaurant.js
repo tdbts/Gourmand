@@ -3,25 +3,30 @@ import Gallery from "../common/Gallery/Gallery";
 import MapLink from "../common/MapLink/MapLink";
 import NotesButton from "./NotesButton/NotesButton";
 import NotesModal from "./NotesModal/NotesModal";
-import { useState, useEffect } from "react";
-import {Redirect, useHistory, useLocation, useParams} from 'react-router-dom';
+import {useEffect, useState} from "react";
+import {Redirect, useLocation} from 'react-router-dom';
 import withOrderedMedia from "../common/Gallery/withOrderedMedia";
 import {useAuth} from "../../utils/auth/useAuth";
-import EventTracker from "../../../tracking/EventTracker";
-import constants from '../../../constants/constants';
+import useNotesManager from "../../utils/useNotesManager/useNotesManager";
 
-const { events } = constants;
-const eventTracker = new EventTracker(constants.EVENT_TRACKING_TOKEN);
 const OrderedGallery = withOrderedMedia(Gallery);
+
+const getMediaOrder = (unorderedMedia, isLikedMedia) => {
+    const separatedByLiked = unorderedMedia.reduce((lists, media) => {
+        const listIndex = isLikedMedia(media.id) ? 0 : 1;
+        lists[listIndex] = lists[listIndex].concat(media.id);
+        return lists;
+    }, [[], []]);
+
+    return separatedByLiked[0].concat(separatedByLiked[1]);
+}
 
 const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) => {
     const [restaurant, setRestaurant] = useState(null);
-    const [showNotesModal, setShowNotesModal] = useState(false);
-    const [notes, setNotes] = useState([]);
-    const [currentlyEditableNote, setCurrentlyEditableNote] = useState(null);
     const [redirectToLogin, setRedirectToLogin] = useState(false);
     const auth = useAuth();
     const location = useLocation();
+    const notesManager = useNotesManager();
 
     useEffect(() => {
         if (restaurant) {
@@ -31,7 +36,7 @@ const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) =
                         auth.getNotes(restaurant.id)
                             .then(json => {
                                 if (json.success) {
-                                    setNotes(json.notes);
+                                    notesManager.setNotes(json.notes);
                                 } else {
                                     console.error(json.message);
                                 }
@@ -47,64 +52,13 @@ const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) =
         }
     }, [restaurant]);
 
-    const toggleNotes = () => {
-        cleanupNotes();
-
-        // If currently exiting notes
-        if (showNotesModal) {
-            eventTracker.track(events.CLOSE_NOTES);
-            auth.updateNotes(restaurant.id, notes)
-                .catch(e => {
-                    throw e
-                });
-        } else {
-            eventTracker.track(events.OPEN_NOTES);
-        }
-
-        setShowNotesModal(!showNotesModal);
-    };
-
-    const toggleNotesIfAuthenticated = () => {
-        if (auth.isAuthenticated()) {
-            toggleNotes();
-        } else {
-            setRedirectToLogin(true);
-        }
-    };
-
-    const removeEmpty = notes => notes.filter(note => !!note);
-
-    const cleanupNotes = () => {
-        const updatedNotes = [].concat(notes);
-        setNotes(removeEmpty(updatedNotes));
-    };
-
-    const updateNote = (i) => (text) => {
-        const updatedNotes = [].concat(notes);
-        updatedNotes[i] = text;
-        setNotes(updatedNotes);
-    };
-
-    const removeNote = (i) => () => {
-        const updatedNotes = [].concat(notes);
-        updatedNotes.splice(i, 1);
-        setNotes(updatedNotes);
-    };
-
-    const addNote = () => {
-        eventTracker.track(events.ADD_NOTE);
-        const updatedNotes = [].concat(notes);
-        updatedNotes.push("");
-        setNotes(updatedNotes);
-        setCurrentlyEditableNote(updatedNotes.length - 1);
-    };
-
     useEffect(() => {
         if (id) {
             getRestaurantDataByID(id)
                 .then(restaurant => {
                     if (restaurant) {
                         setRestaurant(restaurant);
+                        notesManager.setRestaurant(restaurant);
                     }
                 })
                 .catch(e => {
@@ -112,6 +66,14 @@ const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) =
                 });
         }
     }, [id]);
+
+    const toggleNotesIfAuthenticated = () => {
+        if (auth.isAuthenticated()) {
+            notesManager.toggle();
+        } else {
+            setRedirectToLogin(true);
+        }
+    };
 
     if (redirectToLogin) {
         return <Redirect to={{
@@ -124,12 +86,7 @@ const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) =
         return null;
 
     const { name, address, neighborhoods, media } = restaurant;
-    const separatedByLiked = media.reduce((lists, media) => {
-        const listIndex = isLikedMedia(media.id) ? 0 : 1;
-        lists[listIndex] = lists[listIndex].concat(media.id);
-        return lists;
-    }, [[], []]);
-    const mediaOrder = separatedByLiked[0].concat(separatedByLiked[1]);
+    const mediaOrder = getMediaOrder(media, isLikedMedia);
 
     return (
         <div className="restaurant-container">
@@ -148,7 +105,7 @@ const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) =
                     </div>
                 </div>
             </div>
-            <NotesModal isOpen={showNotesModal} toggle={toggleNotesIfAuthenticated} {...{ notes, restaurant, updateNote, removeNote, currentlyEditableNote, setCurrentlyEditableNote, addNote }} />
+            <NotesModal isOpen={notesManager.showNotes} toggle={toggleNotesIfAuthenticated} {...{ restaurant, notesManager }} />
         </div>
     );
 };

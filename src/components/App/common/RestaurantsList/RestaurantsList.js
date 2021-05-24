@@ -1,11 +1,10 @@
 import './RestaurantsList.css';
 import Restaurant from "../../Restaurant/Restaurant";
-import { Fragment } from "react";
 
 const RestaurantsList = ({ restaurantProps, restaurants }) => (
-    <Fragment>
+    <div className="restaurants-list">
         { restaurants.map(({ id }) => <Restaurant key={id} id={id} {...restaurantProps} />) }
-    </Fragment>
+    </div>
 );
 
 export default RestaurantsList;
