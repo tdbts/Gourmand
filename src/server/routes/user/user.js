@@ -263,4 +263,33 @@ router.post('/notes', (req, res) => {
     }
 });
 
+router.get('/profile-details', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log("Authenticated request to '/profile-details'.");
+        const likedMedia = req.user.getLikedMediaJSON();
+        const notes = req.user.getNotesJSON();
+
+        const restaurantIDs = new Set([].concat(Object.keys(likedMedia), Object.keys(notes)));
+        console.log("restaurantIDs:", restaurantIDs);
+
+        dao.findRestaurantsByIDs(Array.from(restaurantIDs))
+            .then(restaurants => {
+                res.json({
+                    likedMedia,
+                    notes,
+                    restaurants
+                });
+            })
+            .catch(e => {
+                console.error(e);
+                res.json({
+                    success: false
+                });
+            });
+
+    } else {
+        res.status(400).json({ success: false, message: "User not authenticated." });
+    }
+})
+
 export default router;

@@ -21,6 +21,7 @@ import Footer from "./Footer/Footer";
 import Upload from "./Upload/Upload";
 import Map from "./Map/Map";
 import Profile from "./Profile/Profile";
+import PrivateRoute from "./common/PrivateRoute/PrivateRoute";
 import scrollToTop from "../utils/scrollToTop";
 import {useAuth} from "../utils/auth/useAuth";
 import withIDFromURL from "../utils/withIDFromURL/withIDFromURL";
@@ -366,7 +367,9 @@ function App() {
 					<Map />
 				</Route>
 				<Route path={'/user/profile'}>
-					<Profile />
+					<PrivateRoute {...{ auth, redirect: '/user/login' }}>
+						<Profile />
+					</PrivateRoute>
 				</Route>
 			</Switch>
 			{ selectedMediaID && <MediaModal {...mediaModalProps} /> }

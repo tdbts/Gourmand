@@ -147,6 +147,11 @@ class Auth {
             .then(checkResponseForErrors);
     }
 
+    getProfileDetails() {
+        return fetch('/user/profile-details', { ...requestOptions })
+            .then(checkResponseForErrors);
+    }
+
     sendPasswordResetEmail() {
 
     }
