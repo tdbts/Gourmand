@@ -272,20 +272,27 @@ router.get('/profile-details', (req, res) => {
         const restaurantIDs = new Set([].concat(Object.keys(likedMedia), Object.keys(notes)));
         console.log("restaurantIDs:", restaurantIDs);
 
-        dao.findRestaurantsByIDs(Array.from(restaurantIDs))
-            .then(restaurants => {
-                res.json({
-                    likedMedia,
-                    notes,
-                    restaurants
-                });
-            })
-            .catch(e => {
-                console.error(e);
-                res.json({
-                    success: false
-                });
-            });
+        res.json({ restaurantIDs: Array.from(restaurantIDs) });
+
+        /*
+        * TODO: Nicely aggregate the required data in one request like so.
+        *  For now, we'll let the 'Restaurant' component do the work in multiple requests
+        *  from the client.
+        * */
+        // dao.findRestaurantsByIDs(Array.from(restaurantIDs))
+        //     .then(restaurants => {
+        //         res.json({
+        //             likedMedia,
+        //             notes,
+        //             restaurants
+        //         });
+        //     })
+        //     .catch(e => {
+        //         console.error(e);
+        //         res.json({
+        //             success: false
+        //         });
+        //     });
 
     } else {
         res.status(400).json({ success: false, message: "User not authenticated." });

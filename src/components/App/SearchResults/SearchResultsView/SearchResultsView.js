@@ -29,6 +29,8 @@ const SearchResultsView = ({ galleryProps, restaurantProps, onViewSelection }) =
         }
     };
 
+    const restaurantIDs = galleryProps.restaurants.map(restaurant => restaurant.id);
+
     return (
         <div className="search-results-container">
             <Nav className="search-results-view-options" tabs>
@@ -45,7 +47,7 @@ const SearchResultsView = ({ galleryProps, restaurantProps, onViewSelection }) =
             </Nav>
             {
                 listView
-                    ? <RestaurantsList {...{ restaurants: galleryProps.restaurants, restaurantProps }} />
+                    ? <RestaurantsList {...{ restaurantIDs, restaurantProps }} />
                     : <ShuffledGallery {...galleryProps} />
             }
         </div>

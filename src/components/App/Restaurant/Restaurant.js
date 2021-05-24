@@ -21,7 +21,12 @@ const getMediaOrder = (unorderedMedia, isLikedMedia) => {
     return separatedByLiked[0].concat(separatedByLiked[1]);
 }
 
+/*
+* Restaurant currently used in restaurant pages, search results list, and now profile pages
+* */
 const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) => {
+    // Restaurant data may not be available initially, such as when the user lands on restaurant page
+    // and the restaurant data must be retrieved from the lookup or remote DB
     const [restaurant, setRestaurant] = useState(null);
     const [redirectToLogin, setRedirectToLogin] = useState(false);
     const auth = useAuth();
@@ -29,36 +34,11 @@ const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) =
     const notesManager = useNotesManager();
 
     useEffect(() => {
-        if (restaurant) {
-            auth.authenticate()
-                .then(() => {
-                    if (auth.isAuthenticated()) {
-                        auth.getNotes(restaurant.id)
-                            .then(json => {
-                                if (json.success) {
-                                    notesManager.setNotes(json.notes);
-                                } else {
-                                    console.error(json.message);
-                                }
-                            })
-                            .catch(e => {
-                                throw e
-                            });
-                    }
-                })
-                .catch(e => {
-                    throw e;
-                });
-        }
-    }, [restaurant]);
-
-    useEffect(() => {
         if (id) {
             getRestaurantDataByID(id)
                 .then(restaurant => {
                     if (restaurant) {
                         setRestaurant(restaurant);
-                        notesManager.setRestaurant(restaurant);
                     }
                 })
                 .catch(e => {
@@ -66,6 +46,25 @@ const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) =
                 });
         }
     }, [id]);
+
+    useEffect(() => {
+        if (restaurant && !notesManager.restaurant) {
+            notesManager.setRestaurant(restaurant);
+        }
+    }, [restaurant]);
+
+    useEffect(() => {
+        if (restaurant) {
+            notesManager.retrieveNotes(restaurant.id)
+                .catch(e => {
+                    if (!auth.isAuthenticated()) {
+                        setRedirectToLogin(true);
+                    } else {
+                        console.error(e);
+                    }
+                });
+        }
+    }, [restaurant]);
 
     const toggleNotesIfAuthenticated = () => {
         if (auth.isAuthenticated()) {

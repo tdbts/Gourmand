@@ -1,9 +1,9 @@
 import './RestaurantsList.css';
 import Restaurant from "../../Restaurant/Restaurant";
 
-const RestaurantsList = ({ restaurantProps, restaurants }) => (
+const RestaurantsList = ({ restaurantProps, restaurantIDs }) => (
     <div className="restaurants-list">
-        { restaurants.map(({ id }) => <Restaurant key={id} id={id} {...restaurantProps} />) }
+        { restaurantIDs.map((id) => <Restaurant key={id} id={id} {...restaurantProps} />) }
     </div>
 );
 

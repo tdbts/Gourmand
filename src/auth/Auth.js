@@ -152,6 +152,18 @@ class Auth {
             .then(checkResponseForErrors);
     }
 
+    performIfAuthenticated(action) {
+        return this.authenticate()
+            .then(() => {
+                if (this.isAuthenticated()) {
+                    return action();
+                }
+            })
+            .catch(e => {
+                throw e;
+            });
+    }
+
     sendPasswordResetEmail() {
 
     }

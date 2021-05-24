@@ -60,13 +60,25 @@ const useNotesManager = () => {
 
     const isEditable = i => i === currentlyEditableNote;
 
+    const retrieveNotes = (restaurantID) => auth.performIfAuthenticated(
+        () => auth.getNotes(restaurantID)
+                .then(json => {
+                    if (json.success) {
+                        setNotes(json.notes);
+                    } else {
+                        console.error(json.message);
+                    }
+                }));
+
     return {
         getNotes,
+        retrieveNotes,
         update,
         remove,
         add,
         toggle,
         isEditable,
+        restaurant,
         setNotes,
         setCurrentlyEditableNote,
         setRestaurant,

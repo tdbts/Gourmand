@@ -125,9 +125,8 @@ function convertResponseToJSON(response) {
 }
 
 function getRestaurantDataByID(id) {
-	let restaurant = lookup.getRestaurantByID(id);
+	const restaurant = lookup.getRestaurantByID(id);
 
-	// TODO: Get restaurant data remotely
 	if (restaurant)
 		return Promise.resolve(restaurant);
 
@@ -368,7 +367,7 @@ function App() {
 				</Route>
 				<Route path={'/user/profile'}>
 					<PrivateRoute {...{ auth, redirect: '/user/login' }}>
-						<Profile />
+						<Profile {...{restaurantProps}} />
 					</PrivateRoute>
 				</Route>
 			</Switch>
