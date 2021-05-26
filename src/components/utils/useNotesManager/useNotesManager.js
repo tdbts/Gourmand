@@ -7,7 +7,7 @@ const { events } = constants;
 const eventTracker = new EventTracker(constants.EVENT_TRACKING_TOKEN);
 
 const useNotesManager = () => {
-    const [restaurant, setRestaurant ] = useState(null);
+    const [restaurant, setRestaurant] = useState(null);
     const [notes, setNotes] = useState([]);
     const [showNotes, setShowNotes] = useState(false);
     const [currentlyEditableNote, setCurrentlyEditableNote] = useState(null);

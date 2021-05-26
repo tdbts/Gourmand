@@ -14,7 +14,7 @@ const ContactForm = ({name, email, subject, message, setName, setEmail, setSubje
         <FormGroup>
             <Input required type="textarea" name="message" placeholder="Your Message" value={message} onChange={e => setMessage(e.target.value)} />
         </FormGroup>
-        <Button onClick={onSubmitButtonClick} color="secondary">Sign Up</Button>
+        <Button onClick={onSubmitButtonClick} color="secondary" block>Send</Button>
     </Form>
 );
 

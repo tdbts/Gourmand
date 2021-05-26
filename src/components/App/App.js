@@ -360,10 +360,14 @@ function App() {
 					<SignUp />
 				</Route>
 				<Route path={'/upload'}>
-					<Upload />
+					<PrivateRoute {...{ auth, redirect: '/user/login' }}>
+						<Upload />
+					</PrivateRoute>
 				</Route>
 				<Route path={'/map'}>
-					<Map />
+					<PrivateRoute {...{ auth, redirect: '/user/login' }}>
+						<Map />
+					</PrivateRoute>
 				</Route>
 				<Route path={'/user/profile'}>
 					<PrivateRoute {...{ auth, redirect: '/user/login' }}>

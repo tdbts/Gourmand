@@ -1,7 +1,5 @@
 import './Footer.css';
-import {Nav, Navbar, NavItem
-    // , NavLink
-} from "reactstrap";
+import {Nav, Navbar, NavItem} from "reactstrap";
 import {NavLink} from 'react-router-dom';
 import {HomeIcon} from "./HomeIcon";
 import {SearchIcon} from "./SearchIcon";

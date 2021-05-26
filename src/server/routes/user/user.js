@@ -272,7 +272,7 @@ router.get('/profile-details', (req, res) => {
         const restaurantIDs = new Set([].concat(Object.keys(likedMedia), Object.keys(notes)));
         console.log("restaurantIDs:", restaurantIDs);
 
-        res.json({ restaurantIDs: Array.from(restaurantIDs) });
+        res.json({ restaurantIDs: Array.from(restaurantIDs), notes });
 
         /*
         * TODO: Nicely aggregate the required data in one request like so.
