@@ -36,10 +36,12 @@ userSchema.methods._convertMongooseEntityToJSON = function _convertMongooseEntit
     return JSON.parse(JSON.stringify(entity));
 }
 
+// Should only be necessary for server-side manipulation, as Mongoose will handle serialization over the wire
 userSchema.methods.getLikedMediaJSON = function getLikedMediaJSON() {
     return this._convertMongooseEntityToJSON(this.likedMedia);
 };
 
+// Should only be necessary for server-side manipulation, as Mongoose will handle serialization over the wire
 userSchema.methods.getNotesJSON = function getNotesJSON() {
     return this._convertMongooseEntityToJSON(this.notes);
 }
@@ -59,6 +61,18 @@ userSchema.methods.updateLikedMedia = function updateLikedMedia(likedMedia) {
 
     this.likedMedia = new Map(keyValues);
 }
+
+userSchema.methods.serialize = function serialize() {
+    const { _id: id, username, email } = this;
+
+    return {
+        id,
+        username,
+        email,
+        likedMedia: this.getLikedMediaJSON(),
+        notes: this.getNotesJSON()
+    };
+};
 
 const User = mongoose.model('User', userSchema);
 

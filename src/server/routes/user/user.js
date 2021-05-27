@@ -81,11 +81,8 @@ router.post('/login', (req, res, next) => {
             return next(err);
         }
 
-        // console.log("user:", user);
-        // console.log("info:", info);
-
         if (user) {
-            const userInfo = _.pick(user, 'id', 'username', 'email', 'likedMedia');
+            const userInfo = user.serialize();
             console.log("userInfo: ", userInfo);
             req.login(userInfo.id, err => {
                 if (err) {
@@ -106,12 +103,9 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/authenticate', (req, res) => {
-    // console.log("req.session:", req.session);
-    // console.log("req.user:", req.user);
-    // console.log("req.isAuthenticated():", req.isAuthenticated());
     if (req.isAuthenticated()) {
-        const { username, _id: id, email, likedMedia } = req.user;
-        res.json({ success: true, id, username, email, likedMedia });
+        const { id, username, email, likedMedia, notes } = req.user.serialize();
+        res.json({ success: true, id, username, email, likedMedia, notes });
     } else {
         res.json({ success: false });
     }
@@ -158,11 +152,17 @@ router.post('/like', (req, res) => {
                })
                .then((...args) => {
                    res.json({
-                       success: true
+                       success: true,
+                       likedMedia: req.user.likedMedia
                    });
                })
                .catch(e => {
-                   throw e;
+                   console.error(e);
+
+                   res.status(500).json({
+                       success: false,
+                       likedMedia: req.user.likedMedia
+                   });
                });
        } else {
            res.status(400);
@@ -190,9 +190,17 @@ router.post('/unlike', (req, res) => {
             user.updateLikedMedia(likedMedia.listify());
             // Persist update
             dao.saveUser(user)
-                .then(() => res.json({ success: true }))
+                .then(() => res.json({
+                    success: true,
+                    likedMedia: req.user.likedMedia
+                }))
                 .catch(e => {
-                    throw e;
+                    console.error(e);
+
+                    res.status(500).json({
+                        success: false,
+                        likedMedia: req.user.likedMedia
+                    });
                 });
         } else {
             res.status(400);
@@ -249,13 +257,16 @@ router.post('/notes', (req, res) => {
         dao.updateUser(user.email, { notes })
             .then((result) => {
                 res.json({
-                    success: !!result.ok
+                    success: !!result.ok,
+                    notes: req.user.notes
                 });
             })
             .catch(e => {
                 console.error(e);
-                res.json({
-                    success: false
+
+                res.status(500).json({
+                    success: false,
+                    notes: req.user.notes
                 });
             });
     } else {

@@ -1,10 +1,11 @@
 class User {
 
-    constructor(id, username, email, likedMedia) {
+    constructor(id, username, email, likedMedia, notes) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.likedMedia = likedMedia;
+        this.notes = notes;
     }
 
     getID() {
@@ -25,6 +26,14 @@ class User {
 
     setLikedMedia(likedMedia) {
         this.likedMedia = likedMedia;
+    }
+
+    getNotes() {
+        return this.notes;
+    }
+
+    setNotes(notes) {
+        this.notes = notes;
     }
 
     isAuthenticated() {

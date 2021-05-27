@@ -25,7 +25,12 @@ const setUserOnSuccess = (json, auth) => {
     console.log("json: ", json);
 
     if (json.success) {
-        auth.setUser(new User(json.id, json.username, json.email, new LikedMedia(LikedMedia.setify(json.likedMedia))));
+        auth.setUser(new User(
+            json.id,
+            json.username,
+            json.email,
+            new LikedMedia(LikedMedia.setify(json.likedMedia)),
+            json.notes));
     }
 
     return json;
@@ -118,7 +123,11 @@ class Auth {
                 method: 'POST',
                 body: JSON.stringify({ likedMedia })
             })
-            .then(checkResponseForErrors);
+            .then(checkResponseForErrors)
+            .then(json => {
+                this.user.setLikedMedia(new LikedMedia(LikedMedia.setify(json.likedMedia)));
+                return json;
+            });
     }
 
     unlike(unlikedMedia) {
@@ -127,7 +136,11 @@ class Auth {
                 method: 'POST',
                 body: JSON.stringify({ unlikedMedia })
             })
-            .then(checkResponseForErrors);
+            .then(checkResponseForErrors)
+            .then(json => {
+                this.user.setLikedMedia(new LikedMedia(LikedMedia.setify(json.likedMedia)));
+                return json;
+            });
     }
 
     getNotes(restaurantID) {
@@ -144,7 +157,11 @@ class Auth {
                 method: 'POST',
                 body: JSON.stringify({ notes: { [restaurantID]: notes }})
             })
-            .then(checkResponseForErrors);
+            .then(checkResponseForErrors)
+            .then(json => {
+                this.user.setNotes(json.notes);
+                return json;
+            });
     }
 
     getProfileDetails() {

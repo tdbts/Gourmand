@@ -2,51 +2,47 @@ import './Profile.css';
 import RestaurantsList from "../common/RestaurantsList/RestaurantsList";
 import {useAuth} from "../../utils/auth/useAuth";
 import {Fragment, useEffect, useState} from "react";
-import {Input, InputGroup, InputGroupAddon} from "reactstrap";
+import {Input, InputGroup } from "reactstrap";
 import Fuse from 'fuse.js';
+
+const getFilterData = (restaurants, notes) => {
+    return restaurants.map(restaurant => ({
+        ...restaurant,
+        notes: (restaurant.id in notes)
+            ? notes[restaurant.id]
+            : []
+    }));
+};
+
+const getUserRestaurantIDs = (user) => {
+    const { likedMedia, notes } = user;
+    // Ensure unique
+    const restaurantIDs = new Set([].concat(Object.keys(likedMedia.listify()), Object.keys(notes)));
+    // console.log("restaurantIDs:", restaurantIDs);
+    return Array.from(restaurantIDs);
+};
 
 const Profile = ({ restaurantProps }) => {
     const auth = useAuth();
-    const [profileDetails, setProfileDetails] = useState(null);
     const [filterQuery, setFilterQuery] = useState('');
-    const [filterData, setFilterData] = useState(null);
+    const [userRestaurants, setUserRestaurants] = useState([]);
 
     const { getRestaurantDataByID } = restaurantProps;
 
     useEffect(() => {
-        auth.getProfileDetails()
-            .then(profileDetails => {
-                console.log("profileDetails:", profileDetails);
-                setProfileDetails(profileDetails);
-            })
-            .catch(e => {
-                throw e;
-            });
-    }, []);
+        const userRestaurantIDs = getUserRestaurantIDs(auth.getUser());
+        const currentRestaurantIDs = userRestaurants.map(restaurant => restaurant.id);
 
-    useEffect(() => {
-        if (profileDetails && !filterData) {
-            const { restaurantIDs, notes } = profileDetails;
-
-            Promise.all(restaurantIDs.map(getRestaurantDataByID))
-                .then(restaurants => {
-                    console.log("restaurants:", restaurants);
-                    const filterData = restaurants.map(restaurant => ({
-                        ...restaurant,
-                        notes: (restaurant.id in notes)
-                            ? notes[restaurant.id]
-                            : []
-                    }));
-                    console.log("filterData:", filterData);
-                    setFilterData(filterData);
-                })
+        if ((userRestaurantIDs.length !== userRestaurants.length) || userRestaurantIDs.some(id => !currentRestaurantIDs.includes(id))) {
+            Promise.all(userRestaurantIDs.map(getRestaurantDataByID))
+                .then(setUserRestaurants)
                 .catch(e => {
                     throw e;
                 });
         }
-    }, [profileDetails])
+    }, [userRestaurants]);
 
-    const getRestaurantIDs = (profileDetails, filterQuery, filterData) => {
+    const getRestaurantIDs = (restaurantIDs, filterQuery, filterData) => {
         if (filterQuery) {
             const fuse = new Fuse(filterData, {
                 keys: ['address', 'categories', 'name', 'neighborhoods', 'notes'],
@@ -58,22 +54,27 @@ const Profile = ({ restaurantProps }) => {
             return fuse.search(filterQuery).map(result => result.item.id);
         }
 
-        return profileDetails.restaurantIDs;
+        return restaurantIDs;
     };
 
-    if (!profileDetails)
-        return null;
+    const userRestaurantIDs = getUserRestaurantIDs(auth.getUser());
+
+    const restaurantIDs = getRestaurantIDs(
+        userRestaurantIDs,
+        filterQuery,
+        getFilterData(userRestaurants, auth.getUser().getNotes())
+    );
 
     return (
         <div className="user-profile">
             {
-                profileDetails?.restaurantIDs?.length
+                userRestaurantIDs.length
                     ? (
                         <Fragment>
                             <InputGroup className="filter-input-group">
                                 <Input className="filter-input" type="text" value={filterQuery} onChange={e => setFilterQuery(e.target.value)} placeholder="Filter restaurants" />
                             </InputGroup>
-                            <RestaurantsList {...{ restaurantIDs: getRestaurantIDs(profileDetails, filterQuery, filterData), restaurantProps }} />
+                            <RestaurantsList {...{ restaurantIDs, restaurantProps }} />
                         </Fragment>
                     )
                     : (
