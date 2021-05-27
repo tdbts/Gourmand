@@ -1,9 +1,6 @@
 .user-profile {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: start;
-    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 .filter-input-group {
     position: sticky;
@@ -24,6 +21,8 @@
     position: relative;
     width: 100%;
     height: 100%;
+    min-width: 100vw;
+    min-height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
