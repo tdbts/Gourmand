@@ -10,9 +10,7 @@ function SearchForm({onSearchRequest, description, setDescription, location, set
 	const [indicateError, setIndicateError] = useState(false);
 
 	useEffect(() => {
-		if (locationRequestError) {
-			setIndicateError(true);
-		}
+		setIndicateError(!!locationRequestError);
 	}, [locationRequestError]);
 
 	const onDescriptionChange = (event) => {
@@ -47,6 +45,7 @@ function SearchForm({onSearchRequest, description, setDescription, location, set
 			e => {
 				const { latitude, longitude } = e.coords;
 				setRequestingLocation(false);
+				setLocationRequestError(false);
 				setLocation(`${latitude.toPrecision(7)}, ${longitude.toPrecision(7)}`);
 			},
 			e => {
