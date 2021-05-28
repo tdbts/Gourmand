@@ -24,7 +24,14 @@ const nonAPIRoutes = ['/', '/gallery', '/about', '/contact', '/restaurant', '/us
 passportConfig(passport);
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+	contentSecurityPolicy: {
+		directives: {
+			defaultSrc: ["'self'"],
+			scriptSrc: ["'self'"]
+		}
+	}
+}));
 app.use(sanitize.middleware);
 
 // Connect to MongoDB
