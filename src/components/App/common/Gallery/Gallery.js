@@ -1,47 +1,35 @@
 import './Gallery.css';
 import { useState, useEffect } from 'react';
-import _ from 'underscore';
-import YelpMedia from '../../../../scrapers/yelp/YelpMedia';
 import GalleryMedia from './GalleryMedia/GalleryMedia';
 import SearchCurtain from './SearchCurtain/SearchCurtain';
 import { CSSTransition } from "react-transition-group";
-import MediaModal from "./MediaModal/MediaModal";
 
-const Gallery = ({restaurants, selectedMediaID, onMediaSelection, isLikedMedia, searching,
-					 showLiked, mediaModalProps, mediaOrder, onEntered, transitionTimeout}) => {
-	// console.log("media:", media);
-	const [canShuffleMedia, setCanShuffleMedia] = useState(!mediaOrder);
-	const [shuffledMedia, setShuffledMedia] = useState([]);
+const Gallery = ({media, onMediaSelection, isLikedMedia, searching,
+					 showLiked, onEnter, onEntered, onExited, transitionTimeout}) => {
+	const [renderedMedia, setRenderedMedia] = useState([]);
 	const [canEnter, setCanEnter] = useState(true);
-	const color = restaurants.length ? "light" : "dark";
+	const color = renderedMedia.length ? "light" : "dark";
 	const canRender = !searching && canEnter;
-	const renderedMedia = mediaOrder ? getOrderedMedia(restaurants, mediaOrder) : filterLiked(shuffledMedia, showLiked, isLikedMedia);
-	const onExited = () => {
-		setCanShuffleMedia(true);
-		setCanEnter(true);
-	};
 
 	useEffect(() => {
-		if (!mediaOrder) {
-			setCanShuffleMedia(canRender);
+		if (canRender && (media !== renderedMedia) && media.length) {
+			setRenderedMedia(media);
 		}
-	}, [searching, canEnter])
+	}, [canRender, media]);
 
 	useEffect(() => {
-		if (canShuffleMedia) {
-			setShuffledMedia(getShuffledMedia(restaurants));
+		if (searching) {
+			setCanEnter(false);
 		}
-	}, [canShuffleMedia, restaurants]);
+	}, [searching]);
 
 	return (
-		<CSSTransition classNames={"thumbnail-swap"} in={canRender} appear={true} timeout={transitionTimeout || 2000}
-					   onEntered={onEntered} onExit={() => setCanEnter(false)} onExited={onExited}>
+		<CSSTransition classNames={"thumbnail-swap"} in={canRender} appear={true} timeout={transitionTimeout || 1000} onEnter={onEnter} onEntered={onEntered} onExited={() => setCanEnter(true)}>
 			<div className="gallery-container">
-				{renderedMedia.map((media, i) => (
-					<GalleryMedia key={i} searching={searching} media={media} onMediaSelection={onMediaSelection} isLiked={isLikedMedia(media.id)} />
+				{filterLiked(renderedMedia, showLiked, isLikedMedia).map((m) => (
+					<GalleryMedia key={m.id} searching={searching} media={m} onMediaSelection={onMediaSelection} isLiked={isLikedMedia(m.id)} />
 				))}
 				{ searching && <SearchCurtain color={color} />}
-				{selectedMediaID && <MediaModal {...mediaModalProps} />}
 			</div>
 		</CSSTransition>
 	);
@@ -49,31 +37,6 @@ const Gallery = ({restaurants, selectedMediaID, onMediaSelection, isLikedMedia, 
 
 function filterLiked(media, showLiked, isLikedMedia) {
 	return showLiked ? media.filter(media => isLikedMedia(media.id)) : media;
-}
-
-function getOrderedMedia(restaurants, mediaOrder) {
-	if (!restaurants.length)
-		return restaurants;
-
-	const mediaByID = restaurants
-		.flatMap(restaurant => restaurant.media)
-		.reduce((map, media) => {
-			map[media.id] = media;
-			return map;
-		}, {})
-
-	return mediaOrder
-		.map(id => mediaByID[id])
-		.map(media => (new YelpMedia().populateFromBSON(media)));
-}
-
-function getShuffledMedia(restaurants) {
-	console.log("restaurants:", restaurants);
-	const allMedia = restaurants.flatMap(restaurant => restaurant.media);
-	console.log("allMedia:", allMedia);
-	const shuffledMedia = _.shuffle(allMedia);
-	// console.log("shuffledMedia:", shuffledMedia);
-	return shuffledMedia.map(media => (new YelpMedia().populateFromBSON(media)));
 }
 
 export default Gallery;

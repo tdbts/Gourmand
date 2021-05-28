@@ -1,0 +1,33 @@
+.sign-up-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-position: center top -15px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.sign-up-container .contrast-overlay {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    background-color: #000;
+    opacity: 0.4;
+}
+
+.sign-up-content-container {
+    position: relative;
+    padding: 25px;
+    color: white;
+}
+
+.sign-up-text {
+    margin: 50px 0;
+    max-width: 500px;
+    text-shadow: 3px 3px 3px #000;
+    font-size: 1.25em;
+}
+
+.sign-up-container .flash-message {
+    margin: 25px auto;
+}

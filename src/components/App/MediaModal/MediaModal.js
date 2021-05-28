@@ -1,32 +1,21 @@
 import './MediaModal.css';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import getUnlikedMediaIcon from '../../../../utils/getUnlikedMediaIcon';
-import getLikedMediaIcon from '../../../../utils/getLikedMediaIcon';
+import MapLink from "../common/MapLink/MapLink";
+import getUnlikedMediaIcon from '../../utils/getUnlikedMediaIcon';
+import getLikedMediaIcon from '../../utils/getLikedMediaIcon';
+import { useDoubleTap } from "use-double-tap";
+import {Link} from "react-router-dom";
 
 function formatCaption(caption) {
 	return caption ? `"${caption}"` : "[ No Caption ]";
 }
 
-function onAddressClick(e, address) {
-	e.preventDefault();
-	openInNewTab(formatMapLink(address));
-}
-
-function openInNewTab(url) {
-	const win = window.open(url, '_blank');
-	win.focus();
-}
-
-function formatMapLink(address) {
-	return "https://www.google.com/maps/place/" + address.join(" ").replace(" ", "+");
-}
-
-function MediaModal({selected, onMediaLikeToggle, onClose, isLiked}) {
-	console.log("selected:", selected);
+function MediaModal({selected, onMediaLikeToggle, onRestaurantLinkClick, onClose, isLiked }) {
 	const {media, restaurant} = selected;
 	const {source, caption} = media;
 	const {name, address, neighborhoods, categories, rating} = restaurant;
 	const onIconClick = () => onMediaLikeToggle(media.id);
+	const mobileDoubleClickHandler = useDoubleTap(onIconClick);
 
 	return (
 		<Modal isOpen={!!selected} toggle={onClose} className="media-modal-container">
@@ -36,12 +25,12 @@ function MediaModal({selected, onMediaLikeToggle, onClose, isLiked}) {
 			<ModalBody>
 				<div className="modal-info-container">
 					<div className="modal-image-container">
-						<img className="food-media modal-image" src={source} />
+						<img className="food-media modal-image" src={source}  onDoubleClick={onIconClick} {...mobileDoubleClickHandler} />
 						{ isLiked ? getLikedMediaIcon("32", "32", "white", "liked-media-icon", onIconClick) : getUnlikedMediaIcon("32", "32", "white", "unliked-media-icon", onIconClick) }
 					</div>
 					<div className="restaurant-details-container">
-						{name && <div className="restaurant-name">{name}</div>}
-						{address && <a onClick={e => onAddressClick(e, address)} className="restaurant-address">{address.join(" ")}</a>}
+						{name && <Link className="restaurant-name" to={`/restaurant/${restaurant.id}`} onClick={onRestaurantLinkClick}><div>{name}</div></Link>}
+						{address && <MapLink className="restaurant-address" address={address} />}
 						{neighborhoods && <div className="restaurant-neighborhoods">{neighborhoods.join(", ")}</div>}
 						{categories && <div className="restaurant-categories">{categories.join(", ")}</div>}
 						{rating && <div className="restaurant-rating">{rating}</div>}

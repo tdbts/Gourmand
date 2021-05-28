@@ -1,0 +1,19 @@
+.sign-up-form .form-group {
+    margin-bottom: 25px;
+}
+
+.field-error-feedback {
+    position: absolute;
+    color: #fff;
+}
+
+.have-account-text {
+    margin: 12px 0;
+    color: white;
+}
+
+.login-link {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+}

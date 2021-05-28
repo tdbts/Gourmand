@@ -3,7 +3,7 @@
     position: sticky;
     top: 0;
     background-color: white;
-    z-index: 5;
+    z-index: 500;
     overflow-x: scroll;
 }
 
@@ -19,12 +19,16 @@
     transition: height 200ms ease-in-out;
 }
 
+.header-nav .nav-link {
+    display: inline-block;
+}
+
 .header-nav > .nav-item {
     padding: 0 10px;
     white-space: nowrap;
 }
 
-#about-link, #contact-link, #login-link {
+#about-link, #contact-link, #login-link, #logout-link {
     color: rgba(0,0,0,.5);
 }
 

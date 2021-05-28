@@ -119,7 +119,7 @@ const Contact = () => {
         <div className="contact-container">
             <div className="contact-background" style={{backgroundImage: 'url(/contact-background.jpg)'}} />
             <Container className="contact-content-container">
-                <div className="text-container">
+                <div className="text-container with-image-underlay">
                     { getTextComponent(status) }
                 </div>
                 {(status === statuses.UNSENT) && <ContactForm {...contactFormProps} />}

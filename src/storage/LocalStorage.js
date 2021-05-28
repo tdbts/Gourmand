@@ -1,9 +1,9 @@
 /*
- * Storage
+ * LocalStorage
  *
  * Facade for storage mechanism (e.g. localStorage) 
  */
-export default class Storage {
+export default class LocalStorage {
 
 	constructor(storage) {
 		this.storage = storage;
@@ -34,6 +34,6 @@ function silent(action) {
 	try {
 		return action();
 	} catch (e) {
-		window.console.debug("Storage Exception:", e);
+		window.console.debug("LocalStorage Exception:", e);
 	}
 }

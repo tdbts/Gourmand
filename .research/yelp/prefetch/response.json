@@ -1,0 +1,124 @@
+{
+  "unique_request_id": "e5c1fdb20ebfc67a",
+  "response": [
+    {
+      "prefix": "taqui",
+      "suggestions": [
+        {
+          "ajax_data": "null",
+          "css_class": null,
+          "is_bookmarked": null,
+          "is_typeahead": false,
+          "name_param": "find_desc",
+          "num_checkins": null,
+          "query": "Taquitos Grill",
+          "redirect_url": "/biz/taquitos-grill-merrick",
+          "subtitle": "395 Merrick Ave, Merrick",
+          "thumbnail": {
+            "color": null,
+            "key": "https://s3-media3.fl.yelpcdn.com/bphoto/B1ufYBhoJyg8gtK_zkqS7Q/30s.jpg",
+            "type": "image-rounded"
+          },
+          "title": "Taquitos Grill",
+          "version": 1,
+          "type": "business",
+          "refinements": null
+        },
+        {
+          "ajax_data": "null",
+          "css_class": null,
+          "is_bookmarked": null,
+          "is_typeahead": false,
+          "name_param": "find_desc",
+          "num_checkins": null,
+          "query": "Taquitos Mexico",
+          "redirect_url": "/biz/taquitos-mexico-brooklyn",
+          "subtitle": "6720 14th Ave, Brooklyn",
+          "thumbnail": {
+            "color": null,
+            "key": "https://s3-media3.fl.yelpcdn.com/bphoto/3NgsXs38KNRYaNtYFs3Cag/30s.jpg",
+            "type": "image-rounded"
+          },
+          "title": "Taquitos Mexico",
+          "version": 1,
+          "type": "business",
+          "refinements": null
+        },
+        {
+          "ajax_data": "null",
+          "css_class": null,
+          "is_bookmarked": null,
+          "is_typeahead": false,
+          "name_param": "find_desc",
+          "num_checkins": null,
+          "query": "Taquitos Mexico",
+          "redirect_url": "/biz/taquitos-mexico-brooklyn-2",
+          "subtitle": "2223 Avenue X, Brooklyn",
+          "thumbnail": {
+            "color": null,
+            "key": "https://s3-media4.fl.yelpcdn.com/bphoto/KNx1Bp6eOj1vQ5-HYhyY9w/30s.jpg",
+            "type": "image-rounded"
+          },
+          "title": "Taquitos Mexico",
+          "version": 1,
+          "type": "business",
+          "refinements": null
+        },
+        {
+          "ajax_data": "null",
+          "css_class": null,
+          "is_bookmarked": null,
+          "is_typeahead": false,
+          "name_param": "find_desc",
+          "num_checkins": null,
+          "query": "Taquitos",
+          "redirect_url": null,
+          "subtitle": null,
+          "thumbnail": null,
+          "title": "Taquitos",
+          "version": 1,
+          "type": "common",
+          "refinements": null
+        },
+        {
+          "ajax_data": "null",
+          "css_class": null,
+          "is_bookmarked": null,
+          "is_typeahead": false,
+          "name_param": "find_desc",
+          "num_checkins": null,
+          "query": "Taquiza Tacos",
+          "redirect_url": null,
+          "subtitle": null,
+          "thumbnail": null,
+          "title": "Taquiza Tacos",
+          "version": 1,
+          "type": "common",
+          "refinements": null
+        },
+        {
+          "ajax_data": "null",
+          "css_class": null,
+          "is_bookmarked": null,
+          "is_typeahead": false,
+          "name_param": "find_desc",
+          "num_checkins": null,
+          "query": "Chicken Taquitos",
+          "redirect_url": null,
+          "subtitle": null,
+          "thumbnail": null,
+          "title": "Chicken Taquitos",
+          "version": 1,
+          "type": "common",
+          "refinements": null
+        }
+      ],
+      "unique_suggestion_id": "e5c1fdb20ebfc67a_0",
+      "unique_request_id": "e5c1fdb20ebfc67a_0",
+      "typeahead": {
+        "typeahead_text": "Taquitos Grill",
+        "url": "/biz/taquitos-grill-merrick"
+      }
+    }
+  ]
+}

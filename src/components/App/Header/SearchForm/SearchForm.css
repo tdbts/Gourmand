@@ -30,15 +30,6 @@
     animation: rotation 2s infinite linear;
 }
 
-@keyframes rotation {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(359deg);
-    }
-}
-
 .input-group-container {
     margin-right: 10px;
 }
@@ -57,12 +48,6 @@
 .search-form .input-group-prepend {
     overflow: hidden;
     background-color: #e9ecef;
-}
-
-@media only screen and (min-width: 768px) {
-    .search-form {
-        display: flex;
-    }
 }
 
 .search-input {

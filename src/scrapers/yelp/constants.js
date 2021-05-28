@@ -1,5 +1,6 @@
 const DOMAIN = "https://www.yelp.com";
-const LOCATION_SEARCH_PREFIX = DOMAIN + "/search/snippet";
+const LOCATION_SEARCH_PREFIX = DOMAIN + "/search";
+const LOCATION_SEARCH_SNIPPET_PREFIX = LOCATION_SEARCH_PREFIX + "/snippet";
 
 const queryTypes = {
 	LOCATION: 'location',
@@ -17,11 +18,18 @@ const distances = {
 
 const url = {
 	DOMAIN,
-	LOCATION_SEARCH_PREFIX
+	LOCATION_SEARCH_PREFIX,
+	LOCATION_SEARCH_SNIPPET_PREFIX
+};
+
+const errorMessages = {
+	BLOCKED_REQUEST: "BLOCKED_REQUEST",
+	MEDIA_METADATA_REQUEST_FAILURE: "MEDIA_METADATA_REQUEST_FAILURE"
 };
 
 export default {
 	queryTypes,
 	distances,
-	url
+	url,
+	errorMessages
 };

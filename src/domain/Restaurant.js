@@ -32,23 +32,4 @@ export default class Restaurant {
 
 		return obj;
 	}
-
-	populateFromBSON(bson) {
-		const {
-			id, name, address, neighborhoods, 
-			categories, rating, mediaCount, media
-		} = bson;
-
-		this.id = id;
-		this.name = name;
-		this.address = address;
-		this.neighborhoods = neighborhoods;
-		this.categories = categories;
-		this.rating = rating;
-		this.mediaCount = mediaCount;
-		this.media = media ? media.map(bson => new Media().populateFromBSON(bson)) : [];
-
-		return this;
-	}
-
 }

@@ -1,17 +1,10 @@
+import SearchResultsView from "./SearchResultsView/SearchResultsView";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
-import Gallery from "../common/Gallery/Gallery";
 
-const SearchResults = ({error, restaurants, selectedMediaID, onMediaSelection, isLikedMedia, searching, showLiked, mediaModalProps}) => (
+const SearchResults = ({error, ...props }) => (
     error
-        ? <ErrorMessage error={error} />
-        : <Gallery
-            restaurants={restaurants}
-            selectedMediaID={selectedMediaID}
-            onMediaSelection={onMediaSelection}
-            isLikedMedia={isLikedMedia}
-            searching={searching}
-            showLiked={showLiked}
-            mediaModalProps={mediaModalProps} />
+        ? <ErrorMessage {...{error}} />
+        : <SearchResultsView {...props} />
 );
 
 export default SearchResults;

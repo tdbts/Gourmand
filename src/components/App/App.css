@@ -2,14 +2,27 @@
   position: relative;
   width: 100%;
   height: 100%;
+  padding-bottom: 50px; /* Keep footer from overlapping images */
 }
 
 .text-container {
   display: block;
   margin: 0 auto;
   max-width: 750px;
-  color: #ffffff;
-  text-shadow: 10px 1px 9px #000000;
   text-align: center;
   letter-spacing: 2px;
+}
+
+.with-image-underlay {
+  color: #ffffff;
+  text-shadow: 10px 1px 9px #000000;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }

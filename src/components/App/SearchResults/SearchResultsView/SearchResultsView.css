@@ -1,0 +1,38 @@
+.search-results-view-options {
+    display: flex;
+    position: sticky;
+    top: 55px;
+    z-index: 500;
+    background-color: #ffffff;
+}
+
+.search-results-view-options > .btn-group {
+    flex: 1;
+}
+
+.search-results-view-options .nav-item {
+    flex: 1;
+}
+
+.search-results-view-option-button a {
+    background-color: #ffffff ! important;
+    color: rgba(0, 0, 0, 0.65) ! important;
+}
+
+.search-results-view-options a.active {
+    color: #007bff ! important;
+    /*color: rgba(255, 193, 7, 0.9) ! important;*/
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.search-results-view-options svg {
+    display: block;
+    margin: 0 auto;
+    width: 20px;
+    height: auto;
+}
+
+.search-results-container .restaurant-details-container {
+    top: 92px;
+}

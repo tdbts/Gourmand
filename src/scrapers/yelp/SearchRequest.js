@@ -1,10 +1,19 @@
-import YelpRestaurant from './YelpRestaurant.js';
 import searchURLFormatter from "./searchURLFormatter.js";
+import SearchResponseJSON from "./SearchResponseJSON.js";
+import SearchResponseHTML from "./SearchResponseHTML.js";
+import constants from "./constants.js";
+
+const { errorMessages } = constants;
 
 /*
  * SearchRequest
  *
  * Makes search request for restaurant list for a particular location.
+ *
+ * First attempts to retrieve restaurant list via '/search/snippets' endpoint.
+ *
+ * If the first attempt to endpoint gets blocked, then attempts to retrieve restaurant list by making a request to the
+ * '/query' endpoint and parsing the returned HTML.
  */
 export default class SearchRequest {
 
@@ -18,7 +27,16 @@ export default class SearchRequest {
 		return this.client
 			.get(url)
 			.then(processSearchResponse)
-		// .then(response => console.log("response:"
+			.catch(e => {
+				if (e.message === errorMessages.BLOCKED_REQUEST) {
+					console.warn("Search snippet request blocked.  Attempting to call and parse search HTML.");
+					return this.client
+						.get(getSearchHTMLURL(query, startIndex))
+						.then(processFallbackSearchResponseHTML);
+				}
+
+				throw e;
+			});
 	}
 
 };
@@ -26,51 +44,31 @@ export default class SearchRequest {
 // TODO: Iterate over restaurant pagination
 function processSearchResponse(response) {
 	if (response.status < 300) {
-		return {
-			restaurants: restaurantsFromData(getRestaurantDataFromJSON(response.body)),
-			geodata: getGeodataFromJSON(response.body)
-		};
+		return new SearchResponseJSON(response.body).parse();
+	} else if (response.status >= 500) {
+		throw new Error(errorMessages.BLOCKED_REQUEST);
 	} else {
 		console.log("response:", response);
-		throw new Error("Location query returned status code:", response.status);
+		throw new Error("Location query returned status code:" + response.status);
 	}
 }
 
-function getRestaurantDataFromJSON(json) {
-	try {
-		return json.searchPageProps.searchMapProps.hovercardData;
-	} catch (e) {
-		console.log("Cannot get restaurant data from unexpected JSON format.");
-		throw e;
+function processFallbackSearchResponseHTML(response) {
+	if (response.status < 300) {
+		return new SearchResponseJSON(new SearchResponseHTML(response.text).parse()).parse();
+	} else {
+		throw new Error("Fallback search attempt using HTML failed.");
 	}
 }
 
-function restaurantsFromData(restaurantsData) {
-	return Object.keys(restaurantsData)
-		.filter(id => !restaurantsData[id].isAd)  // Remove ads
-		.map(id => restaurantFromData(id, restaurantsData[id]));
-}
-
-function restaurantFromData(id, json) {
-	return new YelpRestaurant(
-		id,
-		json.name,
-		json.addressLines,
-		json.neighborhoods,
-		json.categories.map(categoryObj => categoryObj.title),
-		json.rating,
-		json.photoPageUrl);
-}
-
-function getGeodataFromJSON(json) {
-	try {
-		return json.searchPageProps.filterPanelProps.filterSetMap.distance.filters;
-	} catch (e) {
-		console.log("Cannot get geodata from unexpected JSON format.");
-		throw e;
-	}
-}
-
+// Example: https://www.yelp.com/search/snippet?find_desc=Pizza&find_loc=Brooklyn%2C+NY&start=0
 function getSearchURL(query, startIndex) {
-	return searchURLFormatter[query.getType()](query, startIndex);
+	const formatter = searchURLFormatter(constants.url.LOCATION_SEARCH_SNIPPET_PREFIX);
+	return formatter[query.getType()](query, startIndex);
+}
+
+// Example: "https://www.yelp.com/search?find_desc=Restaurants&find_loc=Brooklyn%2C+NY+11219&ns=1"
+function getSearchHTMLURL(query, startIndex) {
+	const formatter = searchURLFormatter(constants.url.LOCATION_SEARCH_PREFIX);
+	return formatter[query.getType()](query, startIndex);
 }

@@ -1,0 +1,55 @@
+.user-profile {
+    width: 100%;
+    height: 100%;
+}
+.filter-input-group {
+    position: sticky;
+    top: 56px;
+    z-index: 55;
+    background-color: #ffffff;
+}
+
+.filter-input {
+    text-align: center;
+}
+
+.user-profile .restaurant-details-container {
+    top: 92px;
+}
+
+.no-profile-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.no-profile-container .contrast-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #000;
+    opacity: 0.3;
+}
+
+.no-profile-content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    max-width: 550px;
+    margin: 50px 0;
+    padding: 20px;
+}
+
+.no-profile-content-header {
+    margin-bottom: 20px;
+}
+
+.no-profile-content .feature-phrase {
+    display: block;
+    color: rgba(255, 193, 7, 0.9);
+}

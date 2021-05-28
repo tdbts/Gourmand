@@ -1,0 +1,13 @@
+.login-form .form-group {
+    margin-bottom: 25px;
+}
+
+.need-account-text {
+    margin: 12px 0;
+}
+
+.sign-up-link {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: bold;
+}

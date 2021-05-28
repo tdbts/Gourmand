@@ -1,0 +1,43 @@
+.restaurant-container {
+    margin-bottom: 20px;
+}
+
+.restaurant-details-container {
+    position: sticky;
+    top: 55px;
+    z-index: 50;
+    background-color: #ffffff;
+    padding: 10px;
+}
+
+@media (orientation: landscape) {
+    .restaurant-details-container {
+        position: relative;
+        top: 0;
+    }
+}
+
+.restaurant-details-container p {
+    margin-bottom: 0.5rem;
+}
+
+.restaurant-media-container {
+    position: relative;
+}
+
+.notes-button-container {
+    position: absolute;
+    height: 80%;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    top: 10%;
+    pointer-events: none;
+}
+
+.notes-button-boundary {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: block;
+}

@@ -1,16 +1,31 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import helmet from 'helmet';
 import path from 'path';
 import mongoose from 'mongoose';
+import MongoStore from "connect-mongo";
 import request from 'superagent';
 import cors from 'cors';
+import passport from 'passport';
 import nodemailer from 'nodemailer';
+import sanitize from 'sanitize';
+import passportConfig from '../../config/passport.js';
+import indexRoute from './routes/index/index.js';
+import userRoute from './routes/user/user.js';
 import Client from '../client/Client.js';
 import SearchService from '../search/SearchService.js';
 const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
-const nonSearchRoutes = ['/', '/gallery', '/about', '/contact', '/login'];
+const nonAPIRoutes = ['/', '/gallery', '/about', '/contact', '/restaurant', '/user/signup', '/user/login'];
+
+passportConfig(passport);
+
+// Security middleware
+app.use(helmet());
+app.use(sanitize.middleware);
 
 // Connect to MongoDB
 mongoose
@@ -35,61 +50,34 @@ transporter.verify()
 	.then(() => console.log("Email server is ready for messages."))
 	.catch((err) => console.log(err));
 
+app.use(cors());
+app.use(cookieParser('keyboard cat'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.get('/search', function (req, res) {
-	const { location, description, distance } = req.query;
-	console.log("location:", location);
-	console.log("description:", description);
-	console.log("distance:", distance);  // Distance remains a string (thus, truthy) until array lookup
-	return service.find({location, description, distance})
-		.then(restaurants => {
-			res.setHeader('Content-Type', 'application/json');
-			res.json(restaurants);
-		})
-		.catch(e => {
-			console.error("Something went wrong during search request.");
-			console.error(e);
-			res.send(500);
-		});
-});
-
-app.post('/contact', (req, res) => {
-	console.log("New message incoming.");
-	console.log(req.body);
-	const { name, email, subject, message: text } = req.body;
-	const emailConfig = {
-		from: `${name} <${email}>`,
-		to: process.env.CONTACT_EMAIL,
-		subject,
-		text
-	};
-
-	console.log("JSON.stringify(emailConfig)", JSON.stringify(emailConfig));
-
-	transporter.sendMail(emailConfig)
-		.then(() => {
-			console.log("Message successfully sent.");
-			res.json({status: 'success'});
-		})
-		.catch((err) => {
-			console.error("Message error:", err);
-			res.json({status: 'failure', message: err.message});
-		});
-});
+console.log("process.env.NODE_ENV:", process.env.NODE_ENV);
+app.use(session({
+	secret: 'keyboard cat',
+	resave: false,
+	saveUninitialized: false,
+	cookie: { secure: process.env.NODE_ENV === 'production' },
+	store: MongoStore.create({
+		mongoUrl: process.env.MONGODB_URI
+	})
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/user', express.static(path.join(process.cwd(), 'public')));
+app.use('/', indexRoute(service, transporter));
+app.use('/user', userRoute);
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(process.cwd(), 'build')));
 
-	nonSearchRoutes.forEach(route => {
-		app.get(route, function (req, res) {
+	nonAPIRoutes.forEach(route => {
+		app.get(route, (req, res) => {
 			res.sendFile(path.join(process.cwd(), 'build', 'index.html'));
 		});
 	});
 }
-
-// app.use(express.static(path.join(process.cwd(), 'public')));
-// app.get('*', (req, res) => res.sendFile(path.join(process.cwd(), 'public/index.html')));
 
 app.listen(process.env.PORT || 8080, () => console.log("Gourmand server up and running."));

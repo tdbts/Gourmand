@@ -1,49 +1,73 @@
 import './Header.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
 	Collapse,
 	Navbar,
 	NavbarToggler,
 	NavbarBrand,
 	Nav,
-	NavItem
+	NavItem,
+	Button
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom'
+import { useAuth } from "../../utils/auth/useAuth";
+import SignUpButton from "./SignUpButton/SignUpButton";
 import SearchForm from './SearchForm/SearchForm';
 import ShowLikedCheckbox from './ShowLikedCheckbox/ShowLikedCheckbox';
 import DistanceDropdown from './DistanceDropdown/DistanceDropdown';
+import LoginNavLink from "./LoginNavLink/LoginNavLink";
+import LogoutNavLink from "./LogoutNavLink/LogoutNavLink";
+import withNavigationTracking from "../../utils/withNavigationTracking/withNavigationTracking";
 
-function Header({onSearchRequest, description, setDescription, location, setLocation,
-					requestingLocation, setRequestingLocation, setShowLiked, distance,
-					onNavLinkClick, onDistanceDropdownClick, onShowLikedChange}) {
-	const [isOpen, setIsOpen] = useState(false);
-	const toggle = () => setIsOpen(!isOpen);
+const TrackedLink = withNavigationTracking(NavLink);
+
+const getSignUpButton = (canRenderSignUpButton, auth) => {
+	return canRenderSignUpButton && !auth.isAuthenticated()
+		&& (
+			<Nav className="ml-auto mr-3" pills>
+				<NavItem>
+					<SignUpButton />
+				</NavItem>
+			</Nav>
+		);
+};
+
+const getLogInOutNavLink = (auth) => {
+	return auth.isAuthenticated()
+		? <LogoutNavLink />
+		: <LoginNavLink />;
+};
+
+const Header = ({openedHeader, setOpenedHeader, canRenderSignUpButton, onSearchRequest, description, setDescription, location, setLocation,
+					requestingLocation, setRequestingLocation, distance,
+					onDistanceDropdownClick, onShowLikedChange}) => {
+	const auth = useAuth();
+	const toggle = () => setOpenedHeader(!openedHeader);
 
 	return (
-		<Navbar className="header-navbar" color="light" light expand="md">
-			<NavLink id="home-link" className="navbar-brand company-name" to="/" onClick={() => onNavLinkClick('/')}>
+		<Navbar className="header-navbar" color="light" light>
+			<TrackedLink id="home-link" className="navbar-brand company-name" to="/">
 				Gourmand
-			</NavLink>
+			</TrackedLink>
+			{ getSignUpButton(canRenderSignUpButton, auth) }
         	<NavbarToggler onClick={toggle} />
-        	<Collapse className="header-collapse" in={true} isOpen={isOpen} timeout={200} navbar>
+        	<Collapse className="header-collapse" in={true} isOpen={openedHeader} timeout={200} navbar>
         		<Nav className="header-nav" navbar>
 					<NavItem>
-						<NavLink id="about-link" className="nav-link" to="/about" onClick={() => onNavLinkClick('/about')}>About</NavLink>
+						<TrackedLink id="about-link" className="nav-link" to="/about">About</TrackedLink>
 					</NavItem>
 					<NavItem>
-						<NavLink id="contact-link" className="nav-link" to="/contact" onClick={() => onNavLinkClick('/contact')}>Contact</NavLink>
+						<TrackedLink id="contact-link" className="nav-link" to="/contact">Contact</TrackedLink>
 					</NavItem>
 					<NavItem>
-						<NavLink id="login-link" className="nav-link" to="/login" onClick={() => onNavLinkClick('/login')}>Log In</NavLink>
+						{ getLogInOutNavLink(auth) }
 					</NavItem>
 					<NavItem className="nav-separator" />
 					<NavItem>
-						<SearchForm description={description} setDescription={setDescription} location={location}
-									setLocation={setLocation} requestingLocation={requestingLocation} setRequestingLocation={setRequestingLocation}
-									onSearchRequest={onSearchRequest} />
+						<SearchForm {...{ description, setDescription, location, setLocation, requestingLocation, setRequestingLocation, onSearchRequest }} />
 					</NavItem>
 					<NavItem className="dropdown-nav-item">
-						<DistanceDropdown distance={distance} onDistanceDropdownClick={onDistanceDropdownClick} />
+						<DistanceDropdown {...{ distance, onDistanceDropdownClick }} />
 						<ShowLikedCheckbox onChange={onShowLikedChange} />
 					</NavItem>
         		</Nav>

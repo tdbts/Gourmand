@@ -1,0 +1,36 @@
+.notes-button {
+    width: 60px;
+    height: 60px;
+    bottom: 100px;
+    right: 50px;
+    border-radius: 50%;
+    border-color: #ffc107;
+    border-width: 2px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.65);
+    position: sticky;
+    top: 75%;
+    margin-left: 75%;
+    pointer-events: auto;
+}
+
+@media (orientation: landscape) {
+    .notes-button {
+        top: 65%;
+        margin-left: 80%;
+    }
+}
+
+.notes-button,
+.notes-button:focus,
+.notes-button:hover,
+.notes-button:active {
+    color: white;
+    /* Override bootstrap changes */
+    background-color: rgba(255, 193, 7, 0.9) ! important;
+    border-color: rgba(255, 193, 7, 0.5) ! important;
+}
+
+.square-container {
+    width: 35px;
+    height: 35px;
+}

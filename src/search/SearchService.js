@@ -1,7 +1,8 @@
 import Cache from '../cache/Cache.js';
 import DAO from '../data/DAO.js';
 import YelpScraper from '../scrapers/yelp/YelpScraper.js';
-import Restaurant from '../domain/Restaurant.js';
+import YelpRestaurant from "../scrapers/yelp/YelpRestaurant.js";
+import YelpMedia from "../scrapers/yelp/YelpMedia.js";
 
 let client;
 let yelp;
@@ -36,7 +37,27 @@ class SearchService {
 			})
 			.then(restaurants => restaurants.map(restaurant => restaurant.toJSON()));
 	}
-};
+
+	// Called when browser lookup does not already contain restaurant data,
+	// such as when someone bookmarks a restaurant page link
+	findRestaurant({id}) {
+		const cachedResults = cache.getRestaurant(id);
+
+		if (cachedResults) {
+			console.log("Restaurant resolved from cache.");
+			return Promise.resolve(cachedResults);
+		}
+
+		return dao.findRestaurantByID(id)
+			.then(bson => {
+				if (bson) {
+					const restaurant = instanceFromBSON(bson);
+					cache.cacheRestaurant(restaurant);
+					return restaurant.toJSON();
+				}
+			});
+	}
+}
 
 function resolveQuery(query, cache) {
 	const { location, distance } = query;
@@ -70,6 +91,7 @@ function getRestaurantsMedia(restaurants) {
 	return Promise.all(restaurants.map(getRestaurantMedia));
 }
 
+// TODO: Check that cached/DB restaurant has media
 function getRestaurantMedia(restaurant) {
 	const cachedRestaurant = cache.getRestaurant(restaurant.id);
 	
@@ -103,7 +125,7 @@ function scrapeRestaurantMedia(restaurant) {
 }
 
 function instanceFromBSON(bson) {
-	return new Restaurant().populateFromBSON(bson);
+	return YelpRestaurant.populateFromBSON(bson, YelpMedia.populateFromBSON);
 }
 
 export default SearchService;

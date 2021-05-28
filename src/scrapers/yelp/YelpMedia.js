@@ -6,6 +6,11 @@ class YelpMedia extends Media {
 		super(id, type, caption, source);
 	}
 
+	static populateFromBSON(bson) {
+		const { id, type, caption, source } = bson;
+		return new YelpMedia(id, type, caption, source);
+	}
+
 	getThumbnailURLs() {
 		const stem = this.source.slice(0, -5);
 
