@@ -21,6 +21,5 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "content_security_policy": "script-src 'self' 'sha256-djvjg4ROr9Liz7IUBIKs3ho/99qFKM69I3jePgkXxzs='"
+  "background_color": "#ffffff"
 }
