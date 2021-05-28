@@ -25,12 +25,7 @@ passportConfig(passport);
 
 // Security middleware
 app.use(helmet({
-	contentSecurityPolicy: {
-		directives: {
-			defaultSrc: ["'self'"],
-			scriptSrc: ["'self'"]
-		}
-	}
+	contentSecurityPolicy: false
 }));
 app.use(sanitize.middleware);
 
