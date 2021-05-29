@@ -61,6 +61,7 @@ app.use(session({
 	secret: 'keyboard cat',
 	resave: false,
 	saveUninitialized: false,
+	proxy: true,
 	cookie: { secure: process.env.NODE_ENV === 'production' },
 	store: MongoStore.create({
 		mongoUrl: process.env.MONGODB_URI
