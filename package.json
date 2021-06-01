@@ -18,6 +18,7 @@
     "connect-mongo": "^4.4.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "formik": "^2.2.6",
@@ -52,7 +53,7 @@
   },
   "scripts": {
     "start": "node src/server/server.js",
-    "start-dev": "HTTPS=true BROWSER=NONE MONGODB_URI=\"mongodb://localhost:27017/gourmand\" concurrently \"nodemon src/server/server.js\" \"react-scripts start\"",
+    "start-dev": "HTTPS=true BROWSER=NONE concurrently \"nodemon src/server/server.js\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -75,5 +76,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://127.0.0.1:8080"
 }

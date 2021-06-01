@@ -16,6 +16,10 @@ import indexRoute from './routes/index/index.js';
 import userRoute from './routes/user/user.js';
 import Client from '../client/Client.js';
 import SearchService from '../search/SearchService.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 const app = express();
 const client = new Client(request);
 const service = new SearchService(client);
