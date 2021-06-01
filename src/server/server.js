@@ -60,7 +60,7 @@ console.log("process.env.NODE_ENV:", process.env.NODE_ENV);
 app.use(session({
 	secret: 'keyboard cat',
 	resave: false,
-	saveUninitialized: false,
+	saveUninitialized: true,
 	proxy: true,
 	cookie: { secure: process.env.NODE_ENV === 'production' },
 	store: MongoStore.create({
