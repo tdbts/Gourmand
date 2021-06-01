@@ -182,7 +182,7 @@ function App() {
 
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [restaurants, setRestaurants] = useState([]);
-	const [ canRenderSignUpButton, setCanRenderSignUpButton ] = useState(false);
+	const [canRenderSignUpButton, setCanRenderSignUpButton] = useState(false);
 	// Used solely to re-render components on changes
 	const [likedMediaJSON, setLikedMediaJSON] = useState({});
 	const [openedHeader, setOpenedHeader] = useState(false);
