@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+    authType: {
+        type: String,
+        required: true,
+        default: 'local'
+    },
     username: {
         type: String,
         required: true,
@@ -13,8 +18,7 @@ const userSchema = new mongoose.Schema({
         trim: true
     },
     password: {
-        type: String,
-        required: true
+        type: String
     },
     signupDate: {
         type: Date,

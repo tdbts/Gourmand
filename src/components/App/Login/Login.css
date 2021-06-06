@@ -20,7 +20,7 @@
     padding: 25px;
 }
 
-.login-container .text-container {
+.login-container .login-text.text-container {
     margin: 50px 0;
     max-width: 500px;
 }
@@ -32,6 +32,10 @@
 .login-text {
     text-shadow: 3px 3px 3px #000;
     font-size: 1.25em;
+}
+
+.need-account-text {
+    margin-top: 25px;
 }
 
 .login-container .flash-message {

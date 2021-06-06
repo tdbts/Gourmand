@@ -6,9 +6,12 @@ import User from '../../../models/User.js';
 import signUpValidationSchema from "../../../common/signUpValidationSchema.js";
 import DAO from "../../../data/DAO.js";
 import LikedMedia from "../../../user/LikedMedia.js";
+import EventTrackerFactory from "../../../tracking/EventTrackerFactory.js";
+import events from '../../../constants/events.js';
 
 const router = express.Router();
 const dao = new DAO();
+const { SIGN_UP } = events;
 
 const onFatalError = (e, res) => {
     console.error("Something went wrong during user registration.");
@@ -16,85 +19,126 @@ const onFatalError = (e, res) => {
     res.send(500);
 };
 
-const registerUser = (userInput, req, res) => {
-    console.log("Registering new user.");
-    const registrationData = _.pick(userInput, 'username', 'email', 'password', 'likedMedia');
-    const newUser = new User(registrationData);
+const onSuccessfulLocalStrategy = (user, req, res) => {
+    const {_id: id, username, email, likedMedia} = user;
+    console.log("Successfully registered user: ", { username, email });
+    // Cannot instantiate tracker at top of file as dotenv config not called by import time
+    const eventTracker = EventTrackerFactory.getTracker(EventTrackerFactory.types.SERVER, process.env.REACT_APP_CLIENT_URL);
+    eventTracker.track(SIGN_UP, { authType: 'local' })
 
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) {
-                throw err;
-            }
+    req.login(id, err => {
+        if (err) {
+            res.status(500);
+        }
 
-            newUser.password = hash;
-            dao.saveUser(newUser)
-                .then(user => {
-                    const {_id: id, username, email, likedMedia} = user;
-                    console.log("Successfully registered user: ", { username, email });
-                    req.login(id, err => {
-                        if (err) {
-                            res.status(500);
-                        }
-
-                        res.status(200).json({success: true, id, username, email, likedMedia });
-                    });
-                })
-                .catch(e => onFatalError(e, res));
-        });
+        res.status(200).json({success: true, id, username, email, likedMedia });
     });
 };
 
-router.post('/signup', (req, res) => {
-   const userInput = _.pick(req.body, 'username', 'email', 'password', 'passwordConfirm', 'likedMedia');
+router.get('/auth/google', (req, res) => {
+    passport.authenticate(
+        'google',
+        {
+            scope: [
+                'https://www.googleapis.com/auth/userinfo.profile',
+                'https://www.googleapis.com/auth/userinfo.email'
+            ]
+        },
+        (...args) => console.log(args))(req, res);
+});
 
-   signUpValidationSchema.validate(userInput)
-       .catch(err => {
-           const { errors } = err;
-           console.log("Signup validation error: ", err);
-           console.log("Errors: ", errors);
-           res.status(400).json({ errors, success: false });
-       })
-       .then(() => dao.findUserByEmail(userInput.email))
-       .then(user => {
-           if (user) {
-               res.status(400)
-                   .json({
-                       errors: ["Email is already registered."],
-                       success: false
-                   });
-           } else {
-               registerUser(userInput, req, res);
-           }
-       })
-       .catch(e => onFatalError(e, res));
+router.post('/signup', (req, res) => {
+    const { authType } = req.body;
+    const userInput = _.pick(req.body, 'username', 'email', 'password', 'passwordConfirm', 'likedMedia');
+
+    if (authType === 'local') {
+        signUpValidationSchema.validate(userInput)
+            .catch(err => {
+                const { errors } = err;
+                console.log("Signup validation error: ", err);
+                console.log("Errors: ", errors);
+                res.status(400).json({ errors, success: false });
+            })
+            .then(() => dao.findUserByEmail(userInput.email))
+            .then(user => {
+                if (user) {
+                    return res.status(400)
+                        .json({
+                            errors: ["Email is already registered."],
+                            success: false
+                        });
+                } else {
+                    const registrationData = _.pick(userInput, 'username', 'email', 'password', 'likedMedia');
+                    const newUser = new User({ authType, ...registrationData });
+
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(newUser.password, salt, (err, hash) => {
+                            if (err) {
+                                throw err;
+                            }
+
+                            newUser.password = hash;
+
+                            console.log("Registering new user.");
+                            return dao.saveUser(user)
+                                .then(user => onSuccessfulLocalStrategy(user, req, res))
+                                .catch(e => onFatalError(e, res));
+                        });
+                    });
+                }
+            })
+            .catch(e => onFatalError(e, res));
+    } else if (authType === 'google') {
+        passport.authenticate(
+            'google',
+            {
+                scope: [
+                    'https://www.googleapis.com/auth/userinfo.profile',
+                    'https://www.googleapis.com/auth/userinfo.email'
+                ]
+            },
+            (...args) => console.log(args))(req, res);
+    }
+
 });
 
 router.post('/login', (req, res, next) => {
     console.log("/login");
     // console.log("req.body:", req.body);
-    passport.authenticate('local', {}, (err, user, info) => {
-        console.log("Checking result of local strategy authentication.");
+    const { authType } = req.body;
 
-        if (err) {
-            console.err(err);
-            return next(err);
-        }
+    if (authType === 'google') {
+        passport.authenticate('google', {
+            scope: [
+                'https://www.googleapis.com/auth/userinfo.profile',
+                'https://www.googleapis.com/auth/userinfo.email'
+            ]
+        });
+    } else {
+        passport.authenticate('local', {}, (err, user, info) => {
+            console.log("Checking result of local strategy authentication.");
 
-        if (user) {
-            const userInfo = user.serialize();
-            console.log("userInfo: ", userInfo);
-            req.login(userInfo.id, err => {
-                if (err) {
-                    throw err;
-                }
+            if (err) {
+                console.err(err);
+                return next(err);
+            }
 
-                res.json({ ...userInfo, success: true, info });
-            });
-        } else {
-            res.json({ success: false, errors: [info.message] });
-        }
-    })(req, res, next);
+            if (user) {
+                const userInfo = user.serialize();
+                console.log("userInfo: ", userInfo);
+                req.login(userInfo.id, err => {
+                    if (err) {
+                        throw err;
+                    }
+
+                    res.json({ ...userInfo, success: true, info });
+                });
+            } else {
+                res.json({ success: false, errors: [info.message] });
+            }
+        })(req, res, next);
+    }
+
 });
 
 router.get('/logout', (req, res) => {
@@ -109,6 +153,33 @@ router.get('/authenticate', (req, res) => {
     } else {
         res.json({ success: false });
     }
+});
+
+router.get('/auth/google/callback', (req, res) => {
+    passport.authenticate('google', { failureRedirect: '/login', successRedirect: '/' }, (err, result) => {
+        if (err) {
+            console.error("err:", err);
+            throw err;
+        }
+
+        const { user, isNew } = result;
+
+        if (isNew) {
+            console.log("New user:", user.serialize());
+            const eventTracker = EventTrackerFactory.getTracker(EventTrackerFactory.types.SERVER, process.env.REACT_APP_CLIENT_URL);
+            eventTracker.track(SIGN_UP, { authType: 'google' });
+        }
+
+        req.session.save(() => {
+            req.login(user.id, err => {
+                if (err) {
+                    res.status(500);
+                }
+
+                res.redirect(process.env.REACT_APP_CLIENT_URL || '/');
+            });
+        });
+    })(req, res);
 });
 
 router.post('/like', (req, res) => {

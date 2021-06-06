@@ -1,8 +1,10 @@
-import localStrategy from "./localStrategy";
-import User from '../../src/models/User.js';
+import localStrategy from "./localStrategy.js";
+import googleStrategy from "./googleStrategy.js";
+import User from '../../models/User.js';
 
 const strategy = (passport) => {
     passport.use(localStrategy());
+    passport.use(googleStrategy());
 
     passport.serializeUser((id, done) => {
         done(null, id);

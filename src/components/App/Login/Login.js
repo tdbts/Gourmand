@@ -1,11 +1,15 @@
 import './Login.css';
 import { useState } from 'react';
 import { Container } from 'reactstrap';
-import { Redirect, useLocation } from 'react-router-dom';
+import {Link, Redirect, useLocation} from 'react-router-dom';
+import AuthenticationOptions from "../common/AuthenticationOptions/AuthenticationOptions";
 import LoginForm from "./LoginForm/LoginForm";
 import * as Yup from 'yup';
 import { useAuth } from "../../utils/auth/useAuth";
 import useFlashMessages from "../../utils/useFlashMessages/useFlashMessages";
+import withNavigationTracking from "../../utils/withNavigationTracking/withNavigationTracking.js";
+
+const TrackedLink = withNavigationTracking(Link);
 
 const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -24,6 +28,7 @@ const initialValues = {
 const Login = ({}) => {
     const [ redirectToReferrer, setRedirectToReferrer ] = useState(false)
     const [ submitting, setSubmitting ] = useState(false);
+    const [ showLogInForm, setShowLogInForm ] = useState(false);
 
     const auth = useAuth();
     const { messages, setErrorMessages } = useFlashMessages();
@@ -55,6 +60,10 @@ const Login = ({}) => {
         }
     };
 
+    const optionActions = {
+        email: () => setShowLogInForm(true)
+    };
+
     if (redirectToReferrer === true) {
         return <Redirect to={state?.from || '/'} />
     }
@@ -64,7 +73,14 @@ const Login = ({}) => {
             <div className="contrast-overlay" />
             <Container className="login-content-container">
                 <p className="login-text text-container with-image-underlay">Log in to access your photos, notes, saved restaurants, and much more.</p>
-                <LoginForm {...formProps} />
+                { showLogInForm
+                    ? <LoginForm {...formProps} />
+                    : <AuthenticationOptions {...{ optionActions, actionText: "Log in" }} />
+                }
+                <p className="need-account-text text-container with-image-underlay">Need an account? <TrackedLink className="sign-up-link" to="/user/signup">Sign up here.</TrackedLink></p>
+                { showLogInForm
+                    && <p className="return-to-options-text text-container with-image-underlay">Return to <Link className="login-link" to="#" onClick={() => setShowLogInForm(false)}>login options.</Link></p>
+                }
             </Container>
             { messages }
         </div>

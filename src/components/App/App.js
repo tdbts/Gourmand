@@ -6,6 +6,7 @@ import yelpConstants from "../../scrapers/yelp/constants";
 import Lookup from '../../lookup/Lookup';
 import StorageFactory from '../../storage/StorageFactory';
 import LikedMedia from '../../user/LikedMedia';
+import EventTrackerFactory from "../../tracking/EventTrackerFactory";
 import EventTracker from "../../tracking/EventTracker";
 import ReactGA from 'react-ga';
 import urlWithSearchParams from '../../search/urlWithSearchParams';
@@ -27,12 +28,12 @@ import {useAuth} from "../utils/auth/useAuth";
 import withIDFromURL from "../utils/withIDFromURL/withIDFromURL";
 import MediaModal from "./MediaModal/MediaModal";
 
-const { EVENT_TRACKING_TOKEN, GOOGLE_ANALYTICS_ID } = constants;
+const { GOOGLE_ANALYTICS_ID } = constants;
 const { distances } = yelpConstants;
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
 const likedMedia = new LikedMedia(getLikedMedia(storage));
-const eventTracker = new EventTracker(EVENT_TRACKING_TOKEN);
+const eventTracker = EventTrackerFactory.getTracker(EventTrackerFactory.types.BROWSER, window.location.hostname);
 const { events } = constants;
 const RestaurantPage = withIDFromURL(Restaurant);
 
@@ -206,12 +207,13 @@ function App() {
 
     	auth.authenticate()
 			.then(() => {
+				setCanRenderSignUpButton(true);
+
 				if (auth.isAuthenticated()) {
 					console.log(`Welcome back, ${auth.getUser().getUsername()}!`);
 				} else {
 					console.log("New user.");
 					console.log(auth.getUser());
-					setCanRenderSignUpButton(true);
 				}
 			})
 	}, []);
@@ -220,7 +222,7 @@ function App() {
     	if (setLoggedIn !== auth.isAuthenticated()) {
 			setLoggedIn(auth.isAuthenticated());
 		}
-	}, []);
+	});
 
 	// console.log("selectedMediaID:", selectedMediaID);
 	useEffect(() => {
@@ -287,7 +289,6 @@ function App() {
 	}
 
 	const headerProps = {
-		loggedIn,
 		openedHeader,
 		setOpenedHeader,
 		canRenderSignUpButton,
