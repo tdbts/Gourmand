@@ -42,25 +42,21 @@ mongoose
 	.then(() => console.log('MongoDB Connected'))
 	.catch(err => console.log(err));
 
-let transporter;
+const transporter = nodemailer.createTransport({
+	host: "smtp.gmail.com",
+	port: 587,
+	auth: {
+		user: process.env.CONTACT_EMAIL,
+		pass: process.env.CONTACT_EMAIL_PASSWORD
+	},
+	debug: true,
+	logger: true
+});
 
-try {
-	transporter = nodemailer.createTransport({
-		host: "smtp.gmail.com",
-		port: 587,
-		auth: {
-			user: process.env.CONTACT_EMAIL,
-			pass: process.env.CONTACT_EMAIL_PASSWORD
-		}
-	});
-
-	// verify connection configuration
-	transporter.verify()
-		.then(() => console.log("Email server is ready for messages."))
-		.catch((err) => console.log(err));
-} catch (e) {
-	console.error(`Exception on email transport startup: ${e}`);
-}
+// verify connection configuration
+transporter.verify()
+	.then(() => console.log("Email server is ready for messages."))
+	.catch((err) => console.log(err));
 
 app.use(cors());
 app.use(cookieParser('keyboard cat'));
