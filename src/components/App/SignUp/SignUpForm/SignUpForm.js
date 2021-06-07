@@ -1,12 +1,8 @@
 import './SignUpForm.css';
 import { FormGroup, FormFeedback } from "reactstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Link } from "react-router-dom";
 import SpinnerButton from "../../common/SpinnerButton/SpinnerButton";
 import setFieldClass from "../../../utils/setFieldClass";
-import withNavigationTracking from "../../../utils/withNavigationTracking/withNavigationTracking";
-
-const TrackedLink = withNavigationTracking(Link);
 
 // TODO: Open issue - Webkit autocomplete classes hide validation icons in form fields
 const SignUpForm = ({ submitting, initialValues, validationSchema, onSubmit }) => {
@@ -49,7 +45,6 @@ const SignUpForm = ({ submitting, initialValues, validationSchema, onSubmit }) =
                                           className="field-error-feedback" />
                         </FormGroup>
                         <SpinnerButton spin={submitting} text={"Sign Up"} disabled={!(dirty && isValid)} color="danger" block />
-                        <p className="have-account-text text-container with-image-underlay">Have an account? <TrackedLink className="login-link" to="/user/login">Log in here.</TrackedLink></p>
                     </Form>
                 );
             }}

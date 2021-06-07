@@ -1,0 +1,22 @@
+.authentication-options-container {
+    margin-bottom: 30px;
+}
+
+.authentication-option-button {
+    margin: 20px 0;
+}
+
+.authentication-option-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.google-option svg {
+    background-color: #fff;
+    padding: 2px;
+}
+
+.google-option a {
+    color: #fff;
+}
+

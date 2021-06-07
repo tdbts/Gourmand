@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useAuth } from "../auth/useAuth";
 import EventTracker from "../../../tracking/EventTracker";
 import constants from "../../../constants/constants";
+import EventTrackerFactory from "../../../tracking/EventTrackerFactory.js";
 
 const { events } = constants;
-const eventTracker = new EventTracker(constants.EVENT_TRACKING_TOKEN);
+const eventTracker = EventTrackerFactory.getTracker(EventTrackerFactory.types.BROWSER, window.location.hostname);
 
 const useNotesManager = () => {
     const [restaurant, setRestaurant] = useState(null);

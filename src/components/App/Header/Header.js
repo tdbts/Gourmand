@@ -1,5 +1,4 @@
 import './Header.css';
-import { useState, useEffect } from 'react';
 import {
 	Collapse,
 	Navbar,
@@ -38,7 +37,7 @@ const getLogInOutNavLink = (auth) => {
 		: <LoginNavLink />;
 };
 
-const Header = ({openedHeader, setOpenedHeader, canRenderSignUpButton, onSearchRequest, description, setDescription, location, setLocation,
+const Header = ({ openedHeader, setOpenedHeader, canRenderSignUpButton, onSearchRequest, description, setDescription, location, setLocation,
 					requestingLocation, setRequestingLocation, distance,
 					onDistanceDropdownClick, onShowLikedChange}) => {
 	const auth = useAuth();

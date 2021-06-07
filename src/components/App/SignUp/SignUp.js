@@ -1,11 +1,15 @@
 import './SignUp.css';
 import { useState, useEffect } from 'react';
 import { Container } from 'reactstrap';
-import { Redirect, useLocation } from 'react-router-dom';
+import {Link, Redirect, useLocation} from 'react-router-dom';
+import AuthenticationOptions from "../common/AuthenticationOptions/AuthenticationOptions.js";
 import SignUpForm from './SignUpForm/SignUpForm';
 import validationSchema from '../../../common/signUpValidationSchema';
 import { useAuth } from "../../utils/auth/useAuth";
 import useFlashMessages from "../../utils/useFlashMessages/useFlashMessages";
+import withNavigationTracking from "../../utils/withNavigationTracking/withNavigationTracking.js";
+
+const TrackedLink = withNavigationTracking(Link);
 
 const initialValues = {
     name: '',
@@ -29,6 +33,7 @@ const SignUp = () => {
     const [ response, setResponse ] = useState(null);
     const [ submitting, setSubmitting ] = useState(false);
     const [ redirectToReferrer, setRedirectToReferrer ] = useState(false)
+    const [ showSignUpForm, setShowSignUpForm ] = useState(false);
 
     const auth = useAuth();
     const { messages, setErrorMessages, setSuccessMessages } = useFlashMessages();
@@ -39,6 +44,10 @@ const SignUp = () => {
         initialValues,
         validationSchema,
         onSubmit: onSubmit(setSubmitting, setResponse, auth)
+    };
+
+    const optionActions = {
+        email: () => setShowSignUpForm(true)
     };
 
     useEffect(() => {
@@ -62,7 +71,11 @@ const SignUp = () => {
                 <p className="sign-up-text text-container with-image-underlay">
                     Sign up to share content, follow users, and access favorites across devices.
                 </p>
-                <SignUpForm {...formProps} />
+                { showSignUpForm ? <SignUpForm {...formProps} /> : <AuthenticationOptions {...{optionActions, actionText: "Sign up"}} /> }
+                <p className="have-account-text text-container with-image-underlay">Have an account? <TrackedLink className="login-link" to="/user/login">Log in here.</TrackedLink></p>
+                { showSignUpForm
+                    && <p className="return-to-options-text text-container with-image-underlay">Return to <Link className="login-link" to="#" onClick={() => setShowSignUpForm(false)}>login options.</Link></p>
+                }
             </Container>
             { messages }
         </div>

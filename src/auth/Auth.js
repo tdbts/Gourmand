@@ -81,11 +81,11 @@ class Auth {
         return this.getUser().isAuthenticated();
     }
 
-    logIn(credentials) {
+    logIn(credentials, authType = 'local') {
         return fetch('/user/login', {
                 ...requestOptions,
                 method: 'POST',
-                body: JSON.stringify(credentials)
+                body: JSON.stringify({ authType, ...credentials })
             })
             .then(checkResponseForErrors)
             .then(json => setUserOnSuccess(json, this));
@@ -102,11 +102,11 @@ class Auth {
             });
     }
 
-    signUp(values) {
+    signUp(values, authType = 'local') {
         return fetch('/user/signup', {
                 ...requestOptions,
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                body: JSON.stringify(values) // body data type must match "Content-Type" header
+                body: JSON.stringify({ authType, ...values }) // body data type must match "Content-Type" header
             })
             .then(checkResponseForErrors)
             .then(json => setUserOnSuccess(json, this));

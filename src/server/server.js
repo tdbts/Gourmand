@@ -11,7 +11,7 @@ import cors from 'cors';
 import passport from 'passport';
 import nodemailer from 'nodemailer';
 import sanitize from 'sanitize';
-import passportConfig from '../../config/passport.js';
+import passportConfig from './passport/passport.js';
 import indexRoute from './routes/index/index.js';
 import userRoute from './routes/user/user.js';
 import Client from '../client/Client.js';

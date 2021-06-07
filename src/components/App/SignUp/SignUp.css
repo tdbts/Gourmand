@@ -31,3 +31,15 @@
 .sign-up-container .flash-message {
     margin: 25px auto;
 }
+
+.login-link {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.have-account-text,
+.return-to-options-text a {
+    margin: 12px 0;
+    color: white;
+}

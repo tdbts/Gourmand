@@ -1,11 +1,11 @@
 import './Footer.css';
 import {Nav, Navbar, NavItem} from "reactstrap";
 import {NavLink} from 'react-router-dom';
-import {HomeIcon} from "./HomeIcon";
-import {SearchIcon} from "./SearchIcon";
-import {PlusIcon} from "./PlusIcon";
-import {PinIcon} from "./PinIcon";
-import {UserIcon} from "./UserIcon";
+import {HomeIcon} from '../common/Icons/HomeIcon';
+import {SearchIcon} from '../common/Icons/SearchIcon';
+import {PlusIcon} from '../common/Icons/PlusIcon';
+import {PinIcon} from '../common/Icons/PinIcon';
+import {UserIcon} from '../common/Icons/UserIcon';
 import withNavigationTracking from "../../utils/withNavigationTracking/withNavigationTracking";
 
 const TrackedLink = withNavigationTracking(NavLink);

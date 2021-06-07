@@ -1,10 +1,8 @@
-import mixpanel from 'mixpanel-browser';
-
 class EventTracker {
 
-    constructor(token) {
+    constructor(mixpanel, token) {
         console.log(`Initialize event tracker with token: ${token}`);
-        mixpanel.init(token, {cross_site_cookie: true});
+        this.mixpanel = mixpanel;
     }
 
     track(event, properties) {
@@ -13,7 +11,7 @@ class EventTracker {
             ${properties 
                 ? "Properties: " + JSON.stringify(properties)
                 : ""}`);
-        mixpanel.track(event, properties);
+        this.mixpanel.track(event, properties);
     }
 
 }
