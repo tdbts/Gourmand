@@ -42,19 +42,13 @@ mongoose
 	.then(() => console.log('MongoDB Connected'))
 	.catch(err => console.log(err));
 
-if (process.env.DEBUG === '1') {
-	console.log("process.env.CONTACT_EMAIL:", process.env.CONTACT_EMAIL);
-	console.log("process.env.CONTACT_EMAIL_PASSWORD:", process.env.CONTACT_EMAIL_PASSWORD);
-}
-
 const transporter = nodemailer.createTransport({
 	host: "smtp.gmail.com",
 	port: 587,
 	auth: {
 		user: process.env.CONTACT_EMAIL,
 		pass: process.env.CONTACT_EMAIL_PASSWORD
-	},
-	debug: process.env.DEBUG === '1'
+	}
 });
 
 // verify connection configuration
