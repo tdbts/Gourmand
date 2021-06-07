@@ -42,8 +42,10 @@ mongoose
 	.then(() => console.log('MongoDB Connected'))
 	.catch(err => console.log(err));
 
+let transporter;
+
 try {
-	const transporter = nodemailer.createTransport({
+	transporter = nodemailer.createTransport({
 		host: "smtp.gmail.com",
 		port: 587,
 		auth: {
