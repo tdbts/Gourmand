@@ -50,7 +50,8 @@ const transporter = nodemailer.createTransport({
 		pass: process.env.CONTACT_EMAIL_PASSWORD
 	},
 	debug: true,
-	logger: true
+	logger: true,
+	secure: false
 });
 
 // verify connection configuration
