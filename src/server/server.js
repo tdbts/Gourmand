@@ -62,7 +62,7 @@ app.use(cors());
 app.use(cookieParser('keyboard cat'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-console.log("process.env.NODE_ENV:", process.env.NODE_ENV);
+
 app.use(session({
 	secret: 'keyboard cat',
 	resave: false,
