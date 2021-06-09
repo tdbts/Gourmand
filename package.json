@@ -60,7 +60,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "INLINE_RUNTIME_CHUNK=false NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "INLINE_RUNTIME_CHUNK=false NPM_CONFIG_PRODUCTION=false npm install --prefix client && react-scripts build --prefix client"
   },
   "eslintConfig": {
     "extends": [
