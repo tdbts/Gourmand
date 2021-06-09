@@ -64,9 +64,7 @@ const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps, red
         }
     }, [restaurant]);
 
-    const toggleNotesIfAuthenticated = () => {
-        return redirectIfUnauthenticated(() => notesManager.toggle());
-    };
+    const toggleNotesIfAuthenticated = redirectIfUnauthenticated(() => notesManager.toggle());
 
     if (!restaurant)
         return null;
