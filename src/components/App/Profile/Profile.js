@@ -72,7 +72,7 @@ const Profile = ({ restaurantProps }) => {
                     ? (
                         <Fragment>
                             <InputGroup className="filter-input-group">
-                                <Input className="filter-input" type="text" value={filterQuery} onChange={e => setFilterQuery(e.target.value)} placeholder="Filter restaurants" />
+                                <Input className="filter-input" type="text" value={filterQuery} onChange={e => setFilterQuery(e.target.value)} placeholder="Search saved restaurants" />
                             </InputGroup>
                             <RestaurantsList {...{ restaurantIDs, restaurantProps }} />
                         </Fragment>
