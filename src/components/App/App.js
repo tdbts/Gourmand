@@ -310,7 +310,8 @@ function App() {
 		onMediaLikeToggle: (id) => toggleLikedMedia(id, auth, setLikedMediaJSON),
 		onRestaurantLinkClick: onRestaurantLinkClick(setSelectedMediaID),
 		onClose: () => setSelectedMediaID(''),
-		isLiked: isLikedMedia(auth, lookup)(selectedMediaID)
+		isLiked: isLikedMedia(auth, lookup)(selectedMediaID),
+		onRedirect: () => setSelectedMediaID('')
 	};
 
 	const galleryProps = {

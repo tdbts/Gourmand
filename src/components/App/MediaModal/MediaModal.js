@@ -4,17 +4,18 @@ import MapLink from "../common/MapLink/MapLink";
 import getUnlikedMediaIcon from '../../utils/getUnlikedMediaIcon';
 import getLikedMediaIcon from '../../utils/getLikedMediaIcon';
 import { useDoubleTap } from "use-double-tap";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import withLoginRedirect from "../../utils/withLoginRedirect/withLoginRedirect";
 
-function formatCaption(caption) {
+const formatCaption = (caption) => {
 	return caption ? `"${caption}"` : "[ No Caption ]";
-}
+};
 
-function MediaModal({selected, onMediaLikeToggle, onRestaurantLinkClick, onClose, isLiked }) {
+const MediaModal = ({ selected, onMediaLikeToggle, onRestaurantLinkClick, onClose, isLiked, redirectIfUnauthenticated }) => {
 	const {media, restaurant} = selected;
 	const {source, caption} = media;
 	const {name, address, neighborhoods, categories, rating} = restaurant;
-	const onIconClick = () => onMediaLikeToggle(media.id);
+	const onIconClick = redirectIfUnauthenticated(() => onMediaLikeToggle(media.id));
 	const mobileDoubleClickHandler = useDoubleTap(onIconClick);
 
 	return (
@@ -42,6 +43,6 @@ function MediaModal({selected, onMediaLikeToggle, onRestaurantLinkClick, onClose
 			</ModalFooter>
 		</Modal>
 	);
-}
+};
 
-export default MediaModal;
+export default withLoginRedirect(MediaModal);

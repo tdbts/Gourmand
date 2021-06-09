@@ -4,10 +4,10 @@ import MapLink from "../common/MapLink/MapLink";
 import NotesButton from "./NotesButton/NotesButton";
 import NotesModal from "./NotesModal/NotesModal";
 import {useEffect, useState} from "react";
-import {Redirect, useLocation} from 'react-router-dom';
 import withOrderedMedia from "../common/Gallery/withOrderedMedia";
 import {useAuth} from "../../utils/auth/useAuth";
 import useNotesManager from "../../utils/useNotesManager/useNotesManager";
+import withLoginRedirect from "../../utils/withLoginRedirect/withLoginRedirect.js";
 
 const OrderedGallery = withOrderedMedia(Gallery);
 
@@ -24,13 +24,11 @@ const getMediaOrder = (unorderedMedia, isLikedMedia) => {
 /*
 * Restaurant currently used in restaurant pages, search results list, and now profile pages
 * */
-const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) => {
+const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps, redirectIfUnauthenticated, setRedirectToLogin }) => {
     // Restaurant data may not be available initially, such as when the user lands on restaurant page
     // and the restaurant data must be retrieved from the lookup or remote DB
     const [restaurant, setRestaurant] = useState(null);
-    const [redirectToLogin, setRedirectToLogin] = useState(false);
     const auth = useAuth();
-    const location = useLocation();
     const notesManager = useNotesManager();
 
     useEffect(() => {
@@ -66,20 +64,7 @@ const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) =
         }
     }, [restaurant]);
 
-    const toggleNotesIfAuthenticated = () => {
-        if (auth.isAuthenticated()) {
-            notesManager.toggle();
-        } else {
-            setRedirectToLogin(true);
-        }
-    };
-
-    if (redirectToLogin) {
-        return <Redirect to={{
-            pathname: '/user/login',
-            state: { from: location.pathname }
-        }} />;
-    }
+    const toggleNotesIfAuthenticated = redirectIfUnauthenticated(() => notesManager.toggle());
 
     if (!restaurant)
         return null;
@@ -109,4 +94,4 @@ const Restaurant = ({ id, getRestaurantDataByID, isLikedMedia, galleryProps }) =
     );
 };
 
-export default Restaurant;
+export default withLoginRedirect(Restaurant);
