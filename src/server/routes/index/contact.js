@@ -4,9 +4,9 @@ const contactRoute = (router, transporter) => {
         console.log(req.body);
         const { name, email, subject, message: text } = req.body;
         const emailConfig = {
-            from: `${name} <${email}>`,
+            from: process.env.CONTACT_EMAIL,
             to: process.env.CONTACT_EMAIL,
-            subject,
+            subject: `${subject} <${name}> <${email}>`,
             text
         };
 

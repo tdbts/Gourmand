@@ -43,17 +43,17 @@ mongoose
 	.catch(err => console.log(err));
 
 const transporter = nodemailer.createTransport({
-	host: "smtp.gmail.com",
+	host: "smtp-mail.outlook.com",
 	port: 587,
 	auth: {
 		user: process.env.CONTACT_EMAIL,
 		pass: process.env.CONTACT_EMAIL_PASSWORD
 	},
-	debug: true,
-	logger: true
+	debug: process.env.DEBUG === '1',
+	logger: process.env.DEBUG === '1'
 });
 
-// verify connection configuration
+// Verify connection configuration
 transporter.verify()
 	.then(() => console.log("Email server is ready for messages."))
 	.catch((err) => console.log(err));
