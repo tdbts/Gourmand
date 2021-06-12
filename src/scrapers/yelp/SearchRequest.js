@@ -33,6 +33,8 @@ export default class SearchRequest {
 					return this.client
 						.get(getSearchHTMLURL(query, startIndex))
 						.then(processFallbackSearchResponseHTML);
+				} else {
+					console.log("Error on search request:", e);
 				}
 
 				throw e;

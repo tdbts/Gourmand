@@ -157,7 +157,7 @@ const onRestaurantLinkClick = (setSelectedMediaID) => () => {
 	eventTracker.track(events.OPEN_RESTAURANT_PAGE);
 	setSelectedMediaID('');
 	scrollToTop();
-}
+};
 
 const onDistanceDropdownClick = setDistance => distance => {
 	setDistance(distance);

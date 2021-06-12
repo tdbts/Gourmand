@@ -1,0 +1,8 @@
+'GET /search/snippet?find_desc=Reyes%20deli&find_loc=40.63274%2C+-74.01283&start=0 HTTP/1.1\r\n' +
+'Host: www.yelp.com\r\n' +
+'Accept-Encoding: gzip, deflate\r\n' +
+'Referer: http://localhost:3000\r\n' +
+'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36\r\n' +
+'x-requested-with: XMLHttpRequest\r\n' +
+'Connection: close\r\n' +
+'\r\n'
