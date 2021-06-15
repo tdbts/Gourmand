@@ -8,8 +8,12 @@ import * as Yup from 'yup';
 import { useAuth } from "../../utils/auth/useAuth";
 import useFlashMessages from "../../utils/useFlashMessages/useFlashMessages";
 import withNavigationTracking from "../../utils/withNavigationTracking/withNavigationTracking.js";
+import EventTrackerFactory from "../../../tracking/EventTrackerFactory.js";
+import constants from "../../../constants/constants.js";
 
 const TrackedLink = withNavigationTracking(Link);
+const eventTracker = EventTrackerFactory.getTracker(EventTrackerFactory.types.BROWSER, window.location.hostname);
+const { events } = constants;
 
 const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -38,6 +42,7 @@ const Login = ({}) => {
         .then((json) => {
             if (auth.isAuthenticated()) {
                 console.log("User successfully logged in.");
+                eventTracker.track(events.LOG_IN, { email: auth.getUser().getEmail() });
                 setRedirectToReferrer(true);
             } else {
                 setErrorMessages(json.errors);
@@ -53,7 +58,6 @@ const Login = ({}) => {
         validationSchema,
         submitting,
         onSubmit: (credentials) => {
-            console.log("credentials:", credentials);
             setSubmitting(true);
             return logIn(credentials)
                 .then(() => setSubmitting(false));

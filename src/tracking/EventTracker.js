@@ -1,3 +1,7 @@
+import constants from "../constants/constants.js";
+
+const { events } = constants;
+
 class EventTracker {
 
     constructor(mixpanel, token) {
@@ -11,7 +15,20 @@ class EventTracker {
             ${properties 
                 ? "Properties: " + JSON.stringify(properties)
                 : ""}`);
+
         this.mixpanel.track(event, properties);
+
+        const { email } = properties;
+
+        if (event === events.SIGN_UP) {
+            window.console.log("Aliasing user:", email);
+            this.mixpanel.alias(email);
+        }
+
+        if (event === events.LOG_IN) {
+            window.console.log("Identifying user:", email);
+            this.mixpanel.identify(email);
+        }
     }
 
 }

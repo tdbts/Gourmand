@@ -27,8 +27,9 @@ import scrollToTop from "../utils/scrollToTop";
 import {useAuth} from "../utils/auth/useAuth";
 import withIDFromURL from "../utils/withIDFromURL/withIDFromURL";
 import MediaModal from "./MediaModal/MediaModal";
+import getGoogleAnalyticsID from "../../utils/getGoogleAnalyticsID.js";
 
-const { GOOGLE_ANALYTICS_ID } = constants;
+const GOOGLE_ANALYTICS_ID = getGoogleAnalyticsID(window?.location?.hostname);
 const { distances } = yelpConstants;
 const lookup = new Lookup();
 const storage = new StorageFactory().get(window.localStorage);
