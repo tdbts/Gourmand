@@ -11,7 +11,7 @@ import events from '../../../constants/events.js';
 
 const router = express.Router();
 const dao = new DAO();
-const { SIGN_UP } = events;
+const { LOG_IN, SIGN_UP } = events;
 
 const onFatalError = (e, res) => {
     console.error("Something went wrong during user registration.");
@@ -24,7 +24,7 @@ const onSuccessfulLocalStrategy = (user, req, res) => {
     console.log("Successfully registered user: ", { username, email });
     // Cannot instantiate tracker at top of file as dotenv config not called by import time
     const eventTracker = EventTrackerFactory.getTracker(EventTrackerFactory.types.SERVER, process.env.REACT_APP_CLIENT_URL);
-    eventTracker.track(SIGN_UP, { authType: 'local' })
+    eventTracker.track(SIGN_UP, { authType: 'local', email })
 
     req.login(id, err => {
         if (err) {
@@ -163,11 +163,14 @@ router.get('/auth/google/callback', (req, res) => {
         }
 
         const { user, isNew } = result;
+        const { email } = user;
+        const eventTracker = EventTrackerFactory.getTracker(EventTrackerFactory.types.SERVER, process.env.REACT_APP_CLIENT_URL);
 
         if (isNew) {
             console.log("New user:", user.serialize());
-            const eventTracker = EventTrackerFactory.getTracker(EventTrackerFactory.types.SERVER, process.env.REACT_APP_CLIENT_URL);
-            eventTracker.track(SIGN_UP, { authType: 'google' });
+            eventTracker.track(SIGN_UP, { authType: 'google', email });
+        } else {
+            eventTracker.track(LOG_IN, { email });
         }
 
         req.session.save(() => {
