@@ -18,14 +18,14 @@ class EventTracker {
 
         this.mixpanel.track(event, properties);
 
-        const { email } = properties;
-
         if (event === events.SIGN_UP) {
+            const { email } = properties;
             window.console.log("Aliasing user:", email);
             this.mixpanel.alias(email);
         }
 
         if (event === events.LOG_IN) {
+            const { email } = properties;
             window.console.log("Identifying user:", email);
             this.mixpanel.identify(email);
         }
